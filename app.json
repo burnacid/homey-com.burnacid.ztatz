@@ -1,0 +1,24 @@
+{
+  "id": "com.burnacid.ztatz",
+  "version": "1.0.0",
+  "compatibility": ">=2.5.0",
+  "sdk": 2,
+  "name": {
+    "en": "P1 Monitor (ztatz)"
+  },
+  "description": {
+    "en": "Adds support for P1 Monitor (ztatz)"
+  },
+  "category": [
+    "energy"
+  ],
+  "permissions": [],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "author": {
+    "name": "Stefan Lenders",
+    "email": "stefan@lenders-it.nl"
+  }
+}
