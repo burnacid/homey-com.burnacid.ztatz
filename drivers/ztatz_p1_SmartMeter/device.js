@@ -46,11 +46,16 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				let generationHigh = status[0][6]
 				let currentUsage = status[0][8]
 				let currentGeneration = status[0][9]
+				let currentGas = status[0][10]
 
-				this.setCapabilityValue('p1_watt_usage', Number(currentUsage));
-				this.setCapabilityValue('p1_watt_gen', Number(currentGeneration));
-				this.setCapabilityValue('p1_kwh_MeterLow', Number(usageLow));
-				this.setCapabilityValue('p1_kwh_MeterHigh', Number(usageHigh));
+				this.setCapabilityValue('measure_power.consumed', Number(currentUsage));
+				this.setCapabilityValue('measure_power.generated', Number(currentGeneration));
+				this.setCapabilityValue('meter_power.consumedL2', Number(usageLow));
+				this.setCapabilityValue('meter_power.consumedL1', Number(usageHigh));
+				this.setCapabilityValue('meter_power.generatedL2', Number(generationLow));
+				this.setCapabilityValue('meter_power.generatedL1', Number(generationHigh));
+				this.setCapabilityValue('meter_gas.current', Number(currentGas));
+				
 
 			}else{
 				this.setUnavailable('Cannot refresh / Connect');

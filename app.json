@@ -27,244 +27,6 @@
         "email": "stefan@lenders-it.nl"
     },
     "capabilities": {
-        "p1_watt_usage": {
-            "type": "number",
-            "title": {
-                "en": "Current Usage",
-                "nl": "Huidige verbruik"
-            },
-            "decimals": 3,
-            "units": {
-                "en": "Watt"
-            },
-            "chartType": "spline",
-            "desc": {
-                "en": "Power usage in Watt (W)",
-                "nl": "Stroomverbuik in Watt (W)"
-            },
-            "options": {
-                "isGenerator": {
-                    "type": "boolean",
-                    "default": false,
-                    "desc": {
-                        "en": "This flag is used to determine whether this devices uses or generates power.",
-                        "de": "Dieser Flag wird benutzt, um zu bestimmen, ob diese Geräte Energie verbrauchen oder produzieren."
-                    }
-                }
-            },
-            "insights": true,
-            "getable": true,
-            "setable": false,
-            "uiComponent": "sensor",
-            "$flow": {
-                "triggers": [
-                    {
-                        "id": "p1_watt_usage_changed",
-                        "title": {
-                            "en": "The current power usage changed",
-                            "nl": "Het huidige stroom verbruik is veranderd"
-                        },
-                        "tokens": [
-                            {
-                                "name": "watt_usage",
-                                "title": {
-                                    "en": "Power Usage",
-                                    "nl": "Energie verbruik"
-                                },
-                                "type": "number",
-                                "example": 25
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-        "p1_kwh_usedToday": {
-            "type": "number",
-            "title": {
-                "en": "Used Today",
-                "nl": "Verbruikt vandaag"
-            },
-            "decimals": 3,
-            "units": {
-                "en": "KWh"
-            },
-            "chartType": "spline",
-            "desc": {
-                "en": "Power usage in KiloWattHour (kWh)",
-                "nl": "Stroomverbuik in KiloWattUur (kWh)"
-            },
-            "options": {
-                "isGenerator": {
-                    "type": "boolean",
-                    "default": false,
-                    "desc": {
-                        "en": "This flag is used to determine whether this devices uses or generates power.",
-                        "de": "Dieser Flag wird benutzt, um zu bestimmen, ob diese Geräte Energie verbrauchen oder produzieren."
-                    }
-                }
-            },
-            "insights": true,
-            "getable": true,
-            "setable": false,
-            "uiComponent": "sensor"
-        },
-        "p1_watt_gen": {
-            "type": "number",
-            "title": {
-                "en": "Current Generation",
-                "nl": "Huidige generatie"
-            },
-            "decimals": 3,
-            "units": {
-                "en": "Watt"
-            },
-            "chartType": "spline",
-            "desc": {
-                "en": "Power generation in Watt (Watt)",
-                "nl": "Stroomgeneratie in Watt (Watt)"
-            },
-            "options": {
-                "isGenerator": {
-                    "type": "boolean",
-                    "default": true,
-                    "desc": {
-                        "en": "This flag is used to determine whether this devices uses or generates power.",
-                        "de": "Dieser Flag wird benutzt, um zu bestimmen, ob diese Geräte Energie verbrauchen oder produzieren."
-                    }
-                }
-            },
-            "insights": true,
-            "getable": true,
-            "setable": false,
-            "uiComponent": "sensor",
-            "$flow": {
-                "triggers": [
-                    {
-                        "id": "p1_watt_gen_changed",
-                        "title": {
-                            "en": "The current power generation changed",
-                            "nl": "De huidige stroomgeneratie is veranderd"
-                        },
-                        "tokens": [
-                            {
-                                "name": "watt_gen",
-                                "title": {
-                                    "en": "Power Generation",
-                                    "nl": "Energie Generatie"
-                                },
-                                "type": "number",
-                                "example": 25
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-        "p1_kwh_MeterLow": {
-            "type": "number",
-            "title": {
-                "en": "Low KWH Meter",
-                "nl": "Daluren KWH Meter"
-            },
-            "decimals": 3,
-            "units": {
-                "en": "KWh"
-            },
-            "chartType": "spline",
-            "desc": {
-                "en": "Power usage in KiloWattHour (kWh)",
-                "nl": "Stroomverbuik in KiloWattUur (kWh)"
-            },
-            "options": {
-                "isGenerator": {
-                    "type": "boolean",
-                    "default": false,
-                    "desc": {
-                        "en": "This flag is used to determine whether this devices uses or generates power.",
-                        "de": "Dieser Flag wird benutzt, um zu bestimmen, ob diese Geräte Energie verbrauchen oder produzieren."
-                    }
-                }
-            },
-            "insights": true,
-            "getable": true,
-            "setable": false,
-            "uiComponent": "sensor",
-            "$flow": {
-                "triggers": [
-                    {
-                        "id": "p1_kwh_meter_low",
-                        "title": {
-                            "en": "The power meter low changed",
-                            "nl": "De stroommeter daluren is veranderd"
-                        },
-                        "tokens": [
-                            {
-                                "name": "kwh_used",
-                                "title": {
-                                    "en": "Power Usage",
-                                    "nl": "Energie verbruik"
-                                },
-                                "type": "number",
-                                "example": 25
-                            }
-                        ]
-                    }
-                ]
-            }
-        },
-        "p1_kwh_MeterHigh": {
-            "type": "number",
-            "title": {
-                "en": "High KWH Meter",
-                "nl": "Piekuren KWH Meter"
-            },
-            "decimals": 3,
-            "units": {
-                "en": "KWh"
-            },
-            "chartType": "spline",
-            "desc": {
-                "en": "Power usage in KiloWattHour (kWh)",
-                "nl": "Stroomverbuik in KiloWattUur (kWh)"
-            },
-            "options": {
-                "isGenerator": {
-                    "type": "boolean",
-                    "default": false,
-                    "desc": {
-                        "en": "This flag is used to determine whether this devices uses or generates power.",
-                        "de": "Dieser Flag wird benutzt, um zu bestimmen, ob diese Geräte Energie verbrauchen oder produzieren."
-                    }
-                }
-            },
-            "insights": true,
-            "getable": true,
-            "setable": false,
-            "uiComponent": "sensor",
-            "$flow": {
-                "triggers": [
-                    {
-                        "id": "p1_kwh_meter_high",
-                        "title": {
-                            "en": "The power meter high changed",
-                            "nl": "De stroommeter piekuren is veranderd"
-                        },
-                        "tokens": [
-                            {
-                                "name": "kwh_used",
-                                "title": {
-                                    "en": "Power Usage",
-                                    "nl": "Energie verbruik"
-                                },
-                                "type": "number",
-                                "example": 25
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
 
     },
     "drivers": [
@@ -275,11 +37,60 @@
             },
             "class": "other",
             "capabilities": [
-                "p1_watt_usage",
-                "p1_watt_gen",
-                "p1_kwh_MeterLow",
-                "p1_kwh_MeterHigh"
+                "measure_power.consumed",
+                "measure_power.generated",
+                "meter_power.consumedL1",
+                "meter_power.consumedL2",
+                "meter_power.generatedL1",
+                "meter_power.generatedL2",
+                "meter_gas.current"
             ],
+            "capabilitiesOptions" :{
+                "measure_power.consumed": {
+                    "title": {
+                        "nl": "Huidig stroomverbruik",
+                        "en": "Current power usage"
+                    }
+                },
+                "measure_power.generated": {
+                    "title": {
+                        "nl": "Huidige stroomgeneratie",
+                        "en": "Electricity current delivery"
+                    }
+                },
+                "meter_power.consumedL1": {
+                    "title": {
+                        "nl": "Elektriciteit verbruik piekuren",
+                        "en": "Electricity delivery high"
+                    }
+                },
+                "meter_power.consumedL2": {
+                    "title": {
+                        "nl": "Elektriciteit verbruik daluren",
+                        "en": "Electricity delivery low"
+                    }
+                },
+                "meter_power.generatedL1": {
+                    "isGenerator": true,
+                    "title": {
+                        "nl": "Elektriciteit teruglevering piekuren",
+                        "en": "Electricity delivery high"
+                    }
+                },
+                "meter_power.generatedL2": {
+                    "isGenerator": true,
+                    "title": {
+                        "nl": "Elektriciteit teruglevering daluren",
+                        "en": "Electricity delivery low"
+                    }
+                },
+                "meter_gas.current": {
+                    "title": {
+                        "nl": "Gasverbruik",
+                        "en": "Gas usage"
+                    }
+                }
+            },
             "pair": [
                 {
                     "id": "start"
