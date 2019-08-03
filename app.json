@@ -62,33 +62,38 @@
                     "title": {
                         "nl": "Elektriciteit verbruik piekuren",
                         "en": "Electricity delivery high"
-                    }
+                    },
+                    "decimals": 3
                 },
                 "meter_power.consumedL2": {
                     "title": {
                         "nl": "Elektriciteit verbruik daluren",
                         "en": "Electricity delivery low"
-                    }
+                    },
+                    "decimals": 3
                 },
                 "meter_power.generatedL1": {
                     "isGenerator": true,
                     "title": {
                         "nl": "Elektriciteit teruglevering piekuren",
                         "en": "Electricity delivery high"
-                    }
+                    },
+                    "decimals": 3
                 },
                 "meter_power.generatedL2": {
                     "isGenerator": true,
                     "title": {
                         "nl": "Elektriciteit teruglevering daluren",
                         "en": "Electricity delivery low"
-                    }
+                    },
+                    "decimals": 3
                 },
                 "meter_gas.current": {
                     "title": {
                         "nl": "Gasverbruik",
                         "en": "Gas usage"
-                    }
+                    },
+                    "decimals": 2
                 }
             },
             "pair": [
