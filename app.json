@@ -1,24 +1,301 @@
 {
-  "id": "com.burnacid.ztatz",
-  "version": "1.0.0",
-  "compatibility": ">=2.5.0",
-  "sdk": 2,
-  "name": {
-    "en": "P1 Monitor (ztatz)"
-  },
-  "description": {
-    "en": "Adds support for P1 Monitor (ztatz)"
-  },
-  "category": [
-    "energy"
-  ],
-  "permissions": [],
-  "images": {
-    "large": "/assets/images/large.png",
-    "small": "/assets/images/small.png"
-  },
-  "author": {
-    "name": "Stefan Lenders",
-    "email": "stefan@lenders-it.nl"
-  }
+    "id": "com.burnacid.ztatz",
+    "version": "0.0.1",
+    "compatibility": ">=2.5.0",
+    "sdk": 2,
+    "brandColor": "#384042",
+    "name": {
+        "nl": "P1 Monitor (ztatz)",
+        "en": "P1 Monitor (ztatz)"
+    },
+    "description": {
+        "nl": "Voor het toevoegen van ondersteuning voor P1 Monitor (ztatz)",
+        "en": "Adds support for P1 Monitor (ztatz)"
+    },
+    "category": [
+        "energy",
+        "tools",
+        "appliances"
+    ],
+    "permissions": [],
+    "images": {
+        "large": "/assets/images/large.png",
+        "small": "/assets/images/small.png"
+    },
+    "author": {
+        "name": "Stefan Lenders",
+        "email": "stefan@lenders-it.nl"
+    },
+    "capabilities": {
+        "p1_watt_usage": {
+            "type": "number",
+            "title": {
+                "en": "Current Usage",
+                "nl": "Huidige verbruik"
+            },
+            "decimals": 3,
+            "units": {
+                "en": "Watt"
+            },
+            "chartType": "spline",
+            "desc": {
+                "en": "Power usage in Watt (W)",
+                "nl": "Stroomverbuik in Watt (W)"
+            },
+            "options": {
+                "isGenerator": {
+                    "type": "boolean",
+                    "default": false,
+                    "desc": {
+                        "en": "This flag is used to determine whether this devices uses or generates power.",
+                        "de": "Dieser Flag wird benutzt, um zu bestimmen, ob diese Geräte Energie verbrauchen oder produzieren."
+                    }
+                }
+            },
+            "insights": true,
+            "getable": true,
+            "setable": false,
+            "uiComponent": "sensor",
+            "$flow": {
+                "triggers": [
+                    {
+                        "id": "p1_watt_usage_changed",
+                        "title": {
+                            "en": "The current power usage changed",
+                            "nl": "Het huidige stroom verbruik is veranderd"
+                        },
+                        "tokens": [
+                            {
+                                "name": "watt_usage",
+                                "title": {
+                                    "en": "Power Usage",
+                                    "nl": "Energie verbruik"
+                                },
+                                "type": "number",
+                                "example": 25
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "p1_kwh_usedToday": {
+            "type": "number",
+            "title": {
+                "en": "Used Today",
+                "nl": "Verbruikt vandaag"
+            },
+            "decimals": 3,
+            "units": {
+                "en": "KWh"
+            },
+            "chartType": "spline",
+            "desc": {
+                "en": "Power usage in KiloWattHour (kWh)",
+                "nl": "Stroomverbuik in KiloWattUur (kWh)"
+            },
+            "options": {
+                "isGenerator": {
+                    "type": "boolean",
+                    "default": false,
+                    "desc": {
+                        "en": "This flag is used to determine whether this devices uses or generates power.",
+                        "de": "Dieser Flag wird benutzt, um zu bestimmen, ob diese Geräte Energie verbrauchen oder produzieren."
+                    }
+                }
+            },
+            "insights": true,
+            "getable": true,
+            "setable": false,
+            "uiComponent": "sensor"
+        },
+        "p1_watt_gen": {
+            "type": "number",
+            "title": {
+                "en": "Current Generation",
+                "nl": "Huidige generatie"
+            },
+            "decimals": 3,
+            "units": {
+                "en": "Watt"
+            },
+            "chartType": "spline",
+            "desc": {
+                "en": "Power generation in Watt (Watt)",
+                "nl": "Stroomgeneratie in Watt (Watt)"
+            },
+            "options": {
+                "isGenerator": {
+                    "type": "boolean",
+                    "default": true,
+                    "desc": {
+                        "en": "This flag is used to determine whether this devices uses or generates power.",
+                        "de": "Dieser Flag wird benutzt, um zu bestimmen, ob diese Geräte Energie verbrauchen oder produzieren."
+                    }
+                }
+            },
+            "insights": true,
+            "getable": true,
+            "setable": false,
+            "uiComponent": "sensor",
+            "$flow": {
+                "triggers": [
+                    {
+                        "id": "p1_watt_gen_changed",
+                        "title": {
+                            "en": "The current power generation changed",
+                            "nl": "De huidige stroomgeneratie is veranderd"
+                        },
+                        "tokens": [
+                            {
+                                "name": "watt_gen",
+                                "title": {
+                                    "en": "Power Generation",
+                                    "nl": "Energie Generatie"
+                                },
+                                "type": "number",
+                                "example": 25
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "p1_kwh_MeterLow": {
+            "type": "number",
+            "title": {
+                "en": "Low KWH Meter",
+                "nl": "Daluren KWH Meter"
+            },
+            "decimals": 3,
+            "units": {
+                "en": "KWh"
+            },
+            "chartType": "spline",
+            "desc": {
+                "en": "Power usage in KiloWattHour (kWh)",
+                "nl": "Stroomverbuik in KiloWattUur (kWh)"
+            },
+            "options": {
+                "isGenerator": {
+                    "type": "boolean",
+                    "default": false,
+                    "desc": {
+                        "en": "This flag is used to determine whether this devices uses or generates power.",
+                        "de": "Dieser Flag wird benutzt, um zu bestimmen, ob diese Geräte Energie verbrauchen oder produzieren."
+                    }
+                }
+            },
+            "insights": true,
+            "getable": true,
+            "setable": false,
+            "uiComponent": "sensor",
+            "$flow": {
+                "triggers": [
+                    {
+                        "id": "p1_kwh_meter_low",
+                        "title": {
+                            "en": "The power meter low changed",
+                            "nl": "De stroommeter daluren is veranderd"
+                        },
+                        "tokens": [
+                            {
+                                "name": "kwh_used",
+                                "title": {
+                                    "en": "Power Usage",
+                                    "nl": "Energie verbruik"
+                                },
+                                "type": "number",
+                                "example": 25
+                            }
+                        ]
+                    }
+                ]
+            }
+        },
+        "p1_kwh_MeterHigh": {
+            "type": "number",
+            "title": {
+                "en": "High KWH Meter",
+                "nl": "Piekuren KWH Meter"
+            },
+            "decimals": 3,
+            "units": {
+                "en": "KWh"
+            },
+            "chartType": "spline",
+            "desc": {
+                "en": "Power usage in KiloWattHour (kWh)",
+                "nl": "Stroomverbuik in KiloWattUur (kWh)"
+            },
+            "options": {
+                "isGenerator": {
+                    "type": "boolean",
+                    "default": false,
+                    "desc": {
+                        "en": "This flag is used to determine whether this devices uses or generates power.",
+                        "de": "Dieser Flag wird benutzt, um zu bestimmen, ob diese Geräte Energie verbrauchen oder produzieren."
+                    }
+                }
+            },
+            "insights": true,
+            "getable": true,
+            "setable": false,
+            "uiComponent": "sensor",
+            "$flow": {
+                "triggers": [
+                    {
+                        "id": "p1_kwh_meter_high",
+                        "title": {
+                            "en": "The power meter high changed",
+                            "nl": "De stroommeter piekuren is veranderd"
+                        },
+                        "tokens": [
+                            {
+                                "name": "kwh_used",
+                                "title": {
+                                    "en": "Power Usage",
+                                    "nl": "Energie verbruik"
+                                },
+                                "type": "number",
+                                "example": 25
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+
+    },
+    "drivers": [
+        {
+            "id": "ztatz_p1_SmartMeter",
+            "name": {
+                "en": "P1 Smart Meter"
+            },
+            "class": "other",
+            "capabilities": [
+                "p1_watt_usage",
+                "p1_watt_gen",
+                "p1_kwh_MeterLow",
+                "p1_kwh_MeterHigh"
+            ],
+            "pair": [
+                {
+                    "id": "start"
+                },
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_devices"
+                    }
+                },
+                {
+                    "id": "add_devices",
+                    "template": "add_devices"
+                }
+            ]
+        }
+    ]
 }
