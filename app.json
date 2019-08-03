@@ -26,14 +26,13 @@
         "name": "Stefan Lenders",
         "email": "stefan@lenders-it.nl"
     },
-    "capabilities": {
-
-    },
+    "capabilities": {},
     "drivers": [
         {
             "id": "ztatz_p1_SmartMeter",
             "name": {
-                "en": "P1 Smart Meter"
+                "en": "P1 Smart Meter",
+                "nl": "P1 Slimme Meter"
             },
             "class": "other",
             "capabilities": [
@@ -45,7 +44,7 @@
                 "meter_power.generatedL2",
                 "meter_gas.current"
             ],
-            "capabilitiesOptions" :{
+            "capabilitiesOptions": {
                 "measure_power.consumed": {
                     "title": {
                         "nl": "Huidig stroomverbruik",
@@ -96,6 +95,105 @@
                     "decimals": 2
                 }
             },
+            "settings": [
+                {
+                    "type": "group",
+                    "label": {
+                        "en": "General Info",
+                        "nl": "Algemene Info"
+                    },
+                    "children": [
+                        {
+                            "id": "url",
+                            "type": "label",
+                            "label": {
+                                "en": "URL",
+                                "nl": "URL"
+                            },
+                            "value": ""
+                        }
+                    ]
+                }
+            ],
+            "pair": [
+                {
+                    "id": "start"
+                },
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_devices"
+                    }
+                },
+                {
+                    "id": "add_devices",
+                    "template": "add_devices"
+                }
+            ]
+        },
+        {
+            "id": "ztatz_p1_SmartMeter_nogen",
+            "name": {
+                "en": "P1 Smart Meter (No power generation)",
+                "nl": "P1 Smart Meter (Zonder stroom generatie)"
+            },
+            "class": "other",
+            "capabilities": [
+                "measure_power.consumed",
+                "meter_power.consumedL1",
+                "meter_power.consumedL2",
+                "meter_gas.current"
+            ],
+            "capabilitiesOptions": {
+                "measure_power.consumed": {
+                    "title": {
+                        "nl": "Huidig stroomverbruik",
+                        "en": "Current power usage"
+                    }
+                },
+                "meter_power.consumedL1": {
+                    "title": {
+                        "nl": "Elektriciteit verbruik piekuren",
+                        "en": "Electricity delivery high"
+                    },
+                    "decimals": 3
+                },
+                "meter_power.consumedL2": {
+                    "title": {
+                        "nl": "Elektriciteit verbruik daluren",
+                        "en": "Electricity delivery low"
+                    },
+                    "decimals": 3
+                },
+                "meter_gas.current": {
+                    "title": {
+                        "nl": "Gasverbruik",
+                        "en": "Gas usage"
+                    },
+                    "decimals": 2
+                }
+            },
+            "settings": [
+                {
+                    "type": "group",
+                    "label": {
+                        "en": "General Info",
+                        "nl": "Algemene Info"
+                    },
+                    "children": [
+                        {
+                            "id": "url",
+                            "type": "label",
+                            "label": {
+                                "en": "URL",
+                                "nl": "URL"
+                            },
+                            "value": ""
+                        }
+                    ]
+                }
+            ],
             "pair": [
                 {
                     "id": "start"

@@ -45,7 +45,7 @@
             return false;
         }
         let data = {
-            type: 'gen',
+            type: 'SmartMeter_nogen',
             url: pUrl.value,
         };
         Homey.emit('search_devices', data, (error, result) => {

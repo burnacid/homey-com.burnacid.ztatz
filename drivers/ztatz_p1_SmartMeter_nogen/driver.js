@@ -4,7 +4,7 @@ const Driver = require('../../lib/Driver');
 
 let foundDevices = [];
 
-module.exports = class ztatzP1PowerGenDriver extends Driver {
+module.exports = class ztatzP1SmartMeterNoGenDriver extends Driver {
 
   // This method is called when a user is adding a device
   // and the 'list_devices' view is called   
@@ -21,7 +21,7 @@ module.exports = class ztatzP1PowerGenDriver extends Driver {
                 if(result){
 
                     foundDevices = [{
-                        name: "P1 Power Gen ("+data.url+")",
+                        name: "P1 SmartMeter ("+data.url+")",
                         data: data
                     }];
                 }else{
