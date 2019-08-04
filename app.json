@@ -26,7 +26,24 @@
         "name": "Stefan Lenders",
         "email": "stefan@lenders-it.nl"
     },
-    "capabilities": {},
+    "capabilities": {
+        "money": {
+            "type": "number",
+            "title": {
+                "en": "Price",
+                "nl": "Prijs"
+            },
+            "units": {
+                "en": "€"
+            },
+            "getable": true,
+            "setable": false,
+            "uiComponent": "sensor",
+            "icon": "/assets/money.svg",
+            "decimals": 2,
+            "insights": true
+        }
+    },
     "drivers": [
         {
             "id": "ztatz_p1_SmartMeter",
@@ -49,27 +66,31 @@
                     "title": {
                         "nl": "Huidig stroomverbruik",
                         "en": "Current power usage"
-                    }
+                    },
+                    "color": "#dde840"
                 },
                 "measure_power.generated": {
                     "title": {
                         "nl": "Huidige stroomgeneratie",
                         "en": "Electricity current delivery"
-                    }
+                    },
+                    "color": "#80e840"
                 },
                 "meter_power.consumedL1": {
                     "title": {
                         "nl": "Elektriciteit verbruik piekuren",
                         "en": "Electricity delivery high"
                     },
-                    "decimals": 3
+                    "decimals": 3,
+                    "color": "#e8cf40"
                 },
                 "meter_power.consumedL2": {
                     "title": {
                         "nl": "Elektriciteit verbruik daluren",
                         "en": "Electricity delivery low"
                     },
-                    "decimals": 3
+                    "decimals": 3,
+                    "color": "#c2ad38"
                 },
                 "meter_power.generatedL1": {
                     "isGenerator": true,
@@ -77,7 +98,8 @@
                         "nl": "Elektriciteit teruglevering piekuren",
                         "en": "Electricity delivery high"
                     },
-                    "decimals": 3
+                    "decimals": 3,
+                    "color": "#43e840"
                 },
                 "meter_power.generatedL2": {
                     "isGenerator": true,
@@ -85,14 +107,16 @@
                         "nl": "Elektriciteit teruglevering daluren",
                         "en": "Electricity delivery low"
                     },
-                    "decimals": 3
+                    "decimals": 3,
+                    "color": "#3bc439"
                 },
                 "meter_gas.current": {
                     "title": {
                         "nl": "Gasverbruik",
                         "en": "Gas usage"
                     },
-                    "decimals": 2
+                    "decimals": 2,
+                    "color": "#40e8d4"
                 }
             },
             "settings": [
@@ -150,28 +174,170 @@
                     "title": {
                         "nl": "Huidig stroomverbruik",
                         "en": "Current power usage"
-                    }
+                    },
+                    "color": "#dde840"
                 },
                 "meter_power.consumedL1": {
                     "title": {
                         "nl": "Elektriciteit verbruik piekuren",
                         "en": "Electricity delivery high"
                     },
-                    "decimals": 3
+                    "decimals": 3,
+                    "color": "#e8cf40"
                 },
                 "meter_power.consumedL2": {
                     "title": {
                         "nl": "Elektriciteit verbruik daluren",
                         "en": "Electricity delivery low"
                     },
-                    "decimals": 3
+                    "decimals": 3,
+                    "color": "#c2ad38"
                 },
                 "meter_gas.current": {
                     "title": {
                         "nl": "Gasverbruik",
                         "en": "Gas usage"
                     },
-                    "decimals": 2
+                    "decimals": 2,
+                    "color": "#40e8d4"
+                }
+            },
+            "settings": [
+                {
+                    "type": "group",
+                    "label": {
+                        "en": "General Info",
+                        "nl": "Algemene Info"
+                    },
+                    "children": [
+                        {
+                            "id": "url",
+                            "type": "label",
+                            "label": {
+                                "en": "URL",
+                                "nl": "URL"
+                            },
+                            "value": ""
+                        }
+                    ]
+                }
+            ],
+            "pair": [
+                {
+                    "id": "start"
+                },
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_devices"
+                    }
+                },
+                {
+                    "id": "add_devices",
+                    "template": "add_devices"
+                }
+            ]
+        },
+        {
+            "id": "ztatz_p1_FinancialDay",
+            "name": {
+                "en": "P1 Financial per day",
+                "nl": "P1 Financieel per dag"
+            },
+            "class": "other",
+            "capabilities": [
+                "money.todayused",
+                "money.todaygen",
+                "money.todaygas"
+            ],
+            "capabilitiesOptions": {
+                "money.todayused": {
+                    "title": {
+                        "nl": "Kosten vandaag stroom verbruik",
+                        "en": "Costs today power usage"
+                    }
+                },
+                "money.todaygen": {
+                    "title": {
+                        "nl": "Kosten vandaag stroom generatie",
+                        "en": "Costs today power generation"
+                    }
+                },
+                "money.todaygas": {
+                    "title": {
+                        "nl": "Kosten vandaag gasverbruik",
+                        "en": "Costs today gas usage"
+                    }
+                }
+            },
+            "settings": [
+                {
+                    "type": "group",
+                    "label": {
+                        "en": "General Info",
+                        "nl": "Algemene Info"
+                    },
+                    "children": [
+                        {
+                            "id": "url",
+                            "type": "label",
+                            "label": {
+                                "en": "URL",
+                                "nl": "URL"
+                            },
+                            "value": ""
+                        }
+                    ]
+                }
+            ],
+            "pair": [
+                {
+                    "id": "start"
+                },
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_devices"
+                    }
+                },
+                {
+                    "id": "add_devices",
+                    "template": "add_devices"
+                }
+            ]
+        },
+        {
+            "id": "ztatz_p1_FinancialMonth",
+            "name": {
+                "en": "P1 Financial per month",
+                "nl": "P1 Financieel per maand"
+            },
+            "class": "other",
+            "capabilities": [
+                "money.monthused",
+                "money.monthgen",
+                "money.monthgas"
+            ],
+            "capabilitiesOptions": {
+                "money.monthused": {
+                    "title": {
+                        "nl": "Kosten deze maand verbruik",
+                        "en": "Costs this month power usage"
+                    }
+                },
+                "money.monthgen": {
+                    "title": {
+                        "nl": "Kosten deze maand generatie",
+                        "en": "Costs this month power generation"
+                    }
+                },
+                "money.monthgas": {
+                    "title": {
+                        "nl": "Kosten deze maand gasverbruik",
+                        "en": "Costs this month gas usage"
+                    }
                 }
             },
             "settings": [
