@@ -154,7 +154,11 @@
                     "id": "add_devices",
                     "template": "add_devices"
                 }
-            ]
+            ],
+            "images": {
+                "large": "/drivers/ztatz_p1_SmartMeter/assets/images/large.jpg",
+                "small": "/drivers/ztatz_p1_SmartMeter/assets/images/small.jpg"
+            }
         },
         {
             "id": "ztatz_p1_SmartMeter_nogen",
@@ -237,7 +241,11 @@
                     "id": "add_devices",
                     "template": "add_devices"
                 }
-            ]
+            ],
+            "images": {
+                "large": "/drivers/ztatz_p1_SmartMeter_nogen/assets/images/large.jpg",
+                "small": "/drivers/ztatz_p1_SmartMeter_nogen/assets/images/small.jpg"
+            }
         },
         {
             "id": "ztatz_p1_FinancialDay",
@@ -306,7 +314,11 @@
                     "id": "add_devices",
                     "template": "add_devices"
                 }
-            ]
+            ],
+            "images": {
+                "large": "/drivers/ztatz_p1_FinancialDay/assets/images/large.jpg",
+                "small": "/drivers/ztatz_p1_FinancialDay/assets/images/small.jpg"
+            }
         },
         {
             "id": "ztatz_p1_FinancialMonth",
@@ -375,7 +387,11 @@
                     "id": "add_devices",
                     "template": "add_devices"
                 }
-            ]
+            ],
+            "images": {
+                "large": "/drivers/ztatz_p1_FinancialMonth/assets/images/large.jpg",
+                "small": "/drivers/ztatz_p1_FinancialMonth/assets/images/small.jpg"
+            }
         }
     ]
 }
