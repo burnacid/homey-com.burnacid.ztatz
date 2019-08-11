@@ -78,16 +78,16 @@
                 },
                 "meter_power.consumedL1": {
                     "title": {
-                        "nl": "Elektriciteit verbruik piekuren",
-                        "en": "Electricity delivery high"
+                        "nl": "Elektriciteitverbruik piekuren",
+                        "en": "Electricity usage high"
                     },
                     "decimals": 3,
                     "color": "#e8cf40"
                 },
                 "meter_power.consumedL2": {
                     "title": {
-                        "nl": "Elektriciteit verbruik daluren",
-                        "en": "Electricity delivery low"
+                        "nl": "Elektriciteitverbruik daluren",
+                        "en": "Electricity usage low"
                     },
                     "decimals": 3,
                     "color": "#c2ad38"
@@ -183,16 +183,16 @@
                 },
                 "meter_power.consumedL1": {
                     "title": {
-                        "nl": "Elektriciteit verbruik piekuren",
-                        "en": "Electricity delivery high"
+                        "nl": "Elektriciteitverbruik piekuren",
+                        "en": "Electricity usage high"
                     },
                     "decimals": 3,
                     "color": "#e8cf40"
                 },
                 "meter_power.consumedL2": {
                     "title": {
-                        "nl": "Elektriciteit verbruik daluren",
-                        "en": "Electricity delivery low"
+                        "nl": "Elektriciteitverbruik daluren",
+                        "en": "Electricity usage low"
                     },
                     "decimals": 3,
                     "color": "#c2ad38"
@@ -393,5 +393,201 @@
                 "small": "/drivers/ztatz_p1_FinancialMonth/assets/images/small.jpg"
             }
         }
-    ]
+    ],
+    "flow": {
+        "triggers": [
+            {
+                "id": "measure_power.consumed.changed_nogen",
+                "title": {
+                    "en": "Current power usage changed",
+                    "nl": "Huidige stroomverbruik is veranderd"
+                },
+                "tokens": [
+                    {
+                        "name": "measure_power.consumed",
+                        "type": "number",
+                        "title": {
+                            "en": "Current power usage (watt)",
+                            "nl": "Huidige stroomverbruik (watt)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedPowerUsage_nogen",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_SmartMeter_nogen"
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.consumedL2.changed_nogen",
+                "title": {
+                    "nl": "Elektriciteit verbruik daluren is veranderd",
+                    "en": "Electricity usage low has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_power.consumedL2",
+                        "type": "number",
+                        "title": {
+                            "en": "Electricity usage low (kwh)",
+                            "nl": "Electriciteit verbruik daluren (kwh)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedPowerL2_nogen",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_SmartMeter_nogen"
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.consumedL1.changed_nogen",
+                "title": {
+                    "nl": "Elektriciteit verbruik piekuren is veranderd",
+                    "en": "Electricity usage high has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_power.consumedL1",
+                        "type": "number",
+                        "title": {
+                            "en": "Electricity usage high (kwh)",
+                            "nl": "Electriciteit verbruik piekuren (kwh)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedPowerL1_nogen",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_SmartMeter_nogen"
+                    }
+                ]
+            },
+            {
+                "id": "meter_gas.current.changed_nogen",
+                "title": {
+                    "nl": "Gasverbruik is veranderd",
+                    "en": "Gas usage has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_gas.current",
+                        "type": "number",
+                        "title": {
+                            "en": "Gas usage (m³)",
+                            "nl": "Gasverbruik (m³)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedGas_nogen",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_SmartMeter_nogen"
+                    }
+                ]
+            },
+            {
+                "id": "measure_power.consumed.changed",
+                "title": {
+                    "en": "Current power usage changed",
+                    "nl": "Huidige stroomverbruik is veranderd"
+                },
+                "tokens": [
+                    {
+                        "name": "measure_power.consumed",
+                        "type": "number",
+                        "title": {
+                            "en": "Current power usage (watt)",
+                            "nl": "Huidige stroomverbruik (watt)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedPowerUsage",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_SmartMeter"
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.consumedL2.changed",
+                "title": {
+                    "nl": "Elektriciteit verbruik daluren is veranderd",
+                    "en": "Electricity usage low has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_power.consumedL2",
+                        "type": "number",
+                        "title": {
+                            "en": "Electricity usage low (kwh)",
+                            "nl": "Electriciteit verbruik daluren (kwh)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedPowerL2",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_SmartMeter"
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.consumedL1.changed",
+                "title": {
+                    "nl": "Elektriciteit verbruik piekuren is veranderd",
+                    "en": "Electricity usage high has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_power.consumedL1",
+                        "type": "number",
+                        "title": {
+                            "en": "Electricity usage high (kwh)",
+                            "nl": "Electriciteit verbruik piekuren (kwh)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedPowerL1",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_SmartMeter"
+                    }
+                ]
+            },
+            {
+                "id": "meter_gas.current.changed",
+                "title": {
+                    "nl": "Gasverbruik is veranderd",
+                    "en": "Gas usage has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_gas.current",
+                        "type": "number",
+                        "title": {
+                            "en": "Gas usage (m³)",
+                            "nl": "Gasverbruik (m³)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedGas",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_SmartMeter"
+                    }
+                ]
+            }
+        ]
+    }
 }

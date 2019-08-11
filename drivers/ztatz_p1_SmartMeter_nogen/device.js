@@ -24,6 +24,13 @@ module.exports = class ztatzP1SmartMeterNoGenDevice extends Device {
 		this.setSettings({
 			url: device.url,
 		});
+
+		console.log("register flow triggers");
+		// register Flow triggers
+		this._flowTriggerPowerUsageChanged = new Homey.FlowCardTriggerDevice('measure_power.consumed.changed_nogen').register();
+		this._flowTriggerPowerMeterL1Changed = new Homey.FlowCardTriggerDevice('meter_power.consumedL1.changed_nogen').register();
+		this._flowTriggerPowerMeterL2Changed = new Homey.FlowCardTriggerDevice('meter_power.consumedL2.changed_nogen').register();
+		this._flowTriggerGasMeterChanged = new Homey.FlowCardTriggerDevice('meter_gas.current.changed_nogen').register();
 	}
 
 	async _deleteDevice() {
@@ -45,10 +52,10 @@ module.exports = class ztatzP1SmartMeterNoGenDevice extends Device {
 				let currentUsage = status[0][8]
 				let currentGas = status[0][10]
 
-				this.setCapabilityValue('measure_power.consumed', Number(currentUsage));
-				this.setCapabilityValue('meter_power.consumedL2', Number(usageLow));
-				this.setCapabilityValue('meter_power.consumedL1', Number(usageHigh));
-				this.setCapabilityValue('meter_gas.current', Number(currentGas));
+				this.changeCapabilityValue('measure_power.consumed', Number(currentUsage),this._flowTriggerPowerUsageChanged,{"measure_power.consumed": Number(currentUsage)});
+				this.changeCapabilityValue('meter_power.consumedL2', Number(usageLow),this._flowTriggerPowerMeterL2Changed,{"meter_power.consumedL2": Number(usageLow)});
+				this.changeCapabilityValue('meter_power.consumedL1', Number(usageHigh),this._flowTriggerPowerMeterL1Changed,{"meter_power.consumedL1": Number(usageHigh)});
+				this.changeCapabilityValue('meter_gas.current', Number(currentGas),this._flowTriggerGasMeterChanged,{"meter_gas.current": Number(currentGas)});
 
 
 			} else {
