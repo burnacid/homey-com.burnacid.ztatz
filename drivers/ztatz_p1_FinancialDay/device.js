@@ -9,35 +9,35 @@ const refreshTimeout = 1000 * 60; // 60 sec
 module.exports = class ztatzP1FinancialDayDevice extends Device {
 
 	// this method is called when the Device is inited
-	async _initDevice () {
-        this.log('_initDevice');
+	async _initDevice() {
+		this.log('_initDevice');
 		const device = this.getData();
 
-        // Register flowcard triggers
-        //this._registerFlowCardTriggers();
+		// Register flowcard triggers
+		//this._registerFlowCardTriggers();
 
-        // Update server data
-        //this._syncDevice();
+		// Update server data
+		//this._syncDevice();
 
-        // Set update timer
+		// Set update timer
 		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
 		this.setSettings({
 			url: device.url,
 		});
 	}
 
-	async _deleteDevice () {
-        this.log('_deleteDevice');
+	async _deleteDevice() {
+		this.log('_deleteDevice');
 
-        clearInterval(this.intervalId);
-    }
+		clearInterval(this.intervalId);
+	}
 
 	// Update server data
-    async _syncDevice () {
-        try {
+	async _syncDevice() {
+		try {
 			let status = await this.api.getFinancialDay();
 
-			if(status.length != 0){
+			if (status.length != 0) {
 				this.setAvailable();
 
 				let usageLow = status[0][2]
@@ -46,29 +46,29 @@ module.exports = class ztatzP1FinancialDayDevice extends Device {
 				let generationHigh = status[0][5]
 				let usageGas = status[0][6]
 
-				this.setCapabilityValue('money.todayused', Number(usageLow)+Number(usageHigh));
-				this.setCapabilityValue('money.todaygen', Number(generationLow)+Number(generationHigh));
+				this.setCapabilityValue('money.todayused', Number(usageLow) + Number(usageHigh));
+				this.setCapabilityValue('money.todaygen', Number(generationLow) + Number(generationHigh));
 				this.setCapabilityValue('money.todaygas', Number(usageGas));
-				
-			}else{
+
+			} else {
 				this.setUnavailable('Cannot refresh / Connect');
 			}
 
-            
-        } catch (error) {
-            this.error(error);
-            this.setUnavailable(error.message);
-        }
-    }
+
+		} catch (error) {
+			this.error(error);
+			this.setUnavailable(error.message);
+		}
+	}
 
 	// this method is called when the Device has requested a state change (turned on or off)
 	//async p1_kwh_used( value, opts ) {
 
-		// ... set value to real device, e.g.
-		// await setMyDeviceState({ on: value });
+	// ... set value to real device, e.g.
+	// await setMyDeviceState({ on: value });
 
-		// or, throw an error
-		// throw new Error('Switching the device failed!');
+	// or, throw an error
+	// throw new Error('Switching the device failed!');
 	//}
 
 }
