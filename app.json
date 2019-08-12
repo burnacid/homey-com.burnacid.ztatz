@@ -1,16 +1,16 @@
 {
     "id": "com.burnacid.ztatz",
-    "version": "0.0.2",
+    "version": "0.0.4",
     "compatibility": ">=2.5.0",
     "sdk": 2,
     "brandColor": "#384042",
     "name": {
-        "nl": "P1 Monitor (ztatz)",
-        "en": "P1 Monitor (ztatz)"
+        "nl": "ZTATZ",
+        "en": "ZTATZ"
     },
     "description": {
-        "nl": "Voor het toevoegen van ondersteuning voor P1 Monitor (ztatz)",
-        "en": "Adds support for P1 Monitor (ztatz)"
+        "nl": "Voor het toevoegen van ondersteuning voor P1 Monitor ZTATZ",
+        "en": "Adds support for P1 Monitor ZTATZ"
     },
     "category": [
         "energy",
