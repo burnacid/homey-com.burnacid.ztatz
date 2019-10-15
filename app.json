@@ -1,7 +1,7 @@
 {
     "id": "com.burnacid.ztatz",
-    "version": "0.0.4",
-    "compatibility": ">=2.5.0",
+    "version": "0.1.0",
+    "compatibility": ">=3.0.0",
     "sdk": 2,
     "brandColor": "#384042",
     "name": {
@@ -67,7 +67,10 @@
                         "nl": "Huidig stroomverbruik",
                         "en": "Current power usage"
                     },
-                    "color": "#dde840"
+                    "color": "#dde840",
+                    "energy": {
+                        "cumulative": true
+                    }
                 },
                 "measure_power.generated": {
                     "title": {
@@ -168,13 +171,16 @@
             },
             "class": "other",
             "capabilities": [
-                "measure_power.consumed",
+                "measure_power",
                 "meter_power.consumedL1",
                 "meter_power.consumedL2",
                 "meter_gas.current"
             ],
+            "energy": {
+                "cumulative": true
+            },
             "capabilitiesOptions": {
-                "measure_power.consumed": {
+                "measure_power": {
                     "title": {
                         "nl": "Huidig stroomverbruik",
                         "en": "Current power usage"

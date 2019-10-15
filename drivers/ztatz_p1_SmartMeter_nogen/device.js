@@ -52,7 +52,7 @@ module.exports = class ztatzP1SmartMeterNoGenDevice extends Device {
 				let currentUsage = status[0][8]
 				let currentGas = status[0][10]
 
-				this.changeCapabilityValue('measure_power.consumed', Number(currentUsage),this._flowTriggerPowerUsageChanged,{"measure_power.consumed": Number(currentUsage)});
+				this.changeCapabilityValue('measure_power', Number(currentUsage),this._flowTriggerPowerUsageChanged,{"measure_power": Number(currentUsage)});
 				this.changeCapabilityValue('meter_power.consumedL2', Number(usageLow),this._flowTriggerPowerMeterL2Changed,{"meter_power.consumedL2": Number(usageLow)});
 				this.changeCapabilityValue('meter_power.consumedL1', Number(usageHigh),this._flowTriggerPowerMeterL1Changed,{"meter_power.consumedL1": Number(usageHigh)});
 				this.changeCapabilityValue('meter_gas.current', Number(currentGas),this._flowTriggerGasMeterChanged,{"meter_gas.current": Number(currentGas)});

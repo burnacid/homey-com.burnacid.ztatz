@@ -55,7 +55,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				let currentGeneration = status[0][9]
 				let currentGas = status[0][10]
 
-				this.changeCapabilityValue('measure_power.consumed', Number(currentUsage));
+				this.changeCapabilityValue('measure_power', Number(currentUsage));
 				this.changeCapabilityValue('measure_power.generated', Number(currentGeneration));
 				this.changeCapabilityValue('meter_power.consumedL2', Number(usageLow));
 				this.changeCapabilityValue('meter_power.consumedL1', Number(usageHigh));
