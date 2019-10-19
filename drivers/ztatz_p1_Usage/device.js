@@ -51,12 +51,20 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				let usageHigh = status[0][4]
 				let currentUsage = status[0][8]
 				let currentGas = status[0][10]
+				let tariff = status[0][7]
 
 				this.changeCapabilityValue('measure_power', Number(currentUsage));
 				this.changeCapabilityValue('meter_power.consumedL2', Number(usageLow));
 				this.changeCapabilityValue('meter_power.consumedL1', Number(usageHigh));
 				this.changeCapabilityValue('meter_gas.current', Number(currentGas));
 
+				let tariff_high = false;
+
+				if(tariff == "P"){
+					tariff_high = true;
+				}
+
+				this.changeCapabilityValue('tariff_high', tariff_high);
 
 			} else {
 				this.setUnavailable('Cannot refresh / Connect');
