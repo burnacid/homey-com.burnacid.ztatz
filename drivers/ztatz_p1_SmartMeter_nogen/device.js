@@ -13,6 +13,8 @@ module.exports = class ztatzP1SmartMeterNoGenDevice extends Device {
 		this.log('_initDevice');
 		const device = this.getData();
 
+		this.setUnavailable('Please remove this device and add the new device types.');
+
 		// Register flowcard triggers
 		//this._registerFlowCardTriggers();
 
@@ -45,7 +47,7 @@ module.exports = class ztatzP1SmartMeterNoGenDevice extends Device {
 			let status = await this.api.getSmartmeter();
 
 			if (status.length != 0) {
-				this.setAvailable();
+				//this.setAvailable();
 
 				let usageLow = status[0][3]
 				let usageHigh = status[0][4]
