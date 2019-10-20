@@ -15,5 +15,13 @@ Adds support for P1 Monitor (ztatz)
 
 ## Release history
 
+### 0.1.2
+* Added support for Homey Energy
+* Split Usage and Generation counters to 2 different device types
+* Added high and low tariff
+* Removed the old Smart Meter and Smart Meter No Generation devices
+
+After this update you need to re-add the devices to make use of the new device types
+
 ### 0.0.4
 * First beta release
