@@ -15,7 +15,7 @@ Adds support for P1 Monitor (ztatz)
 
 ## Release history
 
-### 0.1.1
+### 0.1.2
 * Added support for Homey Energy
 * Split Usage and Generation counters to 2 different device types
 * Added high and low tariff
