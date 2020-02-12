@@ -1,16 +1,16 @@
 {
     "id": "com.burnacid.ztatz",
-    "version": "0.0.2",
-    "compatibility": ">=2.5.0",
+    "version": "0.1.4",
+    "compatibility": ">=3.0.0",
     "sdk": 2,
     "brandColor": "#384042",
     "name": {
-        "nl": "P1 Monitor (ztatz)",
-        "en": "P1 Monitor (ztatz)"
+        "nl": "ZTATZ",
+        "en": "ZTATZ"
     },
     "description": {
-        "nl": "Voor het toevoegen van ondersteuning voor P1 Monitor (ztatz)",
-        "en": "Adds support for P1 Monitor (ztatz)"
+        "nl": "Voor het toevoegen van ondersteuning voor P1 Monitor ZTATZ",
+        "en": "Adds support for P1 Monitor ZTATZ"
     },
     "category": [
         "energy",
@@ -42,39 +42,84 @@
             "icon": "/assets/money.svg",
             "decimals": 2,
             "insights": true
-        }
+        },
+        "tariff_high": {
+            "type": "boolean",
+            "title": {
+              "en": "High Tariff",
+              "nl": "Piektarief"
+            },
+            "desc": {
+              "en": "True when in high tariff period. False when in low tariff period",
+              "nl": "Gaat aan wanneer in piektarief en uit wanneer in daltarief"
+            },
+            "insights": true,
+            "insightsTitleTrue": {
+              "en": "In high tariff period",
+              "nl": "In piektarief periode"
+            },
+            "insightsTitleFalse": {
+              "en": "In low tariff period",
+              "nl": "In daltarief periode"
+            },
+            "getable": true,
+            "setable": false,
+            "icon": "/assets/highlow.svg",
+            "uiComponent": "sensor",
+            "$flow": {
+              "triggers": [
+                {
+                  "id": "tariff_high_true",
+                  "title": {
+                    "en": "The high tariff period has started",
+                    "nl": "Het piektarief is begonnen"
+                  }
+                },
+                {
+                  "id": "tariff_high_false",
+                  "title": {
+                    "en": "The low tariff period has started",
+                    "nl": "Het daltarief is begonnen"
+                  }
+                }
+              ],
+              "conditions": [
+                {
+                  "id": "tariff_high",
+                  "title": {
+                    "en": "!{{High|Low}} tariff period",
+                    "nl": "!{{Piek|Dal}}tarief periode"
+                  }
+                }
+              ]
+            }
+          }
     },
     "drivers": [
         {
-            "id": "ztatz_p1_SmartMeter",
+            "id": "ztatz_p1_Usage",
             "name": {
-                "en": "P1 Smart Meter",
-                "nl": "P1 Slimme Meter"
+                "en": "P1 Usage",
+                "nl": "P1 Verbruik"
             },
             "class": "other",
             "capabilities": [
-                "measure_power.consumed",
-                "measure_power.generated",
+                "measure_power",
                 "meter_power.consumedL1",
                 "meter_power.consumedL2",
-                "meter_power.generatedL1",
-                "meter_power.generatedL2",
-                "meter_gas.current"
+                "meter_gas.current",
+                "tariff_high"
             ],
+            "energy": {
+                "cumulative": true
+            },
             "capabilitiesOptions": {
-                "measure_power.consumed": {
+                "measure_power": {
                     "title": {
                         "nl": "Huidig stroomverbruik",
                         "en": "Current power usage"
                     },
                     "color": "#dde840"
-                },
-                "measure_power.generated": {
-                    "title": {
-                        "nl": "Huidige stroomgeneratie",
-                        "en": "Electricity current delivery"
-                    },
-                    "color": "#80e840"
                 },
                 "meter_power.consumedL1": {
                     "title": {
@@ -91,6 +136,79 @@
                     },
                     "decimals": 3,
                     "color": "#c2ad38"
+                },
+                "meter_gas.current": {
+                    "title": {
+                        "nl": "Gasverbruik",
+                        "en": "Gas usage"
+                    },
+                    "decimals": 2,
+                    "color": "#40e8d4"
+                }
+            },
+            "settings": [
+                {
+                    "type": "group",
+                    "label": {
+                        "en": "General Info",
+                        "nl": "Algemene Info"
+                    },
+                    "children": [
+                        {
+                            "id": "url",
+                            "type": "label",
+                            "label": {
+                                "en": "URL",
+                                "nl": "URL"
+                            },
+                            "value": ""
+                        }
+                    ]
+                }
+            ],
+            "pair": [
+                {
+                    "id": "start"
+                },
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_devices"
+                    }
+                },
+                {
+                    "id": "add_devices",
+                    "template": "add_devices"
+                }
+            ],
+            "images": {
+                "large": "/drivers/ztatz_p1_Usage/assets/images/large.jpg",
+                "small": "/drivers/ztatz_p1_Usage/assets/images/small.jpg"
+            }
+        },
+        {
+            "id": "ztatz_p1_Generation",
+            "name": {
+                "en": "P1 Generation",
+                "nl": "P1 Generatie"
+            },
+            "class": "solarpanel",
+            "capabilities": [
+                "measure_power",
+                "meter_power.generatedL1",
+                "meter_power.generatedL2"
+            ],
+            "capabilitiesOptions": {
+                "measure_power": {
+                    "title": {
+                        "nl": "Huidig stroomgeneratie",
+                        "en": "Current power generation"
+                    },
+                    "color": "#dde840",
+                    "energy": {
+                        "cumulative": true
+                    }
                 },
                 "meter_power.generatedL1": {
                     "isGenerator": true,
@@ -109,14 +227,6 @@
                     },
                     "decimals": 3,
                     "color": "#3bc439"
-                },
-                "meter_gas.current": {
-                    "title": {
-                        "nl": "Gasverbruik",
-                        "en": "Gas usage"
-                    },
-                    "decimals": 2,
-                    "color": "#40e8d4"
                 }
             },
             "settings": [
@@ -156,95 +266,8 @@
                 }
             ],
             "images": {
-                "large": "/drivers/ztatz_p1_SmartMeter/assets/images/large.jpg",
-                "small": "/drivers/ztatz_p1_SmartMeter/assets/images/small.jpg"
-            }
-        },
-        {
-            "id": "ztatz_p1_SmartMeter_nogen",
-            "name": {
-                "en": "P1 Smart Meter (No power generation)",
-                "nl": "P1 Smart Meter (Zonder stroom generatie)"
-            },
-            "class": "other",
-            "capabilities": [
-                "measure_power.consumed",
-                "meter_power.consumedL1",
-                "meter_power.consumedL2",
-                "meter_gas.current"
-            ],
-            "capabilitiesOptions": {
-                "measure_power.consumed": {
-                    "title": {
-                        "nl": "Huidig stroomverbruik",
-                        "en": "Current power usage"
-                    },
-                    "color": "#dde840"
-                },
-                "meter_power.consumedL1": {
-                    "title": {
-                        "nl": "Elektriciteitverbruik piekuren",
-                        "en": "Electricity usage high"
-                    },
-                    "decimals": 3,
-                    "color": "#e8cf40"
-                },
-                "meter_power.consumedL2": {
-                    "title": {
-                        "nl": "Elektriciteitverbruik daluren",
-                        "en": "Electricity usage low"
-                    },
-                    "decimals": 3,
-                    "color": "#c2ad38"
-                },
-                "meter_gas.current": {
-                    "title": {
-                        "nl": "Gasverbruik",
-                        "en": "Gas usage"
-                    },
-                    "decimals": 2,
-                    "color": "#40e8d4"
-                }
-            },
-            "settings": [
-                {
-                    "type": "group",
-                    "label": {
-                        "en": "General Info",
-                        "nl": "Algemene Info"
-                    },
-                    "children": [
-                        {
-                            "id": "url",
-                            "type": "label",
-                            "label": {
-                                "en": "URL",
-                                "nl": "URL"
-                            },
-                            "value": ""
-                        }
-                    ]
-                }
-            ],
-            "pair": [
-                {
-                    "id": "start"
-                },
-                {
-                    "id": "list_devices",
-                    "template": "list_devices",
-                    "navigation": {
-                        "next": "add_devices"
-                    }
-                },
-                {
-                    "id": "add_devices",
-                    "template": "add_devices"
-                }
-            ],
-            "images": {
-                "large": "/drivers/ztatz_p1_SmartMeter_nogen/assets/images/large.jpg",
-                "small": "/drivers/ztatz_p1_SmartMeter_nogen/assets/images/small.jpg"
+                "large": "/drivers/ztatz_p1_Generation/assets/images/large.jpg",
+                "small": "/drivers/ztatz_p1_Generation/assets/images/small.jpg"
             }
         },
         {
@@ -585,6 +608,78 @@
                         "name": "ChangedGas",
                         "type": "device",
                         "filter": "driver_id=ztatz_p1_SmartMeter"
+                    }
+                ]
+            },
+            {
+                "id": "meter_gas.current.changed",
+                "title": {
+                    "nl": "Gasverbruik is veranderd",
+                    "en": "Gas usage has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_gas.current",
+                        "type": "number",
+                        "title": {
+                            "en": "Gas usage (m³)",
+                            "nl": "Gasverbruik (m³)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedGas",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Usage"
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.consumedL2.changed",
+                "title": {
+                    "nl": "Elektriciteit verbruik daluren is veranderd",
+                    "en": "Electricity usage low has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_power.consumedL2",
+                        "type": "number",
+                        "title": {
+                            "en": "Electricity usage low (kwh)",
+                            "nl": "Electriciteit verbruik daluren (kwh)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedPowerL2",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Usage"
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.consumedL1.changed",
+                "title": {
+                    "nl": "Elektriciteit verbruik piekuren is veranderd",
+                    "en": "Electricity usage high has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_power.consumedL1",
+                        "type": "number",
+                        "title": {
+                            "en": "Electricity usage high (kwh)",
+                            "nl": "Electriciteit verbruik piekuren (kwh)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedPowerL1",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Usage"
                     }
                 ]
             }

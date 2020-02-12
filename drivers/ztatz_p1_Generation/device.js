@@ -13,8 +13,6 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 		this.log('_initDevice');
 		const device = this.getData();
 
-		this.setUnavailable('Please remove this device and add the new device types.');
-
 		// Register flowcard triggers
 		//this._registerFlowCardTriggers();
 
@@ -47,23 +45,15 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 			let status = await this.api.getSmartmeter();
 
 			if (status.length != 0) {
-				//this.setAvailable();
+				this.setAvailable();
 
-				let usageLow = status[0][3]
-				let usageHigh = status[0][4]
 				let generationLow = status[0][5]
 				let generationHigh = status[0][6]
-				let currentUsage = status[0][8]
 				let currentGeneration = status[0][9]
-				let currentGas = status[0][10]
 
-				this.changeCapabilityValue('measure_power', Number(currentUsage));
-				this.changeCapabilityValue('measure_power.generated', Number(currentGeneration));
-				this.changeCapabilityValue('meter_power.consumedL2', Number(usageLow));
-				this.changeCapabilityValue('meter_power.consumedL1', Number(usageHigh));
+				this.changeCapabilityValue('measure_power', Number(currentGeneration));
 				this.changeCapabilityValue('meter_power.generatedL2', Number(generationLow));
 				this.changeCapabilityValue('meter_power.generatedL1', Number(generationHigh));
-				this.changeCapabilityValue('meter_gas.current', Number(currentGas));
 
 
 			} else {

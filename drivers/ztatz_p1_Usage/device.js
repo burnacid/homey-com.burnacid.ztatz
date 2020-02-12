@@ -6,14 +6,12 @@ const boolean = require('boolean');
 
 const refreshTimeout = 1000 * 10; // 10 sec
 
-module.exports = class ztatzP1SmartMeterNoGenDevice extends Device {
+module.exports = class ztatzP1SmartMeterDevice extends Device {
 
 	// this method is called when the Device is inited
 	async _initDevice() {
 		this.log('_initDevice');
 		const device = this.getData();
-
-		this.setUnavailable('Please remove this device and add the new device types.');
 
 		// Register flowcard triggers
 		//this._registerFlowCardTriggers();
@@ -29,10 +27,10 @@ module.exports = class ztatzP1SmartMeterNoGenDevice extends Device {
 
 		console.log("register flow triggers");
 		// register Flow triggers
-		this._flowTriggerPowerUsageChanged = new Homey.FlowCardTriggerDevice('measure_power.consumed.changed_nogen').register();
-		this._flowTriggerPowerMeterL1Changed = new Homey.FlowCardTriggerDevice('meter_power.consumedL1.changed_nogen').register();
-		this._flowTriggerPowerMeterL2Changed = new Homey.FlowCardTriggerDevice('meter_power.consumedL2.changed_nogen').register();
-		this._flowTriggerGasMeterChanged = new Homey.FlowCardTriggerDevice('meter_gas.current.changed_nogen').register();
+		this._flowTriggerPowerUsageChanged = new Homey.FlowCardTriggerDevice('measure_power.consumed.changed').register();
+		this._flowTriggerPowerMeterL1Changed = new Homey.FlowCardTriggerDevice('meter_power.consumedL1.changed').register();
+		this._flowTriggerPowerMeterL2Changed = new Homey.FlowCardTriggerDevice('meter_power.consumedL2.changed').register();
+		this._flowTriggerGasMeterChanged = new Homey.FlowCardTriggerDevice('meter_gas.current.changed').register();
 	}
 
 	async _deleteDevice() {
@@ -47,18 +45,26 @@ module.exports = class ztatzP1SmartMeterNoGenDevice extends Device {
 			let status = await this.api.getSmartmeter();
 
 			if (status.length != 0) {
-				//this.setAvailable();
+				this.setAvailable();
 
 				let usageLow = status[0][3]
 				let usageHigh = status[0][4]
 				let currentUsage = status[0][8]
 				let currentGas = status[0][10]
+				let tariff = status[0][7]
 
-				this.changeCapabilityValue('measure_power', Number(currentUsage),this._flowTriggerPowerUsageChanged,{"measure_power": Number(currentUsage)});
-				this.changeCapabilityValue('meter_power.consumedL2', Number(usageLow),this._flowTriggerPowerMeterL2Changed,{"meter_power.consumedL2": Number(usageLow)});
-				this.changeCapabilityValue('meter_power.consumedL1', Number(usageHigh),this._flowTriggerPowerMeterL1Changed,{"meter_power.consumedL1": Number(usageHigh)});
-				this.changeCapabilityValue('meter_gas.current', Number(currentGas),this._flowTriggerGasMeterChanged,{"meter_gas.current": Number(currentGas)});
+				this.changeCapabilityValue('measure_power', Number(currentUsage));
+				this.changeCapabilityValue('meter_power.consumedL2', Number(usageLow));
+				this.changeCapabilityValue('meter_power.consumedL1', Number(usageHigh));
+				this.changeCapabilityValue('meter_gas.current', Number(currentGas));
 
+				let tariff_high = false;
+
+				if(tariff == "P"){
+					tariff_high = true;
+				}
+
+				this.changeCapabilityValue('tariff_high', tariff_high);
 
 			} else {
 				this.setUnavailable('Cannot refresh / Connect');
