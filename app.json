@@ -358,7 +358,8 @@
             "capabilities": [
                 "money.todayused",
                 "money.todaygen",
-                "money.todaygas"
+                "money.todaygas",
+                "money.todaywater"
             ],
             "capabilitiesOptions": {
                 "money.todayused": {
@@ -377,6 +378,12 @@
                     "title": {
                         "nl": "Kosten vandaag gasverbruik",
                         "en": "Costs today gas usage"
+                    }
+                },
+                "money.todaywater": {
+                    "title": {
+                        "nl": "Kosten vandaag waterverbruik",
+                        "en": "Costs today water usage"
                     }
                 }
             },
@@ -431,7 +438,8 @@
             "capabilities": [
                 "money.monthused",
                 "money.monthgen",
-                "money.monthgas"
+                "money.monthgas",
+                "money.monthwater"
             ],
             "capabilitiesOptions": {
                 "money.monthused": {
@@ -450,6 +458,12 @@
                     "title": {
                         "nl": "Kosten deze maand gasverbruik",
                         "en": "Costs this month gas usage"
+                    }
+                },
+                "money.monthwater": {
+                    "title": {
+                        "nl": "Kosten deze maand waterverbruik",
+                        "en": "Costs this month water usage"
                     }
                 }
             },
