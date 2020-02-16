@@ -27,8 +27,8 @@ module.exports = class ztatzP1WaterMeterDevice extends Device {
 
 		console.log("register flow triggers");
 		// register Flow triggers
-		this._flowTriggerWaterUsageChanged = new Homey.FlowCardTriggerDevice('measure_water.changed').register();
-		this._flowTriggerWaterMeterLhanged = new Homey.FlowCardTriggerDevice('meter_water.changed').register();
+		//this._flowTriggerWaterUsageChanged = new Homey.FlowCardTriggerDevice('measure_water.changed').register();
+		//this._flowTriggerWaterMeterLhanged = new Homey.FlowCardTriggerDevice('meter_water.changed').register();
 	}
 
 	async _deleteDevice() {

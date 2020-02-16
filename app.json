@@ -286,9 +286,6 @@
                 "measure_water",
                 "meter_water"
             ],
-            "energy": {
-                "cumulative": true
-            },
             "capabilitiesOptions": {
                 "measure_water": {
                     "title": {
@@ -761,54 +758,6 @@
                         "name": "ChangedPowerL1",
                         "type": "device",
                         "filter": "driver_id=ztatz_p1_Usage"
-                    }
-                ]
-            },
-            {
-                "id": "meter_water.changed",
-                "title": {
-                    "nl": "Waterverbruik is veranderd",
-                    "en": "Water usage has changed"
-                },
-                "tokens": [
-                    {
-                        "name": "meter_water",
-                        "type": "number",
-                        "title": {
-                            "en": "Water usage (m³)",
-                            "nl": "Waterverbruik (m³)"
-                        }
-                    }
-                ],
-                "args": [
-                    {
-                        "name": "ChangedWater",
-                        "type": "device",
-                        "filter": "driver_id=ztatz_p1_Water"
-                    }
-                ]
-            },
-            {
-                "id": "measure_water.changed",
-                "title": {
-                    "nl": "Recent waterverbruik is veranderd",
-                    "en": "Recent water usage has changed"
-                },
-                "tokens": [
-                    {
-                        "name": "measure_water",
-                        "type": "number",
-                        "title": {
-                            "en": "Water usage (Liter/hour)",
-                            "nl": "Waterverbruik (Liter/uur)"
-                        }
-                    }
-                ],
-                "args": [
-                    {
-                        "name": "ChangedRecentWater",
-                        "type": "device",
-                        "filter": "driver_id=ztatz_p1_Water"
                     }
                 ]
             }
