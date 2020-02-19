@@ -1,4 +1,12 @@
 {
+    "0.2.1": {
+      "en": "Added water usage support",
+      "nl": "Water verbruik wordt nu ondersteund"
+    },
+    "0.1.4": {
+      "en": "Added and published app to new app store",
+      "nl": "App klaar gemaakt voor de nieuwe app store"
+    },
     "0.1.3": {
       "en": "Added support for Homey Energy\nSplit Usage and Generation counters to 2 different device types\nAdded high and low tariff\nRemoved the old Smart Meter and Smart Meter No Generation devices\n\nAfter this update you need to re-add the devices to make use of the new device types",
       "nl": "Support toegevoegd voor Homey Energy\nVerbruik en generatie nummers opgedeeld in 2 verschillende apparaattypes\nDal en Piek tarief toegevoegd\nOude Smart Meter en Smart Meter No Generation apparaten verwijderd\n\nNa het updaten van deze versie dienen de apparate opnieuw te worden toegevoegd"

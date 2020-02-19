@@ -45,10 +45,12 @@ module.exports = class ztatzP1FinancialDayDevice extends Device {
 				let generationLow = status[0][4]
 				let generationHigh = status[0][5]
 				let usageGas = status[0][6]
+				let usageWater = status[0][7]
 
 				this.setCapabilityValue('money.monthused', Number(usageLow) + Number(usageHigh));
 				this.setCapabilityValue('money.monthgen', Number(generationLow) + Number(generationHigh));
 				this.setCapabilityValue('money.monthgas', Number(usageGas));
+				this.setCapabilityValue('money.monthwater', Number(usageWater));
 
 			} else {
 				this.setUnavailable('Cannot refresh / Connect');
