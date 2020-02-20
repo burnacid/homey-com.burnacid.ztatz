@@ -1,7 +1,7 @@
 {
     "id": "com.burnacid.ztatz",
-    "version": "0.1.4",
-    "compatibility": ">=3.0.0",
+    "version": "0.2.1",
+    "compatibility": ">=3.2.0",
     "sdk": 2,
     "brandColor": "#384042",
     "name": {
@@ -17,6 +17,11 @@
         "tools",
         "appliances"
     ],
+    "source": "https://github.com/burnacid/homey-com.burnacid.ztatz",
+    "bugs": {
+        "url": "https://github.com/burnacid/homey-com.burnacid.ztatz/issues"
+    },
+    "support": "https://github.com/burnacid/homey-com.burnacid.ztatz/issues",
     "permissions": [],
     "images": {
         "large": "/assets/images/large.png",
@@ -271,6 +276,79 @@
             }
         },
         {
+            "id": "ztatz_p1_Water",
+            "name": {
+                "en": "P1 Water",
+                "nl": "P1 Water"
+            },
+            "class": "other",
+            "capabilities": [
+                "measure_water",
+                "meter_water"
+            ],
+            "capabilitiesOptions": {
+                "measure_water": {
+                    "title": {
+                        "nl": "Recent water verbruik",
+                        "en": "Recent water usage"
+                    },
+                    "color": "#dde840",
+                    "units": {
+                        "en": "L/hour",
+                        "nl": "L/uur"
+                    }
+                },
+                "meter_water": {
+                    "title": {
+                        "nl": "Water verbruk",
+                        "en": "Water usage"
+                    },
+                    "decimals": 3,
+                    "color": "#e8cf40"
+                }
+            },
+            "settings": [
+                {
+                    "type": "group",
+                    "label": {
+                        "en": "General Info",
+                        "nl": "Algemene Info"
+                    },
+                    "children": [
+                        {
+                            "id": "url",
+                            "type": "label",
+                            "label": {
+                                "en": "URL",
+                                "nl": "URL"
+                            },
+                            "value": ""
+                        }
+                    ]
+                }
+            ],
+            "pair": [
+                {
+                    "id": "start"
+                },
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_devices"
+                    }
+                },
+                {
+                    "id": "add_devices",
+                    "template": "add_devices"
+                }
+            ],
+            "images": {
+                "large": "/drivers/ztatz_p1_Water/assets/images/large.jpg",
+                "small": "/drivers/ztatz_p1_Water/assets/images/small.jpg"
+            }
+        },
+        {
             "id": "ztatz_p1_FinancialDay",
             "name": {
                 "en": "P1 Financial per day",
@@ -280,7 +358,8 @@
             "capabilities": [
                 "money.todayused",
                 "money.todaygen",
-                "money.todaygas"
+                "money.todaygas",
+                "money.todaywater"
             ],
             "capabilitiesOptions": {
                 "money.todayused": {
@@ -299,6 +378,12 @@
                     "title": {
                         "nl": "Kosten vandaag gasverbruik",
                         "en": "Costs today gas usage"
+                    }
+                },
+                "money.todaywater": {
+                    "title": {
+                        "nl": "Kosten vandaag waterverbruik",
+                        "en": "Costs today water usage"
                     }
                 }
             },
@@ -353,7 +438,8 @@
             "capabilities": [
                 "money.monthused",
                 "money.monthgen",
-                "money.monthgas"
+                "money.monthgas",
+                "money.monthwater"
             ],
             "capabilitiesOptions": {
                 "money.monthused": {
@@ -372,6 +458,12 @@
                     "title": {
                         "nl": "Kosten deze maand gasverbruik",
                         "en": "Costs this month gas usage"
+                    }
+                },
+                "money.monthwater": {
+                    "title": {
+                        "nl": "Kosten deze maand waterverbruik",
+                        "en": "Costs this month water usage"
                     }
                 }
             },

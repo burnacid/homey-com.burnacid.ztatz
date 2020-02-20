@@ -1,4 +1,8 @@
 {
+    "0.2.1": {
+      "en": "Added water usage support",
+      "nl": "Water verbruik wordt nu ondersteund"
+    },
     "0.1.4": {
       "en": "Added and published app to new app store",
       "nl": "App klaar gemaakt voor de nieuwe app store"

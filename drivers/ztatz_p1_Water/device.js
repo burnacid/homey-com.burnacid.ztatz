@@ -4,9 +4,9 @@ const Homey = require('homey');
 const Device = require('../../lib/Device.js');
 const boolean = require('boolean');
 
-const refreshTimeout = 1000 * 60; // 60 sec
+const refreshTimeout = 1000 * 300; // 5 minuten
 
-module.exports = class ztatzP1FinancialDayDevice extends Device {
+module.exports = class ztatzP1WaterMeterDevice extends Device {
 
 	// this method is called when the Device is inited
 	async _initDevice() {
@@ -24,6 +24,11 @@ module.exports = class ztatzP1FinancialDayDevice extends Device {
 		this.setSettings({
 			url: device.url,
 		});
+
+		console.log("register flow triggers");
+		// register Flow triggers
+		//this._flowTriggerWaterUsageChanged = new Homey.FlowCardTriggerDevice('measure_water.changed').register();
+		//this._flowTriggerWaterMeterLhanged = new Homey.FlowCardTriggerDevice('meter_water.changed').register();
 	}
 
 	async _deleteDevice() {
@@ -35,22 +40,16 @@ module.exports = class ztatzP1FinancialDayDevice extends Device {
 	// Update server data
 	async _syncDevice() {
 		try {
-			let status = await this.api.getFinancialDay();
+			let status = await this.api.getWatermeter();
 
 			if (status.length != 0) {
 				this.setAvailable();
 
-				let usageLow = status[0][2]
-				let usageHigh = status[0][3]
-				let generationLow = status[0][4]
-				let generationHigh = status[0][5]
-				let usageGas = status[0][6]
-				let usageWater = status[0][7]
+				let TotalUsage = status[0][4]
+				let currentUsage = status[0][3]
 
-				this.setCapabilityValue('money.todayused', Number(usageLow) + Number(usageHigh));
-				this.setCapabilityValue('money.todaygen', Number(generationLow) + Number(generationHigh));
-				this.setCapabilityValue('money.todaygas', Number(usageGas));
-				this.setCapabilityValue('money.todaywater', Number(usageWater));
+				this.changeCapabilityValue('measure_water', Number(currentUsage));
+				this.changeCapabilityValue('meter_water', Number(TotalUsage));
 
 			} else {
 				this.setUnavailable('Cannot refresh / Connect');
