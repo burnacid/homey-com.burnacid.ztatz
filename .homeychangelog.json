@@ -1,4 +1,8 @@
 {
+    "0.3.0": {
+      "en": "Added daily power consumption and production support",
+      "nl": "Ondersteuning toegevoegd voor dagelijks verbruik en generatie"
+    },
     "0.2.1": {
       "en": "Added water usage support",
       "nl": "Water verbruik wordt nu ondersteund"
