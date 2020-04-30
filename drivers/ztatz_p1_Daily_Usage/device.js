@@ -44,9 +44,11 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 
 				let consumptionDelta = status[0].CONSUMPTION_DELTA_KWH;
 				let productionDelta = status[0].PRODUCTION_DELTA_KWH;
+				let gasConsumptionDelta = status[0].CONSUMPTION_GAS_DELTA_M3;
 
 				this.changeCapabilityValue('meter_power.consumed_today', Number(consumptionDelta));
 				this.changeCapabilityValue('meter_power.production_today', Number(productionDelta));
+				this.changeCapabilityValue('meter_gas.consumed_today', Number(gasConsumptionDelta));
 
 			} else {
 				this.setUnavailable('Cannot refresh / Connect');

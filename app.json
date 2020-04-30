@@ -283,10 +283,19 @@
             },
             "class": "other",
             "capabilities": [
+                "meter_gas.consumed_today",
                 "meter_power.consumed_today",
                 "meter_power.production_today"
             ],
             "capabilitiesOptions": {
+                "meter_gas.consumed_today": {
+                    "title": {
+                        "nl": "Verbruik gas vandaag",
+                        "en": "Gas usage today"
+                    },
+                    "decimals": 2,
+                    "color": "#40e8d4"
+                },
                 "meter_power.consumed_today": {
                     "title": {
                         "nl": "Verbruik elektriciteit vandaag",
