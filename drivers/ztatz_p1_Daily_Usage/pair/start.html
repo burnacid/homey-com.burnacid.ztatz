@@ -1,0 +1,97 @@
+<style type="text/css">
+    #pair-template {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center
+    }
+
+    #pair-form {
+        position: relative;
+        width: 90%
+    }
+
+    .row {
+        margin-bottom: 1em
+    }
+
+    .logo {
+        display: block;
+        position: relative;
+        width: 25vw;
+        height: 25vw;
+        margin: 10vw auto;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: contain;
+        background-image: url(./../assets/icon.svg)
+    }
+
+    .invalid>label {
+        color: #FF0000 !important
+    }
+
+    .invalid>input {
+        border-bottom: 1px solid #FF0000 !important
+    }
+
+    .button {
+        width: 100% !important
+    }
+
+    .button:disabled,
+    .button[disabled] {
+        background-color: #ffffff !important;
+        color: #ffffff !important;
+    }
+</style>
+
+<div id="pair-template">
+    <div id="pair-form">
+        <div class="logo"></div>
+
+        <div class="row">
+            <label for="pair-url">URL to P1 Mon</label>
+            <input id="pair-url" placeholder="https://p1mon.url" type="text" value="" />
+        </div>
+
+        <div class="row">
+            <button class="button" id="pair-button" onclick="search();" data-i18n="login">Check</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    function search() {
+        var error = false;
+        let invalids = document.getElementsByClassName('invalid');
+        for (var i = 0; i < invalids.length; i++) {
+            invalids[i].classList.remove('invalid');
+        }
+        var pBtn = document.getElementById('pair-button');
+        var pUrl = document.getElementById('pair-url');
+
+        pBtn.disabled = true;
+        if (pUrl.value.trim().length === 0) {
+            pUrl.parentNode.classList.add('invalid');
+            error = true;
+        }
+
+        if (error) {
+            pBtn.disabled = false;
+            return false;
+        }
+        let data = {
+            type: 'SmartMeter_Usage',
+            url: pUrl.value,
+        };
+        Homey.emit('search_devices', data, (error, result) => {
+            pBtn.disabled = false;
+            if (error) {
+                Homey.alert(error.message);
+            } else {
+                Homey.showView('list_devices');
+            }
+        });
+    }
+</script>
