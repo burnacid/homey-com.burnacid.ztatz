@@ -306,7 +306,7 @@
                 },
                 "meter_power.production_today": {
                     "title": {
-                        "nl": "Elektriciteitverbruik teruglevering vandaag",
+                        "nl": "Teruglevering elektriciteit vandaag",
                         "en": "Electricity production today"
                     },
                     "decimals": 3,
