@@ -2,7 +2,7 @@
   "0.3.3": {
     "en": "Corrected unit on daily water usage",
     "nl": "Correcte meetwaarde weergeven voor dagelijks water gebruik"
-  }
+  },
   "0.3.2": {
     "en": "Added daily water consumption",
     "nl": "Ondersteuning toegevoegd voor dagelijks water verbruik"
