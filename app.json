@@ -292,7 +292,8 @@
             "capabilities": [
                 "meter_gas.consumed_today",
                 "meter_power.consumed_today",
-                "meter_power.production_today"
+                "meter_power.production_today",
+                "meter_water.consumed_today"
             ],
             "capabilitiesOptions": {
                 "meter_gas.consumed_today": {
@@ -315,6 +316,14 @@
                     "title": {
                         "nl": "Teruglevering elektriciteit vandaag",
                         "en": "Electricity production today"
+                    },
+                    "decimals": 3,
+                    "color": "#e8cf40"
+                },
+                "meter_water.consumed_today": {
+                    "title": {
+                        "nl": "Verbruik water vandaag ",
+                        "en": "Water usage today"
                     },
                     "decimals": 3,
                     "color": "#e8cf40"

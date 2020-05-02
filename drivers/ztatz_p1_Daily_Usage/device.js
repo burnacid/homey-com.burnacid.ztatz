@@ -37,18 +37,35 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 	// Update server data
 	async _syncDevice() {
 		try {
-			let status = await this.api.getPowerGasDay();
+			let statusPowerGas = await this.api.getPowerGasDay();
+			let statusWaterMeter = await this.api.getWaterDay();
 
-			if (status.length != 0) {
+			if (statusPowerGas.length != 0) {
 				this.setAvailable();
 
-				let consumptionDelta = status[0].CONSUMPTION_DELTA_KWH;
-				let productionDelta = status[0].PRODUCTION_DELTA_KWH;
-				let gasConsumptionDelta = status[0].CONSUMPTION_GAS_DELTA_M3;
+				let consumptionDelta = statusPowerGas[0].CONSUMPTION_DELTA_KWH;
+				let productionDelta = statusPowerGas[0].PRODUCTION_DELTA_KWH;
+				let gasConsumptionDelta = statusPowerGas[0].CONSUMPTION_GAS_DELTA_M3;
+				
 
 				this.changeCapabilityValue('meter_power.consumed_today', Number(consumptionDelta));
 				this.changeCapabilityValue('meter_power.production_today', Number(productionDelta));
 				this.changeCapabilityValue('meter_gas.consumed_today', Number(gasConsumptionDelta));
+
+				if(statusWaterMeter.length != 0){
+					// If water is not present add it
+					if(!this.hasCapability('meter_water.consumed_today')){
+						this.addCapability('meter_water.consumed_today');
+					}
+
+					let waterConsumptionDelta = statusWaterMeter[0].WATERMETER_CONSUMPTION_LITER;
+					this.changeCapabilityValue('meter_water.consumed_today', Number(waterConsumptionDelta));
+				}else{
+					// If water is present remove it
+					if(this.hasCapability('meter_water.consumed_today')){
+						this.removeCapability('meter_water.consumed_today');
+					}
+				}
 
 			} else {
 				this.setUnavailable('Cannot refresh / Connect');
