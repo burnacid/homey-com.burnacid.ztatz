@@ -1,6 +1,6 @@
 {
     "id": "com.burnacid.ztatz",
-    "version": "0.3.2",
+    "version": "0.3.3",
     "compatibility": ">=3.2.0",
     "sdk": 2,
     "brandColor": "#384042",
@@ -326,7 +326,11 @@
                         "en": "Water usage today"
                     },
                     "decimals": 3,
-                    "color": "#e8cf40"
+                    "color": "#e8cf40",
+                    "units": {
+                        "en": "Liter",
+                        "nl": "Liter"
+                    }
                 }
             },
             "settings": [
