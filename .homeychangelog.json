@@ -1,4 +1,8 @@
 {
+    "0.3.2": {
+      "en": "Added daily water consumption",
+      "nl": "Ondersteuning toegevoegd voor dagelijks water verbruik"
+    },
     "0.3.1": {
       "en": "Added daily gas consumption",
       "nl": "Ondersteuning toegevoegd voor dagelijks gas verbruik"
