@@ -1,4 +1,8 @@
 {
+  "0.4.0": {
+    "en": "Adding sensor for heating",
+    "nl": "Sensor toegevoegd voor verwarming"
+  },
   "0.3.3": {
     "en": "Corrected unit on daily water usage",
     "nl": "Correcte meetwaarde weergeven voor dagelijks water gebruik"
