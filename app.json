@@ -1,6 +1,6 @@
 {
     "id": "com.burnacid.ztatz",
-    "version": "0.4.0",
+    "version": "0.4.1",
     "compatibility": ">=3.2.0",
     "sdk": 2,
     "brandColor": "#384042",
@@ -619,9 +619,6 @@
                 "measure_temperature.out",
                 "measure_temperature.delta"
             ],
-            "energy": {
-                "cumulative": true
-            },
             "capabilitiesOptions": {
                 "measure_temperature.in": {
                     "title": {
