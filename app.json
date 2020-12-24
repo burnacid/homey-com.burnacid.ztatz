@@ -33,11 +33,11 @@
     },
     "contributors": {
         "developers": [
-          {
-            "name": "FalkeMichel"
-          }
+            {
+                "name": "FalkeMichel"
+            }
         ]
-      },
+    },
     "capabilities": {
         "money": {
             "type": "number",
@@ -58,54 +58,54 @@
         "tariff_high": {
             "type": "boolean",
             "title": {
-              "en": "High Tariff",
-              "nl": "Piektarief"
+                "en": "High Tariff",
+                "nl": "Piektarief"
             },
             "desc": {
-              "en": "True when in high tariff period. False when in low tariff period",
-              "nl": "Gaat aan wanneer in piektarief en uit wanneer in daltarief"
+                "en": "True when in high tariff period. False when in low tariff period",
+                "nl": "Gaat aan wanneer in piektarief en uit wanneer in daltarief"
             },
             "insights": true,
             "insightsTitleTrue": {
-              "en": "In high tariff period",
-              "nl": "In piektarief periode"
+                "en": "In high tariff period",
+                "nl": "In piektarief periode"
             },
             "insightsTitleFalse": {
-              "en": "In low tariff period",
-              "nl": "In daltarief periode"
+                "en": "In low tariff period",
+                "nl": "In daltarief periode"
             },
             "getable": true,
             "setable": false,
             "icon": "/assets/highlow.svg",
             "uiComponent": "sensor",
             "$flow": {
-              "triggers": [
-                {
-                  "id": "tariff_high_true",
-                  "title": {
-                    "en": "The high tariff period has started",
-                    "nl": "Het piektarief is begonnen"
-                  }
-                },
-                {
-                  "id": "tariff_high_false",
-                  "title": {
-                    "en": "The low tariff period has started",
-                    "nl": "Het daltarief is begonnen"
-                  }
-                }
-              ],
-              "conditions": [
-                {
-                  "id": "tariff_high",
-                  "title": {
-                    "en": "!{{High|Low}} tariff period",
-                    "nl": "!{{Piek|Dal}}tarief periode"
-                  }
-                }
-              ]
+                "triggers": [
+                    {
+                        "id": "tariff_high_true",
+                        "title": {
+                            "en": "The high tariff period has started",
+                            "nl": "Het piektarief is begonnen"
+                        }
+                    },
+                    {
+                        "id": "tariff_high_false",
+                        "title": {
+                            "en": "The low tariff period has started",
+                            "nl": "Het daltarief is begonnen"
+                        }
+                    }
+                ],
+                "conditions": [
+                    {
+                        "id": "tariff_high",
+                        "title": {
+                            "en": "!{{High|Low}} tariff period",
+                            "nl": "!{{Piek|Dal}}tarief periode"
+                        }
+                    }
+                ]
             }
-          }
+        }
     },
     "drivers": [
         {
@@ -616,8 +616,8 @@
             "class": "other",
             "capabilities": [
                 "measure_temperature.in",
-                "measure_temperature.out"
-
+                "measure_temperature.out",
+                "measure_temperature.delta"
             ],
             "energy": {
                 "cumulative": true
@@ -635,6 +635,14 @@
                     "title": {
                         "nl": "Verwarming temperatuur OUT",
                         "en": "Heating temperature OUT"
+                    },
+                    "decimals": 3,
+                    "color": "#c2ad38"
+                },
+                "measure_temperature.delta": {
+                    "title": {
+                        "nl": "Delta temperatuur",
+                        "en": "Delta temperature"
                     },
                     "decimals": 3,
                     "color": "#c2ad38"
@@ -991,6 +999,30 @@
                 "args": [
                     {
                         "name": "ChangedTempOut",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Heating"
+                    }
+                ]
+            },
+            {
+                "id": "measure_temperature.delta.changed",
+                "title": {
+                    "nl": "Delta temperatuur is veranderd",
+                    "en": "Delta temperature has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "measure_temperature.delta.temperature",
+                        "type": "number",
+                        "title": {
+                            "en": "Temperature",
+                            "nl": "Temperatuur"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedTempDelta",
                         "type": "device",
                         "filter": "driver_id=ztatz_p1_Heating"
                     }

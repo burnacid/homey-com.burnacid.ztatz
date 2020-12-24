@@ -31,6 +31,7 @@ module.exports = class ztatzP1HeatingDevice extends Device {
 		// register Flow triggers
 		this._flowTriggerHeatingInChanged = new Homey.FlowCardTriggerDevice('measure_temperature.in.changed').register();
 		this._flowTriggerHeatingOutChanged = new Homey.FlowCardTriggerDevice('measure_temperature.out.changed').register();
+		this._flowTriggerHeatingDeltaChanged = new Homey.FlowCardTriggerDevice('measure_temperature.delta.changed').register();
 	}
 
 	async _deleteDevice() {
@@ -49,9 +50,11 @@ module.exports = class ztatzP1HeatingDevice extends Device {
 
 				let heatingIn = status[0][3]
 				let heatingOut = status[0][7]
+				let heatingDelta = (heatingIn - heatingOut).toFixed(2);
 
 				this.changeCapabilityValue('measure_temperature.in', Number(heatingIn), this._flowTriggerHeatingInChanged, {'measure_temperature.in.temperature': Number(heatingIn)});
 				this.changeCapabilityValue('measure_temperature.out', Number(heatingOut), this._flowTriggerHeatingOutChanged, {'measure_temperature.out.temperature': Number(heatingOut)});
+				this.changeCapabilityValue('measure_temperature.delta', Number(heatingDelta), this._flowTriggerHeatingDeltaChanged, {'measure_temperature.delta.temperature': Number(heatingDelta)});
 
 			} else {
 				this.setUnavailable('Cannot refresh / Connect');
