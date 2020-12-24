@@ -48,8 +48,8 @@ module.exports = class ztatzP1HeatingDevice extends Device {
 			if (status.length != 0) {
 				this.setAvailable();
 
-				let heatingIn = status[0][3]
-				let heatingOut = status[0][7]
+				let heatingIn = status[0]["ROOM_TEMPERATURE_IN"]
+				let heatingOut = status[0]["ROOM_TEMPERATURE_OUT"]
 				let heatingDelta = (heatingIn - heatingOut).toFixed(2);
 
 				this.changeCapabilityValue('measure_temperature.in', Number(heatingIn), this._flowTriggerHeatingInChanged, {'measure_temperature.in.temperature': Number(heatingIn)});
