@@ -1,6 +1,6 @@
 {
     "id": "com.burnacid.ztatz",
-    "version": "0.2.1",
+    "version": "0.3.3",
     "compatibility": ">=3.2.0",
     "sdk": 2,
     "brandColor": "#384042",
@@ -31,6 +31,13 @@
         "name": "Stefan Lenders",
         "email": "stefan@lenders-it.nl"
     },
+    "contributors": {
+        "developers": [
+          {
+            "name": "FalkeMichel"
+          }
+        ]
+      },
     "capabilities": {
         "money": {
             "type": "number",
@@ -273,6 +280,98 @@
             "images": {
                 "large": "/drivers/ztatz_p1_Generation/assets/images/large.jpg",
                 "small": "/drivers/ztatz_p1_Generation/assets/images/small.jpg"
+            }
+        },
+        {
+            "id": "ztatz_p1_Daily_Usage",
+            "name": {
+                "en": "P1 Daily Usage",
+                "nl": "P1 Dagelijks verbruik"
+            },
+            "class": "other",
+            "capabilities": [
+                "meter_gas.consumed_today",
+                "meter_power.consumed_today",
+                "meter_power.production_today",
+                "meter_water.consumed_today"
+            ],
+            "capabilitiesOptions": {
+                "meter_gas.consumed_today": {
+                    "title": {
+                        "nl": "Verbruik gas vandaag",
+                        "en": "Gas usage today"
+                    },
+                    "decimals": 2,
+                    "color": "#40e8d4"
+                },
+                "meter_power.consumed_today": {
+                    "title": {
+                        "nl": "Verbruik elektriciteit vandaag",
+                        "en": "Electricity usage today"
+                    },
+                    "decimals": 3,
+                    "color": "#c2ad38"
+                },
+                "meter_power.production_today": {
+                    "title": {
+                        "nl": "Teruglevering elektriciteit vandaag",
+                        "en": "Electricity production today"
+                    },
+                    "decimals": 3,
+                    "color": "#e8cf40"
+                },
+                "meter_water.consumed_today": {
+                    "title": {
+                        "nl": "Verbruik water vandaag ",
+                        "en": "Water usage today"
+                    },
+                    "decimals": 3,
+                    "color": "#e8cf40",
+                    "units": {
+                        "en": "Liter",
+                        "nl": "Liter"
+                    }
+                }
+            },
+            "settings": [
+                {
+                    "type": "group",
+                    "label": {
+                        "en": "General Info",
+                        "nl": "Algemene Info"
+                    },
+                    "children": [
+                        {
+                            "id": "url",
+                            "type": "label",
+                            "label": {
+                                "en": "URL",
+                                "nl": "URL"
+                            },
+                            "value": ""
+                        }
+                    ]
+                }
+            ],
+            "pair": [
+                {
+                    "id": "start"
+                },
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_devices"
+                    }
+                },
+                {
+                    "id": "add_devices",
+                    "template": "add_devices"
+                }
+            ],
+            "images": {
+                "large": "/drivers/ztatz_p1_Usage/assets/images/large.jpg",
+                "small": "/drivers/ztatz_p1_Usage/assets/images/small.jpg"
             }
         },
         {
