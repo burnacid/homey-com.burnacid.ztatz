@@ -690,6 +690,54 @@
     "flow": {
         "triggers": [
             {
+                "id": "meter_power.consumedL1.changed",
+                "title": {
+                    "nl": "Electriciteitverbruik piekuren is veranderd",
+                    "en": "Power used high tarif has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_power.consumedL1",
+                        "type": "number",
+                        "title": {
+                            "en": "Power used (kWh)",
+                            "nl": "Electriciteitverbruik (kWh)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedConsumedL1",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Usage"
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.consumedL2.changed",
+                "title": {
+                    "nl": "Electriciteitverbruik daluren is veranderd",
+                    "en": "Power used low tarif has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_power.consumedL2",
+                        "type": "number",
+                        "title": {
+                            "en": "Power used (kWh)",
+                            "nl": "Electriciteitverbruik (kWh)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedConsumedL2",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Usage"
+                    }
+                ]
+            },
+            {
                 "id": "meter_gas.current.changed",
                 "title": {
                     "nl": "Gasverbruik is veranderd",
@@ -708,54 +756,6 @@
                 "args": [
                     {
                         "name": "ChangedGas",
-                        "type": "device",
-                        "filter": "driver_id=ztatz_p1_Usage"
-                    }
-                ]
-            },
-            {
-                "id": "meter_power.consumedL2.changed",
-                "title": {
-                    "nl": "Elektriciteit verbruik daluren is veranderd",
-                    "en": "Electricity usage low has changed"
-                },
-                "tokens": [
-                    {
-                        "name": "meter_power.consumedL2",
-                        "type": "number",
-                        "title": {
-                            "en": "Electricity usage low (kwh)",
-                            "nl": "Electriciteit verbruik daluren (kwh)"
-                        }
-                    }
-                ],
-                "args": [
-                    {
-                        "name": "ChangedPowerL2",
-                        "type": "device",
-                        "filter": "driver_id=ztatz_p1_Usage"
-                    }
-                ]
-            },
-            {
-                "id": "meter_power.consumedL1.changed",
-                "title": {
-                    "nl": "Elektriciteit verbruik piekuren is veranderd",
-                    "en": "Electricity usage high has changed"
-                },
-                "tokens": [
-                    {
-                        "name": "meter_power.consumedL1",
-                        "type": "number",
-                        "title": {
-                            "en": "Electricity usage high (kwh)",
-                            "nl": "Electriciteit verbruik piekuren (kwh)"
-                        }
-                    }
-                ],
-                "args": [
-                    {
-                        "name": "ChangedPowerL1",
                         "type": "device",
                         "filter": "driver_id=ztatz_p1_Usage"
                     }
