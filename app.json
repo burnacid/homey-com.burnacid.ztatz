@@ -1,6 +1,6 @@
 {
     "id": "com.burnacid.ztatz",
-    "version": "0.3.3",
+    "version": "0.4.1",
     "compatibility": ">=3.2.0",
     "sdk": 2,
     "brandColor": "#384042",
@@ -33,11 +33,11 @@
     },
     "contributors": {
         "developers": [
-          {
-            "name": "FalkeMichel"
-          }
+            {
+                "name": "FalkeMichel"
+            }
         ]
-      },
+    },
     "capabilities": {
         "money": {
             "type": "number",
@@ -58,54 +58,54 @@
         "tariff_high": {
             "type": "boolean",
             "title": {
-              "en": "High Tariff",
-              "nl": "Piektarief"
+                "en": "High Tariff",
+                "nl": "Piektarief"
             },
             "desc": {
-              "en": "True when in high tariff period. False when in low tariff period",
-              "nl": "Gaat aan wanneer in piektarief en uit wanneer in daltarief"
+                "en": "True when in high tariff period. False when in low tariff period",
+                "nl": "Gaat aan wanneer in piektarief en uit wanneer in daltarief"
             },
             "insights": true,
             "insightsTitleTrue": {
-              "en": "In high tariff period",
-              "nl": "In piektarief periode"
+                "en": "In high tariff period",
+                "nl": "In piektarief periode"
             },
             "insightsTitleFalse": {
-              "en": "In low tariff period",
-              "nl": "In daltarief periode"
+                "en": "In low tariff period",
+                "nl": "In daltarief periode"
             },
             "getable": true,
             "setable": false,
             "icon": "/assets/highlow.svg",
             "uiComponent": "sensor",
             "$flow": {
-              "triggers": [
-                {
-                  "id": "tariff_high_true",
-                  "title": {
-                    "en": "The high tariff period has started",
-                    "nl": "Het piektarief is begonnen"
-                  }
-                },
-                {
-                  "id": "tariff_high_false",
-                  "title": {
-                    "en": "The low tariff period has started",
-                    "nl": "Het daltarief is begonnen"
-                  }
-                }
-              ],
-              "conditions": [
-                {
-                  "id": "tariff_high",
-                  "title": {
-                    "en": "!{{High|Low}} tariff period",
-                    "nl": "!{{Piek|Dal}}tarief periode"
-                  }
-                }
-              ]
+                "triggers": [
+                    {
+                        "id": "tariff_high_true",
+                        "title": {
+                            "en": "The high tariff period has started",
+                            "nl": "Het piektarief is begonnen"
+                        }
+                    },
+                    {
+                        "id": "tariff_high_false",
+                        "title": {
+                            "en": "The low tariff period has started",
+                            "nl": "Het daltarief is begonnen"
+                        }
+                    }
+                ],
+                "conditions": [
+                    {
+                        "id": "tariff_high",
+                        "title": {
+                            "en": "!{{High|Low}} tariff period",
+                            "nl": "!{{Piek|Dal}}tarief periode"
+                        }
+                    }
+                ]
             }
-          }
+        }
     },
     "drivers": [
         {
@@ -606,6 +606,85 @@
                 "large": "/drivers/ztatz_p1_FinancialMonth/assets/images/large.jpg",
                 "small": "/drivers/ztatz_p1_FinancialMonth/assets/images/small.jpg"
             }
+        },
+        {
+            "id": "ztatz_p1_Heating",
+            "name": {
+                "en": "P1 Heating",
+                "nl": "P1 Verwarming"
+            },
+            "class": "other",
+            "capabilities": [
+                "measure_temperature.in",
+                "measure_temperature.out",
+                "measure_temperature.delta"
+            ],
+            "capabilitiesOptions": {
+                "measure_temperature.in": {
+                    "title": {
+                        "nl": "Verwarming temperatuur IN",
+                        "en": "Heating temperature IN"
+                    },
+                    "decimals": 3,
+                    "color": "#e8cf40"
+                },
+                "measure_temperature.out": {
+                    "title": {
+                        "nl": "Verwarming temperatuur OUT",
+                        "en": "Heating temperature OUT"
+                    },
+                    "decimals": 3,
+                    "color": "#c2ad38"
+                },
+                "measure_temperature.delta": {
+                    "title": {
+                        "nl": "Delta temperatuur",
+                        "en": "Delta temperature"
+                    },
+                    "decimals": 3,
+                    "color": "#c2ad38"
+                }
+            },
+            "settings": [
+                {
+                    "type": "group",
+                    "label": {
+                        "en": "General Info",
+                        "nl": "Algemene Info"
+                    },
+                    "children": [
+                        {
+                            "id": "url",
+                            "type": "label",
+                            "label": {
+                                "en": "URL",
+                                "nl": "URL"
+                            },
+                            "value": ""
+                        }
+                    ]
+                }
+            ],
+            "pair": [
+                {
+                    "id": "start"
+                },
+                {
+                    "id": "list_devices",
+                    "template": "list_devices",
+                    "navigation": {
+                        "next": "add_devices"
+                    }
+                },
+                {
+                    "id": "add_devices",
+                    "template": "add_devices"
+                }
+            ],
+            "images": {
+                "large": "/drivers/ztatz_p1_Heating/assets/images/large.jpg",
+                "small": "/drivers/ztatz_p1_Heating/assets/images/small.jpg"
+            }
         }
     ],
     "flow": {
@@ -871,6 +950,78 @@
                         "name": "ChangedPowerL1",
                         "type": "device",
                         "filter": "driver_id=ztatz_p1_Usage"
+                    }
+                ]
+            },
+            {
+                "id": "measure_temperature.in.changed",
+                "title": {
+                    "nl": "Verwarming temperatuur IN is veranderd",
+                    "en": "Heating temperature IN has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "measure_temperature.in.temperature",
+                        "type": "number",
+                        "title": {
+                            "en": "Temperature",
+                            "nl": "Temperatuur"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedTempIn",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Heating"
+                    }
+                ]
+            },
+            {
+                "id": "measure_temperature.out.changed",
+                "title": {
+                    "nl": "Verwarming temperatuur OUT is veranderd",
+                    "en": "Heating temperature OUT has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "measure_temperature.out.temperature",
+                        "type": "number",
+                        "title": {
+                            "en": "Temperature",
+                            "nl": "Temperatuur"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedTempOut",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Heating"
+                    }
+                ]
+            },
+            {
+                "id": "measure_temperature.delta.changed",
+                "title": {
+                    "nl": "Delta temperatuur is veranderd",
+                    "en": "Delta temperature has changed"
+                },
+                "tokens": [
+                    {
+                        "name": "measure_temperature.delta.temperature",
+                        "type": "number",
+                        "title": {
+                            "en": "Temperature",
+                            "nl": "Temperatuur"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ChangedTempDelta",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Heating"
                     }
                 ]
             }
