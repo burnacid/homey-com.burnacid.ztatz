@@ -27,10 +27,8 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 
 		console.log("register flow triggers");
 		// register Flow triggers
-		this._flowTriggerPowerUsageChanged = new Homey.FlowCardTriggerDevice('measure_power.consumed.changed').register();
-		this._flowTriggerPowerMeterL1Changed = new Homey.FlowCardTriggerDevice('meter_power.consumedL1.changed').register();
-		this._flowTriggerPowerMeterL2Changed = new Homey.FlowCardTriggerDevice('meter_power.consumedL2.changed').register();
-		this._flowTriggerGasMeterChanged = new Homey.FlowCardTriggerDevice('meter_gas.current.changed').register();
+		this._flowTriggerPowerMeterL1Changed = new Homey.FlowCardTriggerDevice('meter_power.generatedL1.changed').register();
+		this._flowTriggerPowerMeterL2Changed = new Homey.FlowCardTriggerDevice('meter_power.generatedL2.changed').register();
 	}
 
 	async _deleteDevice() {
@@ -52,9 +50,8 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				let currentGeneration = status[0][9]
 
 				this.changeCapabilityValue('measure_power', Number(currentGeneration));
-				this.changeCapabilityValue('meter_power.generatedL2', Number(generationLow));
-				this.changeCapabilityValue('meter_power.generatedL1', Number(generationHigh));
-
+				this.changeCapabilityValue('meter_power.generatedL2', Number(generationLow), this._flowTriggerPowerMeterL2Changed, {'meter_power.generatedL2': Number(generationLow)});
+				this.changeCapabilityValue('meter_power.generatedL1', Number(generationHigh), this._flowTriggerPowerMeterL1Changed, {'meter_power.generatedL1': Number(generationHigh)});
 
 			} else {
 				this.setUnavailable('Cannot refresh / Connect');
