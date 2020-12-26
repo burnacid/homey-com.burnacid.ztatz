@@ -4,7 +4,7 @@ const Homey = require('homey');
 const Device = require('../../lib/Device.js');
 const boolean = require('boolean');
 
-const refreshTimeout = 1000 * 300; // 5 minuten
+const refreshTimeout = 1000 * 60; // 1 minuten
 
 module.exports = class ztatzP1WaterMeterDevice extends Device {
 
