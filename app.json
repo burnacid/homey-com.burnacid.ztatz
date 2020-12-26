@@ -810,6 +810,102 @@
                 ]
             },
             {
+                "id": "meter_gas.consumed_today.reset",
+                "title": {
+                    "nl": "Eindstand gas verbruik vandaag",
+                    "en": "End total gas usage today"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_gas.todaystotal",
+                        "type": "number",
+                        "title": {
+                            "en": "Gas usage (m³)",
+                            "nl": "Gasverbruik (m³)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ResetGasToday",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Daily_Usage"
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.consumed_today.reset",
+                "title": {
+                    "nl": "Eindstand electriciteit verbruik vandaag",
+                    "en": "End total electricity usage today"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_power.todaystotalconsumed",
+                        "type": "number",
+                        "title": {
+                            "en": "Power consumed (kWh)",
+                            "nl": "Electriciteitverbruik (kWh)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ResetPowerConsumptionToday",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Daily_Usage"
+                    }
+                ]
+            },
+            {
+                "id": "meter_power.production_today.reset",
+                "title": {
+                    "nl": "Eindstand electriciteit productie vandaag",
+                    "en": "End total electricity production today"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_power.todaystotalproduced",
+                        "type": "number",
+                        "title": {
+                            "en": "Power produced (kWh)",
+                            "nl": "Electriciteit geproduceerd (kWh)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ResetPowerProductionToday",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Daily_Usage"
+                    }
+                ]
+            },
+            {
+                "id": "meter_water.consumed_today.reset",
+                "title": {
+                    "nl": "Eindstand water verbruik vandaag",
+                    "en": "End total water usage today"
+                },
+                "tokens": [
+                    {
+                        "name": "meter_water.resetconsumed_today",
+                        "type": "number",
+                        "title": {
+                            "en": "Water used (L)",
+                            "nl": "Water verbruik (L)"
+                        }
+                    }
+                ],
+                "args": [
+                    {
+                        "name": "ResetWaterCunsumptionToday",
+                        "type": "device",
+                        "filter": "driver_id=ztatz_p1_Daily_Usage"
+                    }
+                ]
+            },
+            {
                 "id": "measure_temperature.in.changed",
                 "title": {
                     "nl": "Verwarming temperatuur IN is veranderd",
