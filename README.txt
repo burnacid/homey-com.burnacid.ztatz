@@ -1,11 +1,2 @@
-Adds support for P1 Monitor (ztatz)
-
-Triggers
-* Current power usage changes
-* Current power meter changes (high and low)
-* Current gas meter changes
-
-Upcoming features
-* More flow triggers
-* Possible high/low change
-* Triggers on day / month financial data
+ZTATZ P1 monitor is software to read a P1 smart meter. The software is ment to run on a Raspberry Rpi3 en Rpi4.
+This app add integration with the ZTATZ API to configure flows based on values from P1.
