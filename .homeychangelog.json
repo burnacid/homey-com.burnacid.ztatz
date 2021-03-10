@@ -38,5 +38,8 @@
   "0.0.4": {
     "en": "First beta release.",
     "nl": "Eerste beta versie."
+  },
+  "0.5.0": {
+    "en": "Updated Homey SDK version to v3"
   }
 }
