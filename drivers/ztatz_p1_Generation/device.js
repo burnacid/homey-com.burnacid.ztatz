@@ -27,8 +27,8 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 
 		console.log("register flow triggers");
 		// register Flow triggers
-		this._flowTriggerPowerMeterL1Changed = new Homey.FlowCardTriggerDevice('meter_power.generatedL1.changed').register();
-		this._flowTriggerPowerMeterL2Changed = new Homey.FlowCardTriggerDevice('meter_power.generatedL2.changed').register();
+		this._flowTriggerPowerMeterL1Changed = this.homey.flow.getDeviceTriggerCard('meter_power.generatedL1.changed');
+		this._flowTriggerPowerMeterL2Changed = this.homey.flow.getDeviceTriggerCard('meter_power.generatedL2.changed');
 	}
 
 	async _deleteDevice() {

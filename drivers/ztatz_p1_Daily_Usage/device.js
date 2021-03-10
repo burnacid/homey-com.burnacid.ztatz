@@ -26,10 +26,10 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 		});
 
 		console.log("register flow triggers");
-		this._flowTriggerGasUsageTodayReset = new Homey.FlowCardTriggerDevice('meter_gas.consumed_today.reset').register();
-		this._flowTriggerPowerMeterProductionReset = new Homey.FlowCardTriggerDevice('meter_power.production_today.reset').register();
-		this._flowTriggerPowerMeterConsumptionReset = new Homey.FlowCardTriggerDevice('meter_power.consumed_today.reset').register();
-		this._flowTriggerWaterMeterConsumptionReset = new Homey.FlowCardTriggerDevice('meter_water.consumed_today.reset').register();
+		this._flowTriggerGasUsageTodayReset = this.homey.flow.getDeviceTriggerCard('meter_gas.consumed_today.reset');
+		this._flowTriggerPowerMeterProductionReset = this.homey.flow.getDeviceTriggerCard('meter_power.production_today.reset');
+		this._flowTriggerPowerMeterConsumptionReset = this.homey.flow.getDeviceTriggerCard('meter_power.consumed_today.reset');
+		this._flowTriggerWaterMeterConsumptionReset = this.homey.flow.getDeviceTriggerCard('meter_water.consumed_today.reset');
 	}
 
 	async _deleteDevice() {
@@ -76,7 +76,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 					// If water is not present add it
 					if(!this.hasCapability('meter_water.consumed_today')){
 						this.addCapability('meter_water.consumed_today');
-						this._flowTriggerWaterMeterConsumptionReset = new Homey.FlowCardTriggerDevice('meter_water.consumed_today.reset').register();
+						this._flowTriggerWaterMeterConsumptionReset = this.homey.flow.getDeviceTriggerCard('meter_water.consumed_today.reset');
 					}
 
 					let waterConsumptionDelta = statusWaterMeter[0].WATERMETER_CONSUMPTION_LITER;
