@@ -44,7 +44,7 @@ module.exports = class ztatzP1HeatingDevice extends Device {
 	async _syncDevice() {
 		try {
 			let status = await this.api.getHeating();
-
+			this.log(status);
 			if (status.length != 0) {
 				this.setAvailable();
 
@@ -57,7 +57,7 @@ module.exports = class ztatzP1HeatingDevice extends Device {
 				this.changeCapabilityValue('measure_temperature.delta', Number(heatingDelta), this._flowTriggerHeatingDeltaChanged, {'measure_temperature.delta.temperature': Number(heatingDelta)});
 
 			} else {
-				this.setUnavailable('Cannot refresh / Connect');
+				this.setUnavailable('Cannot refresh / Connect or ZTATZ doesn\'t contain heating info.');
 			}
 
 
