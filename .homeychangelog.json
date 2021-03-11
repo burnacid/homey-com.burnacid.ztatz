@@ -41,5 +41,8 @@
   },
   "0.5.0": {
     "en": "Updated Homey SDK version to v3"
+  },
+  "0.5.1": {
+    "en": "Fix adding new ZTATZ sensor since switch to SDKv3"
   }
 }
