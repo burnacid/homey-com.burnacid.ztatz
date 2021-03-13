@@ -93,9 +93,10 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 						this.removeCapability('meter_water.consumed_today');
 					}
 
-					if(this._flowTriggerWaterMeterConsumptionReset){
-						this._flowTriggerWaterMeterConsumptionReset.unregister();
-					}
+					// No longer needed SDKv3
+					//if(this._flowTriggerWaterMeterConsumptionReset){
+					//	   this._flowTriggerWaterMeterConsumptionReset.unregister();
+					//}
 				}
 
 			} else {
