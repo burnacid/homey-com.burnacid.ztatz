@@ -44,5 +44,8 @@
   },
   "0.5.1": {
     "en": "Fix adding new ZTATZ sensor since switch to SDKv3"
+  },
+  "0.5.2": {
+    "en": "FIXED: error on daily usage senser when not using water metering"
   }
 }
