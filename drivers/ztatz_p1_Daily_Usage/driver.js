@@ -30,17 +30,17 @@ module.exports = class ztatzP1SmartMeterDriver extends Driver {
                     throw new Error(Homey.__('error.permission_denied'));
                 }
             }).catch(error => {
-                callback(error);
+                return error;
             });
 
-        callback(null, true);
+        return true
     }
 
-    async _onPairListDevices(data, callback) {
+    async _onPairListDevices() {
         this.log('_onPairListDevices');
         this.log(foundDevices);
 
-        callback(null, foundDevices);
+        return foundDevices;
     }
 
 }
