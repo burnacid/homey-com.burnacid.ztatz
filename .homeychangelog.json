@@ -47,5 +47,8 @@
   },
   "0.5.2": {
     "en": "FIXED: error on daily usage senser when not using water metering"
+  },
+  "0.5.3": {
+    "en": "Quick fix for supporting new API in ZTATZ version 202103"
   }
 }
