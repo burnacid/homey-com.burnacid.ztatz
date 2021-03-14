@@ -12,18 +12,20 @@ module.exports = class ztatzP1WaterMeterDevice extends Device {
 	async _initDevice() {
 		this.log('_initDevice');
 		const device = this.getData();
+		this.config = {
+			url: device.url,
+			waterApiVersion: 1
+		}
 
 		// Register flowcard triggers
 		//this._registerFlowCardTriggers();
 
 		// Update server data
-		//this._syncDevice();
+		this._syncDevice();
 
 		// Set update timer
 		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
-		this.setSettings({
-			url: device.url,
-		});
+		this.setSettings(this.config);
 
 		console.log("register flow triggers");
 		// register Flow triggers
@@ -40,9 +42,17 @@ module.exports = class ztatzP1WaterMeterDevice extends Device {
 	// Update server data
 	async _syncDevice() {
 		try {
-			let status = await this.api.getWatermeter();
+			let status = await this.api.getWatermeter(this.config.waterApiVersion);
 
 			if (status.length != 0) {
+				if('title' in status){
+					if(status.title == "404 Not Found"){
+						this.config.waterApiVersion = 2;
+						this.setSettings(this.config);
+						this.log("Set WaterAPI to version 2")
+					}
+				}
+
 				this.setAvailable();
 
 				let TotalUsage = status[0][4]

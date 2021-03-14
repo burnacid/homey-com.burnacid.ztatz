@@ -349,6 +349,24 @@
                 "nl": "URL"
               },
               "value": ""
+            },
+            {
+              "id": "apiVersion",
+              "type": "label",
+              "label": {
+                "en": "Default API Version",
+                "nl": "Standaard API Versie"
+              },
+              "value": ""
+            },
+            {
+              "id": "waterApiVersion",
+              "type": "label",
+              "label": {
+                "en": "Water API Version",
+                "nl": "Water API Versie"
+              },
+              "value": ""
             }
           ]
         }
@@ -420,6 +438,15 @@
               "label": {
                 "en": "URL",
                 "nl": "URL"
+              },
+              "value": ""
+            },
+            {
+              "id": "waterApiVersion",
+              "type": "label",
+              "label": {
+                "en": "Water API Version",
+                "nl": "Water API Versie"
               },
               "value": ""
             }

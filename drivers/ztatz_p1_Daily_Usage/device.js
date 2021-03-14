@@ -12,6 +12,11 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 	async _initDevice() {
 		this.log('_initDevice');
 		const device = this.getData();
+		this.config = {
+			url: device.url,
+			apiVersion: 1,
+			waterApiVersion: 1
+		}
 
 		// Register flowcard triggers
 		//this._registerFlowCardTriggers();
@@ -21,9 +26,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 
 		// Set update timer
 		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
-		this.setSettings({
-			url: device.url,
-		});
+		this.setSettings(this.config);
 
 		console.log("register flow triggers");
 		this._flowTriggerGasUsageTodayReset = this.homey.flow.getDeviceTriggerCard('meter_gas.consumed_today.reset');
@@ -42,7 +45,17 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 	async _syncDevice() {
 		try {
 			let statusPowerGas = await this.api.getPowerGasDay();
-			let statusWaterMeter = await this.api.getWaterDay();
+			let statusWaterMeter = await this.api.getWaterDay(this.config.waterApiVersion);
+
+			if(statusWaterMeter.length != 0){
+				if('title' in statusWaterMeter){
+					if(statusWaterMeter.title == "404 Not Found"){
+						this.config.waterApiVersion = 2;
+						this.setSettings(this.config);
+						this.log("Set WaterAPI to version 2")
+					}
+				}
+			}
 
 			if (statusPowerGas.length != 0) {
 				this.setAvailable();
