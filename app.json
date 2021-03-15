@@ -1,6 +1,6 @@
 {
   "id": "com.burnacid.ztatz",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#384042",
@@ -349,6 +349,24 @@
                 "nl": "URL"
               },
               "value": ""
+            },
+            {
+              "id": "apiVersion",
+              "type": "label",
+              "label": {
+                "en": "Default API Version",
+                "nl": "Standaard API Versie"
+              },
+              "value": ""
+            },
+            {
+              "id": "waterApiVersion",
+              "type": "label",
+              "label": {
+                "en": "Water API Version",
+                "nl": "Water API Versie"
+              },
+              "value": ""
             }
           ]
         }
@@ -420,6 +438,15 @@
               "label": {
                 "en": "URL",
                 "nl": "URL"
+              },
+              "value": ""
+            },
+            {
+              "id": "waterApiVersion",
+              "type": "label",
+              "label": {
+                "en": "Water API Version",
+                "nl": "Water API Versie"
               },
               "value": ""
             }
