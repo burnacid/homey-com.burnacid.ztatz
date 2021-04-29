@@ -27,7 +27,7 @@ module.exports = class ztatzP1HeatingDriver extends Driver {
                 } else {
                     this.log('No Result');
                     console.error('processData', data);
-                    throw new Error(Homey.__('error.permission_denied'));
+                    throw new Error("Error processing API data");
                 }
             }).catch(error => {
                 return error;

@@ -50,5 +50,8 @@
   },
   "0.5.3": {
     "en": "Quick fix for supporting new API in ZTATZ version 202103"
+  },
+  "0.5.4": {
+    "en": "Added improved error reporting and catch unexpected url input"
   }
 }

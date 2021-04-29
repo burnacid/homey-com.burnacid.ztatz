@@ -2,7 +2,7 @@
   "name": "com.burnacid.ztatz",
   "dependencies": {
     "boolean": "^3.0.2",
-    "homey": "^2.10.0",
+    "homey": "^2.0.6",
     "httpreq": "^0.4.24",
     "qs": "^6.9.6",
     "request": "^2.88.2"
