@@ -53,6 +53,8 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 						this.config.waterApiVersion = 2;
 						this.setSettings(this.config);
 						this.log("Set WaterAPI to version 2")
+
+						statusWaterMeter = await this.api.getWaterDay(this.config.waterApiVersion);
 					}
 				}
 			}
