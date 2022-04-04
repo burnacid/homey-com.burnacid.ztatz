@@ -5,6 +5,7 @@ const Device = require('../../lib/Device.js');
 const boolean = require('boolean');
 
 const refreshTimeout = 1000 * 10; // 10 sec
+const refreshTimeoutStats = 1000 * 300; // 5 min
 
 module.exports = class ztatzP1SmartMeterDevice extends Device {
 
@@ -17,7 +18,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 		//this._registerFlowCardTriggers();
 
 		// Update server data
-		//this._syncDevice();
+		this.intervalStatsId = setInterval(this._syncStats.bind(this), refreshTimeoutStats);
 
 		// Set update timer
 		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
@@ -25,16 +26,25 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 			url: device.url,
 		});
 
+		// Add version Capablity
+		if(!this.hasCapability('version_number')){
+			this.addCapability('version_number');
+		}
+
 		console.log("register flow triggers");
 		// register Flow triggers
 		this._flowTriggerPowerMeterL1Changed = this.homey.flow.getDeviceTriggerCard('meter_power.consumedL1.changed');
 		this._flowTriggerPowerMeterL2Changed = this.homey.flow.getDeviceTriggerCard('meter_power.consumedL2.changed');
 		this._flowTriggerGasMeterChanged = this.homey.flow.getDeviceTriggerCard('meter_gas.current.changed');
+		this._flowTriggerVersionChanged = this.homey.flow.getDeviceTriggerCard('version_number.changed');
+
+		this._syncStats();
 	}
 
 	async _deleteDevice() {
 		this.log('_deleteDevice');
 
+		clearInterval(this.intervalStatsId);
 		clearInterval(this.intervalId);
 	}
 
@@ -42,7 +52,6 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 	async _syncDevice() {
 		try {
 			let status = await this.api.getSmartmeter();
-
 			if (status.length != 0) {
 				this.setAvailable();
 
@@ -70,6 +79,35 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 			}
 
 
+		} catch (error) {
+			this.error(error);
+			this.setUnavailable(error.message);
+		}
+	}
+
+	// Update stats
+	async _syncStats() {
+		try {
+			let status = await this.api.getStatus();
+			let configuration = await this.api.getConfiguration();
+
+			if (status.length != 0 && configuration != 0) {
+				this.setAvailable();
+
+				let lastVersion = this.api.filterValueByLabel(status,"Laatste P1 monitor versie:")[0]
+				let lastVersionText = this.api.filterValueByLabel(status,"Laatste P1 monitor versie tekst:")[0]
+				let lastVersionDate = this.api.filterValueByLabel(status,"Laatste P1 monitor versie datum:")[0]
+				let lastVersionUrl = this.api.filterValueByLabel(status,"Laatste P1 monitor versie URL:")[0]
+				let lastVersionNumber = this.api.filterValueByLabel(status,"Laatste P1 monitor versie nummer:")[0]
+
+				let currentVersion = this.api.filterValueByLabel(configuration,"Versie:","PARAMETER")[0]
+				let currentVersionNumber = this.api.filterValueByLabel(configuration,"Versie nummer:")[0]
+
+				this.changeCapabilityValue('version_number', Number(lastVersionNumber['STATUS']), this._flowTriggerVersionChanged, {'version':String(lastVersion['STATUS']),"version_number":Number(lastVersionNumber['STATUS']),"version_url":String(lastVersionUrl['STATUS']),"version_date":String(lastVersionDate['STATUS']),"version_name":String(lastVersionText['STATUS']),"current_version_number":Number(currentVersionNumber['PARAMETER'])});
+			} else {
+				this.setUnavailable('Cannot refresh / Connect');
+			}
+			
 		} catch (error) {
 			this.error(error);
 			this.setUnavailable(error.message);

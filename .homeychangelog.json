@@ -53,5 +53,14 @@
   },
   "0.5.4": {
     "en": "Added improved error reporting and catch unexpected url input"
+  },
+  "0.6.0": {
+    "en": "Added ZTATS flow trigger to usage device"
+  },
+  "0.6.1": {
+    "en": "Added ZTATZ update flow trigger to usage device"
+  },
+  "0.6.2": {
+    "en": "Added ZTATZ update flow trigger to usage device"
   }
 }
