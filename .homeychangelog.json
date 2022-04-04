@@ -59,5 +59,8 @@
   },
   "0.6.1": {
     "en": "Added ZTATZ update flow trigger to usage device"
+  },
+  "0.6.2": {
+    "en": "Added ZTATZ update flow trigger to usage device"
   }
 }
