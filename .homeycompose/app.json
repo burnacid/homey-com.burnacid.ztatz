@@ -1,6 +1,6 @@
 {
   "id": "com.burnacid.ztatz",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#384042",
@@ -29,7 +29,6 @@
     "url": "https://github.com/burnacid/homey-com.burnacid.ztatz/issues"
   },
   "support": "https://github.com/burnacid/homey-com.burnacid.ztatz/issues",
-  "source": "https://github.com/burnacid/homey-com.burnacid.ztatz",
   "permissions": [],
   "images": {
     "large": "/assets/images/large.png",
