@@ -31,6 +31,22 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 			this.addCapability('version_number');
 		}
 
+		if(!this.hasCapability('measure_power')){
+			this.addCapability('measure_power');
+		}
+
+		if(!this.hasCapability('meter_power.consumedL2')){
+			this.addCapability('meter_power.consumedL2');
+		}
+
+		if(!this.hasCapability('meter_power.consumedL1')){
+			this.addCapability('meter_power.consumedL1');
+		}
+
+		if(!this.hasCapability('meter_gas.current')){
+			this.addCapability('meter_gas.current');
+		}
+
 		console.log("register flow triggers");
 		// register Flow triggers
 		this._flowTriggerPowerMeterL1Changed = this.homey.flow.getDeviceTriggerCard('meter_power.consumedL1.changed');

@@ -1,0 +1,91 @@
+{
+  "name": {
+    "en": "P1 Usage",
+    "nl": "P1 Verbruik"
+  },
+  "class": "other",
+  "capabilities": [
+    "measure_power",
+    "meter_power.consumedL1",
+    "meter_power.consumedL2",
+    "meter_gas.current",
+    "tariff_high",
+    "version_number"
+  ],
+  "energy": {
+    "cumulative": true
+  },
+  "capabilitiesOptions": {
+    "measure_power": {
+      "title": {
+        "nl": "Huidig stroomverbruik",
+        "en": "Current power usage"
+      },
+      "color": "#dde840"
+    },
+    "meter_power.consumedL1": {
+      "title": {
+        "nl": "Elektriciteitverbruik piekuren",
+        "en": "Electricity usage high"
+      },
+      "decimals": 3,
+      "color": "#e8cf40"
+    },
+    "meter_power.consumedL2": {
+      "title": {
+        "nl": "Elektriciteitverbruik daluren",
+        "en": "Electricity usage low"
+      },
+      "decimals": 3,
+      "color": "#c2ad38"
+    },
+    "meter_gas.current": {
+      "title": {
+        "nl": "Gasverbruik",
+        "en": "Gas usage"
+      },
+      "decimals": 2,
+      "color": "#40e8d4"
+    }
+  },
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "General Info",
+        "nl": "Algemene Info"
+      },
+      "children": [
+        {
+          "id": "url",
+          "type": "label",
+          "label": {
+            "en": "URL",
+            "nl": "URL"
+          },
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "pair": [
+    {
+      "id": "start"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "images": {
+    "large": "/drivers/ztatz_p1_Usage/assets/images/large.jpg",
+    "small": "/drivers/ztatz_p1_Usage/assets/images/small.jpg"
+  }
+}

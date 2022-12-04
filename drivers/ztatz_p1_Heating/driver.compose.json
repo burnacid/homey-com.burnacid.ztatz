@@ -1,0 +1,78 @@
+{
+  "name": {
+    "en": "P1 Heating",
+    "nl": "P1 Verwarming"
+  },
+  "class": "other",
+  "capabilities": [
+    "measure_temperature.in",
+    "measure_temperature.out",
+    "measure_temperature.delta"
+  ],
+  "capabilitiesOptions": {
+    "measure_temperature.in": {
+      "title": {
+        "nl": "Verwarming temperatuur IN",
+        "en": "Heating temperature IN"
+      },
+      "decimals": 3,
+      "color": "#e8cf40"
+    },
+    "measure_temperature.out": {
+      "title": {
+        "nl": "Verwarming temperatuur OUT",
+        "en": "Heating temperature OUT"
+      },
+      "decimals": 3,
+      "color": "#c2ad38"
+    },
+    "measure_temperature.delta": {
+      "title": {
+        "nl": "Delta temperatuur",
+        "en": "Delta temperature"
+      },
+      "decimals": 3,
+      "color": "#c2ad38"
+    }
+  },
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "General Info",
+        "nl": "Algemene Info"
+      },
+      "children": [
+        {
+          "id": "url",
+          "type": "label",
+          "label": {
+            "en": "URL",
+            "nl": "URL"
+          },
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "pair": [
+    {
+      "id": "start"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "images": {
+    "large": "/drivers/ztatz_p1_Heating/assets/images/large.jpg",
+    "small": "/drivers/ztatz_p1_Heating/assets/images/small.jpg"
+  }
+}

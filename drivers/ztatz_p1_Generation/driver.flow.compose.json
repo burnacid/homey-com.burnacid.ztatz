@@ -1,0 +1,40 @@
+{
+  "triggers": [
+    {
+      "id": "meter_power.generatedL1.changed",
+      "title": {
+        "nl": "Electriciteitgeneratie piekuren is veranderd",
+        "en": "Power generation high tarif has changed"
+      },
+      "tokens": [
+        {
+          "name": "meter_power.generatedL1",
+          "type": "number",
+          "title": {
+            "en": "Power generated (kWh)",
+            "nl": "Electriciteitgeneratie (kWh)"
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "id": "meter_power.generatedL2.changed",
+      "title": {
+        "nl": "Electriciteitgeneratie daluren is veranderd",
+        "en": "Power generation low tarif has changed"
+      },
+      "tokens": [
+        {
+          "name": "meter_power.generatedL2",
+          "type": "number",
+          "title": {
+            "en": "Power generated (kWh)",
+            "nl": "Electriciteitgeneratie (kWh)"
+          }
+        }
+      ],
+      "args": []
+    }
+  ]
+}

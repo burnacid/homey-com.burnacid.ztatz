@@ -1,0 +1,29 @@
+[
+    {
+      "type": "group",
+      "label": {
+        "en": "General Info",
+        "nl": "Algemene Info"
+      },
+      "children": [
+        {
+          "id": "url",
+          "type": "label",
+          "label": {
+            "en": "URL",
+            "nl": "URL"
+          },
+          "value": ""
+        },
+        {
+          "id": "calculated_amperage",
+          "type": "checkbox",
+          "label": {
+            "en": "Use calculated Amperage",
+            "nl": "Gebruik gecalculeerde Amperage"
+          },
+          "value": false
+        }
+      ]
+    }
+  ]

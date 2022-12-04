@@ -1,0 +1,49 @@
+{
+  "id": "com.burnacid.ztatz",
+  "version": "0.6.3",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "brandColor": "#384042",
+  "name": {
+    "nl": "ZTATZ",
+    "en": "ZTATZ"
+  },
+  "description": {
+    "nl": "Voor het toevoegen van ondersteuning voor P1 Monitor ZTATZ",
+    "en": "Adds support for P1 Monitor ZTATZ"
+  },
+  "category": [
+    "energy",
+    "tools",
+    "appliances"
+  ],
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "paypal@lenders-it.nl"
+      }
+    }
+  },
+  "source": "https://github.com/burnacid/homey-com.burnacid.ztatz",
+  "bugs": {
+    "url": "https://github.com/burnacid/homey-com.burnacid.ztatz/issues"
+  },
+  "support": "https://github.com/burnacid/homey-com.burnacid.ztatz/issues",
+  "source": "https://github.com/burnacid/homey-com.burnacid.ztatz",
+  "permissions": [],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "author": {
+    "name": "Stefan Lenders",
+    "email": "stefan@lenders-it.nl"
+  },
+  "contributors": {
+    "developers": [
+      {
+        "name": "FalkeMichel"
+      }
+    ]
+  }
+}

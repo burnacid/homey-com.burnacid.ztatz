@@ -1,0 +1,79 @@
+{
+  "name": {
+    "en": "P1 Financial per day",
+    "nl": "P1 Financieel per dag"
+  },
+  "class": "other",
+  "capabilities": [
+    "money.todayused",
+    "money.todaygen",
+    "money.todaygas",
+    "money.todaywater"
+  ],
+  "capabilitiesOptions": {
+    "money.todayused": {
+      "title": {
+        "nl": "Kosten vandaag stroom verbruik",
+        "en": "Costs today power usage"
+      }
+    },
+    "money.todaygen": {
+      "title": {
+        "nl": "Kosten vandaag stroom generatie",
+        "en": "Costs today power generation"
+      }
+    },
+    "money.todaygas": {
+      "title": {
+        "nl": "Kosten vandaag gasverbruik",
+        "en": "Costs today gas usage"
+      }
+    },
+    "money.todaywater": {
+      "title": {
+        "nl": "Kosten vandaag waterverbruik",
+        "en": "Costs today water usage"
+      }
+    }
+  },
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "General Info",
+        "nl": "Algemene Info"
+      },
+      "children": [
+        {
+          "id": "url",
+          "type": "label",
+          "label": {
+            "en": "URL",
+            "nl": "URL"
+          },
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "pair": [
+    {
+      "id": "start"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "images": {
+    "large": "/drivers/ztatz_p1_FinancialDay/assets/images/large.jpg",
+    "small": "/drivers/ztatz_p1_FinancialDay/assets/images/small.jpg"
+  }
+}

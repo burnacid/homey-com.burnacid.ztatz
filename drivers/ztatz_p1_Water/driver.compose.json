@@ -1,0 +1,82 @@
+{
+  "id": "ztatz_p1_Water",
+  "name": {
+    "en": "P1 Water",
+    "nl": "P1 Water"
+  },
+  "class": "other",
+  "capabilities": [
+    "measure_water",
+    "meter_water"
+  ],
+  "capabilitiesOptions": {
+    "measure_water": {
+      "title": {
+        "nl": "Recent water verbruik",
+        "en": "Recent water usage"
+      },
+      "color": "#dde840",
+      "units": {
+        "en": "L/hour",
+        "nl": "L/uur"
+      }
+    },
+    "meter_water": {
+      "title": {
+        "nl": "Water verbruk",
+        "en": "Water usage"
+      },
+      "decimals": 3,
+      "color": "#e8cf40"
+    }
+  },
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "General Info",
+        "nl": "Algemene Info"
+      },
+      "children": [
+        {
+          "id": "url",
+          "type": "label",
+          "label": {
+            "en": "URL",
+            "nl": "URL"
+          },
+          "value": ""
+        },
+        {
+          "id": "waterApiVersion",
+          "type": "label",
+          "label": {
+            "en": "Water API Version",
+            "nl": "Water API Versie"
+          },
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "pair": [
+    {
+      "id": "start"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "images": {
+    "large": "/drivers/ztatz_p1_Water/assets/images/large.jpg",
+    "small": "/drivers/ztatz_p1_Water/assets/images/small.jpg"
+  }
+}
