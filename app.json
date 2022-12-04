@@ -1,4 +1,5 @@
 {
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.burnacid.ztatz",
   "version": "0.6.3",
   "compatibility": ">=5.0.0",
@@ -17,6 +18,13 @@
     "tools",
     "appliances"
   ],
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "paypal@lenders-it.nl"
+      }
+    }
+  },
   "source": "https://github.com/burnacid/homey-com.burnacid.ztatz",
   "bugs": {
     "url": "https://github.com/burnacid/homey-com.burnacid.ztatz/issues"
@@ -38,263 +46,364 @@
       }
     ]
   },
-  "capabilities": {
-    "money": {
-      "type": "number",
-      "title": {
-        "en": "Price",
-        "nl": "Prijs"
-      },
-      "units": {
-        "en": "€"
-      },
-      "getable": true,
-      "setable": false,
-      "uiComponent": "sensor",
-      "icon": "/assets/money.svg",
-      "decimals": 2,
-      "insights": true
-    },
-    "version_number": {
-      "type": "number",
-      "title": {
-        "en": "Version Number",
-        "nl": "Versie Nummer"
-      },
-      "getable": true,
-      "setable": false,
-      "uiComponent": null
-    },
-    "tariff_high": {
-      "type": "boolean",
-      "title": {
-        "en": "High Tariff",
-        "nl": "Piektarief"
-      },
-      "desc": {
-        "en": "True when in high tariff period. False when in low tariff period",
-        "nl": "Gaat aan wanneer in piektarief en uit wanneer in daltarief"
-      },
-      "insights": true,
-      "insightsTitleTrue": {
-        "en": "In high tariff period",
-        "nl": "In piektarief periode"
-      },
-      "insightsTitleFalse": {
-        "en": "In low tariff period",
-        "nl": "In daltarief periode"
-      },
-      "getable": true,
-      "setable": false,
-      "icon": "/assets/highlow.svg",
-      "uiComponent": "sensor",
-      "$flow": {
-        "triggers": [
+  "flow": {
+    "triggers": [
+      {
+        "id": "meter_gas.consumed_today.reset",
+        "title": {
+          "nl": "Eindstand gas verbruik vandaag",
+          "en": "End total gas usage today"
+        },
+        "tokens": [
           {
-            "id": "tariff_high_true",
+            "name": "meter_gas.todaystotal",
+            "type": "number",
             "title": {
-              "en": "The high tariff period has started",
-              "nl": "Het piektarief is begonnen"
-            }
-          },
-          {
-            "id": "tariff_high_false",
-            "title": {
-              "en": "The low tariff period has started",
-              "nl": "Het daltarief is begonnen"
+              "en": "Gas usage (m³)",
+              "nl": "Gasverbruik (m³)"
             }
           }
         ],
-        "conditions": [
+        "args": [
           {
-            "id": "tariff_high",
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Daily_Usage"
+          }
+        ]
+      },
+      {
+        "id": "meter_power.consumed_today.reset",
+        "title": {
+          "nl": "Eindstand electriciteit verbruik vandaag",
+          "en": "End total electricity usage today"
+        },
+        "tokens": [
+          {
+            "name": "meter_power.todaystotalconsumed",
+            "type": "number",
             "title": {
-              "en": "!{{High|Low}} tariff period",
-              "nl": "!{{Piek|Dal}}tarief periode"
+              "en": "Power consumed (kWh)",
+              "nl": "Electriciteitverbruik (kWh)"
             }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Daily_Usage"
+          }
+        ]
+      },
+      {
+        "id": "meter_power.production_today.reset",
+        "title": {
+          "nl": "Eindstand electriciteit productie vandaag",
+          "en": "End total electricity production today"
+        },
+        "tokens": [
+          {
+            "name": "meter_power.todaystotalproduced",
+            "type": "number",
+            "title": {
+              "en": "Power produced (kWh)",
+              "nl": "Electriciteit geproduceerd (kWh)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Daily_Usage"
+          }
+        ]
+      },
+      {
+        "id": "meter_water.consumed_today.reset",
+        "title": {
+          "nl": "Eindstand water verbruik vandaag",
+          "en": "End total water usage today"
+        },
+        "tokens": [
+          {
+            "name": "meter_water.resetconsumed_today",
+            "type": "number",
+            "title": {
+              "en": "Water used (L)",
+              "nl": "Water verbruik (L)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Daily_Usage"
+          }
+        ]
+      },
+      {
+        "id": "meter_power.generatedL1.changed",
+        "title": {
+          "nl": "Electriciteitgeneratie piekuren is veranderd",
+          "en": "Power generation high tarif has changed"
+        },
+        "tokens": [
+          {
+            "name": "meter_power.generatedL1",
+            "type": "number",
+            "title": {
+              "en": "Power generated (kWh)",
+              "nl": "Electriciteitgeneratie (kWh)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Generation"
+          }
+        ]
+      },
+      {
+        "id": "meter_power.generatedL2.changed",
+        "title": {
+          "nl": "Electriciteitgeneratie daluren is veranderd",
+          "en": "Power generation low tarif has changed"
+        },
+        "tokens": [
+          {
+            "name": "meter_power.generatedL2",
+            "type": "number",
+            "title": {
+              "en": "Power generated (kWh)",
+              "nl": "Electriciteitgeneratie (kWh)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Generation"
+          }
+        ]
+      },
+      {
+        "id": "measure_temperature.in.changed",
+        "title": {
+          "nl": "Verwarming temperatuur IN is veranderd",
+          "en": "Heating temperature IN has changed"
+        },
+        "tokens": [
+          {
+            "name": "measure_temperature.in.temperature",
+            "type": "number",
+            "title": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Heating"
+          }
+        ]
+      },
+      {
+        "id": "measure_temperature.out.changed",
+        "title": {
+          "nl": "Verwarming temperatuur OUT is veranderd",
+          "en": "Heating temperature OUT has changed"
+        },
+        "tokens": [
+          {
+            "name": "measure_temperature.out.temperature",
+            "type": "number",
+            "title": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Heating"
+          }
+        ]
+      },
+      {
+        "id": "measure_temperature.delta.changed",
+        "title": {
+          "nl": "Delta temperatuur is veranderd",
+          "en": "Delta temperature has changed"
+        },
+        "tokens": [
+          {
+            "name": "measure_temperature.delta.temperature",
+            "type": "number",
+            "title": {
+              "en": "Temperature",
+              "nl": "Temperatuur"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Heating"
+          }
+        ]
+      },
+      {
+        "id": "meter_power.consumedL1.changed",
+        "title": {
+          "nl": "Electriciteitverbruik piekuren is veranderd",
+          "en": "Power used high tarif has changed"
+        },
+        "tokens": [
+          {
+            "name": "meter_power.consumedL1",
+            "type": "number",
+            "title": {
+              "en": "Power used (kWh)",
+              "nl": "Electriciteitverbruik (kWh)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Usage"
+          }
+        ]
+      },
+      {
+        "id": "meter_power.consumedL2.changed",
+        "title": {
+          "nl": "Electriciteitverbruik daluren is veranderd",
+          "en": "Power used low tarif has changed"
+        },
+        "tokens": [
+          {
+            "name": "meter_power.consumedL2",
+            "type": "number",
+            "title": {
+              "en": "Power used (kWh)",
+              "nl": "Electriciteitverbruik (kWh)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Usage"
+          }
+        ]
+      },
+      {
+        "id": "version_number.changed",
+        "title": {
+          "nl": "Een nieuwe versie van ZTATZ is beschikbaar",
+          "en": "A new version of ZTATZ is available"
+        },
+        "tokens": [
+          {
+            "name": "version",
+            "type": "string",
+            "title": {
+              "en": "Version",
+              "nl": "Versie"
+            }
+          },
+          {
+            "name": "version_number",
+            "type": "number",
+            "title": {
+              "en": "Version Number",
+              "nl": "Versie Nummer"
+            }
+          },
+          {
+            "name": "version_url",
+            "type": "string",
+            "title": {
+              "en": "Version URL",
+              "nl": "Versie URL"
+            }
+          },
+          {
+            "name": "version_date",
+            "type": "string",
+            "title": {
+              "en": "Version Release Date",
+              "nl": "Versie Publicatie Datum"
+            }
+          },
+          {
+            "name": "version_name",
+            "type": "string",
+            "title": {
+              "en": "Version Name",
+              "nl": "Versie Naam"
+            }
+          },
+          {
+            "name": "current_version_number",
+            "type": "number",
+            "title": {
+              "en": "Current Version Number",
+              "nl": "Huidige Versie Nummer"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Usage"
+          }
+        ]
+      },
+      {
+        "id": "meter_gas.current.changed",
+        "title": {
+          "nl": "Gasverbruik is veranderd",
+          "en": "Gas usage has changed"
+        },
+        "tokens": [
+          {
+            "name": "meter_gas.current",
+            "type": "number",
+            "title": {
+              "en": "Gas usage (m³)",
+              "nl": "Gasverbruik (m³)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Usage"
           }
         ]
       }
-    }
+    ]
   },
   "drivers": [
     {
-      "id": "ztatz_p1_Usage",
-      "name": {
-        "en": "P1 Usage",
-        "nl": "P1 Verbruik"
-      },
-      "class": "other",
-      "capabilities": [
-        "measure_power",
-        "meter_power.consumedL1",
-        "meter_power.consumedL2",
-        "meter_gas.current",
-        "tariff_high",
-        "version_number"
-      ],
-      "energy": {
-        "cumulative": true
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": {
-            "nl": "Huidig stroomverbruik",
-            "en": "Current power usage"
-          },
-          "color": "#dde840"
-        },
-        "meter_power.consumedL1": {
-          "title": {
-            "nl": "Elektriciteitverbruik piekuren",
-            "en": "Electricity usage high"
-          },
-          "decimals": 3,
-          "color": "#e8cf40"
-        },
-        "meter_power.consumedL2": {
-          "title": {
-            "nl": "Elektriciteitverbruik daluren",
-            "en": "Electricity usage low"
-          },
-          "decimals": 3,
-          "color": "#c2ad38"
-        },
-        "meter_gas.current": {
-          "title": {
-            "nl": "Gasverbruik",
-            "en": "Gas usage"
-          },
-          "decimals": 2,
-          "color": "#40e8d4"
-        }
-      },
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "General Info",
-            "nl": "Algemene Info"
-          },
-          "children": [
-            {
-              "id": "url",
-              "type": "label",
-              "label": {
-                "en": "URL",
-                "nl": "URL"
-              },
-              "value": ""
-            }
-          ]
-        }
-      ],
-      "pair": [
-        {
-          "id": "start"
-        },
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
-      ],
-      "images": {
-        "large": "/drivers/ztatz_p1_Usage/assets/images/large.jpg",
-        "small": "/drivers/ztatz_p1_Usage/assets/images/small.jpg"
-      }
-    },
-    {
-      "id": "ztatz_p1_Generation",
-      "name": {
-        "en": "P1 Generation",
-        "nl": "P1 Generatie"
-      },
-      "class": "solarpanel",
-      "capabilities": [
-        "measure_power",
-        "meter_power.generatedL1",
-        "meter_power.generatedL2"
-      ],
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": {
-            "nl": "Huidig stroomgeneratie",
-            "en": "Current power generation"
-          },
-          "color": "#dde840",
-          "energy": {
-            "cumulative": true
-          }
-        },
-        "meter_power.generatedL1": {
-          "isGenerator": true,
-          "title": {
-            "nl": "Elektriciteit teruglevering piekuren",
-            "en": "Electricity delivery high"
-          },
-          "decimals": 3,
-          "color": "#43e840"
-        },
-        "meter_power.generatedL2": {
-          "isGenerator": true,
-          "title": {
-            "nl": "Elektriciteit teruglevering daluren",
-            "en": "Electricity delivery low"
-          },
-          "decimals": 3,
-          "color": "#3bc439"
-        }
-      },
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "General Info",
-            "nl": "Algemene Info"
-          },
-          "children": [
-            {
-              "id": "url",
-              "type": "label",
-              "label": {
-                "en": "URL",
-                "nl": "URL"
-              },
-              "value": ""
-            }
-          ]
-        }
-      ],
-      "pair": [
-        {
-          "id": "start"
-        },
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
-      ],
-      "images": {
-        "large": "/drivers/ztatz_p1_Generation/assets/images/large.jpg",
-        "small": "/drivers/ztatz_p1_Generation/assets/images/small.jpg"
-      }
-    },
-    {
-      "id": "ztatz_p1_Daily_Usage",
       "name": {
         "en": "P1 Daily Usage",
         "nl": "P1 Dagelijks verbruik"
@@ -401,7 +510,422 @@
       "images": {
         "large": "/drivers/ztatz_p1_Usage/assets/images/large.jpg",
         "small": "/drivers/ztatz_p1_Usage/assets/images/small.jpg"
-      }
+      },
+      "id": "ztatz_p1_Daily_Usage"
+    },
+    {
+      "name": {
+        "en": "P1 Financial per day",
+        "nl": "P1 Financieel per dag"
+      },
+      "class": "other",
+      "capabilities": [
+        "money.todayused",
+        "money.todaygen",
+        "money.todaygas",
+        "money.todaywater"
+      ],
+      "capabilitiesOptions": {
+        "money.todayused": {
+          "title": {
+            "nl": "Kosten vandaag stroom verbruik",
+            "en": "Costs today power usage"
+          }
+        },
+        "money.todaygen": {
+          "title": {
+            "nl": "Kosten vandaag stroom generatie",
+            "en": "Costs today power generation"
+          }
+        },
+        "money.todaygas": {
+          "title": {
+            "nl": "Kosten vandaag gasverbruik",
+            "en": "Costs today gas usage"
+          }
+        },
+        "money.todaywater": {
+          "title": {
+            "nl": "Kosten vandaag waterverbruik",
+            "en": "Costs today water usage"
+          }
+        }
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General Info",
+            "nl": "Algemene Info"
+          },
+          "children": [
+            {
+              "id": "url",
+              "type": "label",
+              "label": {
+                "en": "URL",
+                "nl": "URL"
+              },
+              "value": ""
+            }
+          ]
+        }
+      ],
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "images": {
+        "large": "/drivers/ztatz_p1_FinancialDay/assets/images/large.jpg",
+        "small": "/drivers/ztatz_p1_FinancialDay/assets/images/small.jpg"
+      },
+      "id": "ztatz_p1_FinancialDay"
+    },
+    {
+      "name": {
+        "en": "P1 Financial per month",
+        "nl": "P1 Financieel per maand"
+      },
+      "class": "other",
+      "capabilities": [
+        "money.monthused",
+        "money.monthgen",
+        "money.monthgas",
+        "money.monthwater"
+      ],
+      "capabilitiesOptions": {
+        "money.monthused": {
+          "title": {
+            "nl": "Kosten deze maand verbruik",
+            "en": "Costs this month power usage"
+          }
+        },
+        "money.monthgen": {
+          "title": {
+            "nl": "Kosten deze maand generatie",
+            "en": "Costs this month power generation"
+          }
+        },
+        "money.monthgas": {
+          "title": {
+            "nl": "Kosten deze maand gasverbruik",
+            "en": "Costs this month gas usage"
+          }
+        },
+        "money.monthwater": {
+          "title": {
+            "nl": "Kosten deze maand waterverbruik",
+            "en": "Costs this month water usage"
+          }
+        }
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General Info",
+            "nl": "Algemene Info"
+          },
+          "children": [
+            {
+              "id": "url",
+              "type": "label",
+              "label": {
+                "en": "URL",
+                "nl": "URL"
+              },
+              "value": ""
+            }
+          ]
+        }
+      ],
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "images": {
+        "large": "/drivers/ztatz_p1_FinancialMonth/assets/images/large.jpg",
+        "small": "/drivers/ztatz_p1_FinancialMonth/assets/images/small.jpg"
+      },
+      "id": "ztatz_p1_FinancialMonth"
+    },
+    {
+      "name": {
+        "en": "P1 Generation",
+        "nl": "P1 Generatie"
+      },
+      "class": "solarpanel",
+      "capabilities": [
+        "measure_power",
+        "meter_power.generatedL1",
+        "meter_power.generatedL2"
+      ],
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": {
+            "nl": "Huidig stroomgeneratie",
+            "en": "Current power generation"
+          },
+          "color": "#dde840",
+          "energy": {
+            "cumulative": true
+          }
+        },
+        "meter_power.generatedL1": {
+          "isGenerator": true,
+          "title": {
+            "nl": "Elektriciteit teruglevering piekuren",
+            "en": "Electricity delivery high"
+          },
+          "decimals": 3,
+          "color": "#43e840"
+        },
+        "meter_power.generatedL2": {
+          "isGenerator": true,
+          "title": {
+            "nl": "Elektriciteit teruglevering daluren",
+            "en": "Electricity delivery low"
+          },
+          "decimals": 3,
+          "color": "#3bc439"
+        }
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General Info",
+            "nl": "Algemene Info"
+          },
+          "children": [
+            {
+              "id": "url",
+              "type": "label",
+              "label": {
+                "en": "URL",
+                "nl": "URL"
+              },
+              "value": ""
+            }
+          ]
+        }
+      ],
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "images": {
+        "large": "/drivers/ztatz_p1_Generation/assets/images/large.jpg",
+        "small": "/drivers/ztatz_p1_Generation/assets/images/small.jpg"
+      },
+      "id": "ztatz_p1_Generation"
+    },
+    {
+      "name": {
+        "en": "P1 Heating",
+        "nl": "P1 Verwarming"
+      },
+      "class": "other",
+      "capabilities": [
+        "measure_temperature.in",
+        "measure_temperature.out",
+        "measure_temperature.delta"
+      ],
+      "capabilitiesOptions": {
+        "measure_temperature.in": {
+          "title": {
+            "nl": "Verwarming temperatuur IN",
+            "en": "Heating temperature IN"
+          },
+          "decimals": 3,
+          "color": "#e8cf40"
+        },
+        "measure_temperature.out": {
+          "title": {
+            "nl": "Verwarming temperatuur OUT",
+            "en": "Heating temperature OUT"
+          },
+          "decimals": 3,
+          "color": "#c2ad38"
+        },
+        "measure_temperature.delta": {
+          "title": {
+            "nl": "Delta temperatuur",
+            "en": "Delta temperature"
+          },
+          "decimals": 3,
+          "color": "#c2ad38"
+        }
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General Info",
+            "nl": "Algemene Info"
+          },
+          "children": [
+            {
+              "id": "url",
+              "type": "label",
+              "label": {
+                "en": "URL",
+                "nl": "URL"
+              },
+              "value": ""
+            }
+          ]
+        }
+      ],
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "images": {
+        "large": "/drivers/ztatz_p1_Heating/assets/images/large.jpg",
+        "small": "/drivers/ztatz_p1_Heating/assets/images/small.jpg"
+      },
+      "id": "ztatz_p1_Heating"
+    },
+    {
+      "name": {
+        "en": "P1 Usage",
+        "nl": "P1 Verbruik"
+      },
+      "class": "other",
+      "capabilities": [
+        "measure_power",
+        "meter_power.consumedL1",
+        "meter_power.consumedL2",
+        "meter_gas.current",
+        "tariff_high",
+        "version_number"
+      ],
+      "energy": {
+        "cumulative": true
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": {
+            "nl": "Huidig stroomverbruik",
+            "en": "Current power usage"
+          },
+          "color": "#dde840"
+        },
+        "meter_power.consumedL1": {
+          "title": {
+            "nl": "Elektriciteitverbruik piekuren",
+            "en": "Electricity usage high"
+          },
+          "decimals": 3,
+          "color": "#e8cf40"
+        },
+        "meter_power.consumedL2": {
+          "title": {
+            "nl": "Elektriciteitverbruik daluren",
+            "en": "Electricity usage low"
+          },
+          "decimals": 3,
+          "color": "#c2ad38"
+        },
+        "meter_gas.current": {
+          "title": {
+            "nl": "Gasverbruik",
+            "en": "Gas usage"
+          },
+          "decimals": 2,
+          "color": "#40e8d4"
+        }
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General Info",
+            "nl": "Algemene Info"
+          },
+          "children": [
+            {
+              "id": "url",
+              "type": "label",
+              "label": {
+                "en": "URL",
+                "nl": "URL"
+              },
+              "value": ""
+            }
+          ]
+        }
+      ],
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "images": {
+        "large": "/drivers/ztatz_p1_Usage/assets/images/large.jpg",
+        "small": "/drivers/ztatz_p1_Usage/assets/images/small.jpg"
+      },
+      "id": "ztatz_p1_Usage"
     },
     {
       "id": "ztatz_p1_Water",
@@ -486,64 +1010,94 @@
       }
     },
     {
-      "id": "ztatz_p1_FinancialDay",
       "name": {
-        "en": "P1 Financial per day",
-        "nl": "P1 Financieel per dag"
+        "en": "P1 Phases",
+        "nl": "P1 Fases"
       },
       "class": "other",
       "capabilities": [
-        "money.todayused",
-        "money.todaygen",
-        "money.todaygas",
-        "money.todaywater"
+        "measure_voltage.L1",
+        "measure_current.L1",
+        "measure_power.L1",
+        "measure_voltage.L2",
+        "measure_current.L2",
+        "measure_power.L2",
+        "measure_voltage.L3",
+        "measure_current.L3",
+        "measure_power.L3"
       ],
       "capabilitiesOptions": {
-        "money.todayused": {
+        "measure_voltage.L1": {
           "title": {
-            "nl": "Kosten vandaag stroom verbruik",
-            "en": "Costs today power usage"
+            "nl": "L1 Voltage",
+            "en": "L1 Voltage"
+          },
+          "decimals": 3
+        },
+        "measure_voltage.L2": {
+          "title": {
+            "nl": "L2 Voltage",
+            "en": "L2 Voltage"
+          },
+          "decimals": 3
+        },
+        "measure_voltage.L3": {
+          "title": {
+            "nl": "L2 Voltage",
+            "en": "L2 Voltage"
+          },
+          "decimals": 3
+        },
+        "measure_current.L1": {
+          "title": {
+            "nl": "L1 Stroom",
+            "en": "L1 Current"
+          },
+          "decimals": 3
+        },
+        "measure_current.L2": {
+          "title": {
+            "nl": "L2 Stroom",
+            "en": "L2 Current"
+          },
+          "decimals": 3
+        },
+        "measure_current.L3": {
+          "title": {
+            "nl": "L3 Stroom",
+            "en": "L3 Current"
+          },
+          "decimals": 3
+        },
+        "measure_power.L1": {
+          "title": {
+            "nl": "L1 Vermogen",
+            "en": "L1 Power"
           }
         },
-        "money.todaygen": {
+        "measure_power.L2": {
           "title": {
-            "nl": "Kosten vandaag stroom generatie",
-            "en": "Costs today power generation"
+            "nl": "L2 Vermogen",
+            "en": "L2 Power"
           }
         },
-        "money.todaygas": {
+        "measure_power.L3": {
           "title": {
-            "nl": "Kosten vandaag gasverbruik",
-            "en": "Costs today gas usage"
-          }
-        },
-        "money.todaywater": {
-          "title": {
-            "nl": "Kosten vandaag waterverbruik",
-            "en": "Costs today water usage"
+            "nl": "L3 Vermogen",
+            "en": "L3 Power"
           }
         }
       },
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "General Info",
-            "nl": "Algemene Info"
-          },
-          "children": [
-            {
-              "id": "url",
-              "type": "label",
-              "label": {
-                "en": "URL",
-                "nl": "URL"
-              },
-              "value": ""
-            }
-          ]
-        }
+      "platforms": [
+        "local"
       ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/ztatz_p1_phases/assets/images/small.jpg",
+        "large": "/drivers/ztatz_p1_phases/assets/images/large.jpg"
+      },
       "pair": [
         {
           "id": "start"
@@ -560,50 +1114,7 @@
           "template": "add_devices"
         }
       ],
-      "images": {
-        "large": "/drivers/ztatz_p1_FinancialDay/assets/images/large.jpg",
-        "small": "/drivers/ztatz_p1_FinancialDay/assets/images/small.jpg"
-      }
-    },
-    {
-      "id": "ztatz_p1_FinancialMonth",
-      "name": {
-        "en": "P1 Financial per month",
-        "nl": "P1 Financieel per maand"
-      },
-      "class": "other",
-      "capabilities": [
-        "money.monthused",
-        "money.monthgen",
-        "money.monthgas",
-        "money.monthwater"
-      ],
-      "capabilitiesOptions": {
-        "money.monthused": {
-          "title": {
-            "nl": "Kosten deze maand verbruik",
-            "en": "Costs this month power usage"
-          }
-        },
-        "money.monthgen": {
-          "title": {
-            "nl": "Kosten deze maand generatie",
-            "en": "Costs this month power generation"
-          }
-        },
-        "money.monthgas": {
-          "title": {
-            "nl": "Kosten deze maand gasverbruik",
-            "en": "Costs this month gas usage"
-          }
-        },
-        "money.monthwater": {
-          "title": {
-            "nl": "Kosten deze maand waterverbruik",
-            "en": "Costs this month water usage"
-          }
-        }
-      },
+      "id": "ztatz_p1_phases",
       "settings": [
         {
           "type": "group",
@@ -620,465 +1131,71 @@
                 "nl": "URL"
               },
               "value": ""
-            }
-          ]
-        }
-      ],
-      "pair": [
-        {
-          "id": "start"
-        },
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
-      ],
-      "images": {
-        "large": "/drivers/ztatz_p1_FinancialMonth/assets/images/large.jpg",
-        "small": "/drivers/ztatz_p1_FinancialMonth/assets/images/small.jpg"
-      }
-    },
-    {
-      "id": "ztatz_p1_Heating",
-      "name": {
-        "en": "P1 Heating",
-        "nl": "P1 Verwarming"
-      },
-      "class": "other",
-      "capabilities": [
-        "measure_temperature.in",
-        "measure_temperature.out",
-        "measure_temperature.delta"
-      ],
-      "capabilitiesOptions": {
-        "measure_temperature.in": {
-          "title": {
-            "nl": "Verwarming temperatuur IN",
-            "en": "Heating temperature IN"
-          },
-          "decimals": 3,
-          "color": "#e8cf40"
-        },
-        "measure_temperature.out": {
-          "title": {
-            "nl": "Verwarming temperatuur OUT",
-            "en": "Heating temperature OUT"
-          },
-          "decimals": 3,
-          "color": "#c2ad38"
-        },
-        "measure_temperature.delta": {
-          "title": {
-            "nl": "Delta temperatuur",
-            "en": "Delta temperature"
-          },
-          "decimals": 3,
-          "color": "#c2ad38"
-        }
-      },
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "General Info",
-            "nl": "Algemene Info"
-          },
-          "children": [
+            },
             {
-              "id": "url",
-              "type": "label",
+              "id": "calculated_amperage",
+              "type": "checkbox",
               "label": {
-                "en": "URL",
-                "nl": "URL"
+                "en": "Use calculated Amperage",
+                "nl": "Gebruik gecalculeerde Amperage"
               },
-              "value": ""
+              "value": false
             }
           ]
         }
-      ],
-      "pair": [
-        {
-          "id": "start"
-        },
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
-      ],
-      "images": {
-        "large": "/drivers/ztatz_p1_Heating/assets/images/large.jpg",
-        "small": "/drivers/ztatz_p1_Heating/assets/images/small.jpg"
-      }
+      ]
     }
   ],
-  "flow": {
-    "triggers": [
-      {
-        "id": "meter_power.consumedL1.changed",
-        "title": {
-          "nl": "Electriciteitverbruik piekuren is veranderd",
-          "en": "Power used high tarif has changed"
-        },
-        "tokens": [
-          {
-            "name": "meter_power.consumedL1",
-            "type": "number",
-            "title": {
-              "en": "Power used (kWh)",
-              "nl": "Electriciteitverbruik (kWh)"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ChangedConsumedL1",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Usage"
-          }
-        ]
+  "capabilities": {
+    "money": {
+      "type": "number",
+      "title": {
+        "en": "Price",
+        "nl": "Prijs"
       },
-      {
-        "id": "meter_power.consumedL2.changed",
-        "title": {
-          "nl": "Electriciteitverbruik daluren is veranderd",
-          "en": "Power used low tarif has changed"
-        },
-        "tokens": [
-          {
-            "name": "meter_power.consumedL2",
-            "type": "number",
-            "title": {
-              "en": "Power used (kWh)",
-              "nl": "Electriciteitverbruik (kWh)"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ChangedConsumedL2",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Usage"
-          }
-        ]
+      "units": {
+        "en": "€"
       },
-      {
-        "id": "version_number.changed",
-        "title": {
-          "nl": "Een nieuwe versie van ZTATZ is beschikbaar",
-          "en": "A new version of ZTATZ is available"
-        },
-        "tokens": [
-          {
-            "name": "version",
-            "type": "string",
-            "title": {
-              "en": "Version",
-              "nl": "Versie"
-            }
-          },
-          {
-            "name": "version_number",
-            "type": "number",
-            "title": {
-              "en": "Version Number",
-              "nl": "Versie Nummer"
-            }
-          },
-          {
-            "name": "version_url",
-            "type": "string",
-            "title": {
-              "en": "Version URL",
-              "nl": "Versie URL"
-            }
-          },
-          {
-            "name": "version_date",
-            "type": "string",
-            "title": {
-              "en": "Version Release Date",
-              "nl": "Versie Publicatie Datum"
-            }
-          },
-          {
-            "name": "version_name",
-            "type": "string",
-            "title": {
-              "en": "Version Name",
-              "nl": "Versie Naam"
-            }
-          },
-          {
-            "name": "current_version_number",
-            "type": "number",
-            "title": {
-              "en": "Current Version Number",
-              "nl": "Huidige Versie Nummer"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ChangedVersion",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Usage"
-          }
-        ]
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/assets/money.svg",
+      "decimals": 2,
+      "insights": true
+    },
+    "tariff_high": {
+      "type": "boolean",
+      "title": {
+        "en": "High Tariff",
+        "nl": "Piektarief"
       },
-      {
-        "id": "meter_power.generatedL1.changed",
-        "title": {
-          "nl": "Electriciteitgeneratie piekuren is veranderd",
-          "en": "Power generation high tarif has changed"
-        },
-        "tokens": [
-          {
-            "name": "meter_power.generatedL1",
-            "type": "number",
-            "title": {
-              "en": "Power generated (kWh)",
-              "nl": "Electriciteitgeneratie (kWh)"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ChangedConsumedL1",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Generation"
-          }
-        ]
+      "desc": {
+        "en": "True when in high tariff period. False when in low tariff period",
+        "nl": "Gaat aan wanneer in piektarief en uit wanneer in daltarief"
       },
-      {
-        "id": "meter_power.generatedL2.changed",
-        "title": {
-          "nl": "Electriciteitgeneratie daluren is veranderd",
-          "en": "Power generation low tarif has changed"
-        },
-        "tokens": [
-          {
-            "name": "meter_power.generatedL2",
-            "type": "number",
-            "title": {
-              "en": "Power generated (kWh)",
-              "nl": "Electriciteitgeneratie (kWh)"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ChangedConsumedL2",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Generation"
-          }
-        ]
+      "insights": true,
+      "insightsTitleTrue": {
+        "en": "In high tariff period",
+        "nl": "In piektarief periode"
       },
-      {
-        "id": "meter_gas.current.changed",
-        "title": {
-          "nl": "Gasverbruik is veranderd",
-          "en": "Gas usage has changed"
-        },
-        "tokens": [
-          {
-            "name": "meter_gas.current",
-            "type": "number",
-            "title": {
-              "en": "Gas usage (m³)",
-              "nl": "Gasverbruik (m³)"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ChangedGas",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Usage"
-          }
-        ]
+      "insightsTitleFalse": {
+        "en": "In low tariff period",
+        "nl": "In daltarief periode"
       },
-      {
-        "id": "meter_gas.consumed_today.reset",
-        "title": {
-          "nl": "Eindstand gas verbruik vandaag",
-          "en": "End total gas usage today"
-        },
-        "tokens": [
-          {
-            "name": "meter_gas.todaystotal",
-            "type": "number",
-            "title": {
-              "en": "Gas usage (m³)",
-              "nl": "Gasverbruik (m³)"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ResetGasToday",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Daily_Usage"
-          }
-        ]
+      "getable": true,
+      "setable": false,
+      "icon": "/assets/highlow.svg",
+      "uiComponent": "sensor"
+    },
+    "version_number": {
+      "type": "number",
+      "title": {
+        "en": "Version Number",
+        "nl": "Versie Nummer"
       },
-      {
-        "id": "meter_power.consumed_today.reset",
-        "title": {
-          "nl": "Eindstand electriciteit verbruik vandaag",
-          "en": "End total electricity usage today"
-        },
-        "tokens": [
-          {
-            "name": "meter_power.todaystotalconsumed",
-            "type": "number",
-            "title": {
-              "en": "Power consumed (kWh)",
-              "nl": "Electriciteitverbruik (kWh)"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ResetPowerConsumptionToday",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Daily_Usage"
-          }
-        ]
-      },
-      {
-        "id": "meter_power.production_today.reset",
-        "title": {
-          "nl": "Eindstand electriciteit productie vandaag",
-          "en": "End total electricity production today"
-        },
-        "tokens": [
-          {
-            "name": "meter_power.todaystotalproduced",
-            "type": "number",
-            "title": {
-              "en": "Power produced (kWh)",
-              "nl": "Electriciteit geproduceerd (kWh)"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ResetPowerProductionToday",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Daily_Usage"
-          }
-        ]
-      },
-      {
-        "id": "meter_water.consumed_today.reset",
-        "title": {
-          "nl": "Eindstand water verbruik vandaag",
-          "en": "End total water usage today"
-        },
-        "tokens": [
-          {
-            "name": "meter_water.resetconsumed_today",
-            "type": "number",
-            "title": {
-              "en": "Water used (L)",
-              "nl": "Water verbruik (L)"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ResetWaterCunsumptionToday",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Daily_Usage"
-          }
-        ]
-      },
-      {
-        "id": "measure_temperature.in.changed",
-        "title": {
-          "nl": "Verwarming temperatuur IN is veranderd",
-          "en": "Heating temperature IN has changed"
-        },
-        "tokens": [
-          {
-            "name": "measure_temperature.in.temperature",
-            "type": "number",
-            "title": {
-              "en": "Temperature",
-              "nl": "Temperatuur"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ChangedTempIn",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Heating"
-          }
-        ]
-      },
-      {
-        "id": "measure_temperature.out.changed",
-        "title": {
-          "nl": "Verwarming temperatuur OUT is veranderd",
-          "en": "Heating temperature OUT has changed"
-        },
-        "tokens": [
-          {
-            "name": "measure_temperature.out.temperature",
-            "type": "number",
-            "title": {
-              "en": "Temperature",
-              "nl": "Temperatuur"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ChangedTempOut",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Heating"
-          }
-        ]
-      },
-      {
-        "id": "measure_temperature.delta.changed",
-        "title": {
-          "nl": "Delta temperatuur is veranderd",
-          "en": "Delta temperature has changed"
-        },
-        "tokens": [
-          {
-            "name": "measure_temperature.delta.temperature",
-            "type": "number",
-            "title": {
-              "en": "Temperature",
-              "nl": "Temperatuur"
-            }
-          }
-        ],
-        "args": [
-          {
-            "name": "ChangedTempDelta",
-            "type": "device",
-            "filter": "driver_id=ztatz_p1_Heating"
-          }
-        ]
-      }
-    ]
+      "getable": true,
+      "setable": false,
+      "uiComponent": null
+    }
   }
 }
