@@ -68,5 +68,8 @@
   },
   "0.7.0": {
     "en": "Added device: Phases"
+  },
+  "0.7.1": {
+    "en": "Fixed naming issues new phases device"
   }
 }
