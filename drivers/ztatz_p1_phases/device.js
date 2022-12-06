@@ -47,7 +47,7 @@ class ztatzP1Phases extends Device {
 				let L3Power = this.api.filterValueByLabel(status,"Huidige KW verbruik L3 (61.7.0)")[0]['STATUS']*1000
 
 				// Remove Phases
-				if(L2Voltage == 0){
+				if(L2Voltage == 0 && settings.phases_all == false){
 					if(this.hasCapability('measure_voltage.L2')){
 						this.removeCapability('measure_voltage.L2');
 						this.removeCapability('measure_current.L2');
@@ -61,7 +61,7 @@ class ztatzP1Phases extends Device {
 					}
 				}
 
-				if(L3Voltage == 0){
+				if(L3Voltage == 0 && settings.phases_all == false){
 					if(this.hasCapability('measure_voltage.L3')){
 						this.removeCapability('measure_voltage.L3');
 						this.removeCapability('measure_current.L3');
@@ -94,20 +94,21 @@ class ztatzP1Phases extends Device {
 					}
 				}
 
-				this.changeCapabilityValue('measure_voltage.L1', Number(L1Voltage));
 				this.changeCapabilityValue('measure_power.L1', Number(L1Power));
+				this.changeCapabilityValue('measure_voltage.L1', Number(L1Voltage));
 				this.changeCapabilityValue('measure_current.L1', Number(L1Amperage));
 
-				if(L2Voltage != 0){
+				if(L2Voltage != 0 || settings.phases_all == true){
+					this.changeCapabilityValue('measure_power.L2', Number(L2Power));
 					this.changeCapabilityValue('measure_voltage.L2', Number(L2Voltage));
 					this.changeCapabilityValue('measure_current.L2', Number(L2Amperage));
-					this.changeCapabilityValue('measure_power.L2', Number(L2Power));
+					
 				}
 
-				if(L3Voltage != 0){
-					this.changeCapabilityValue('measure_current.L3', Number(L3Amperage));
-					this.changeCapabilityValue('measure_voltage.L3', Number(L3Voltage));
+				if(L3Voltage != 0 || settings.phases_all == true){
 					this.changeCapabilityValue('measure_power.L3', Number(L3Power));
+					this.changeCapabilityValue('measure_voltage.L3', Number(L3Voltage));
+					this.changeCapabilityValue('measure_current.L3', Number(L3Amperage));
 				}
 
 			} else {

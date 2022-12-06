@@ -32,8 +32,8 @@
     },
     "measure_voltage.L3": {
       "title": {
-        "nl": "L2 Voltage",
-        "en": "L2 Voltage"
+        "nl": "L3 Voltage",
+        "en": "L3 Voltage"
       },
       "decimals": 3
     },

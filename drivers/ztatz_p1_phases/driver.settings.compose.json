@@ -22,6 +22,23 @@
             "en": "Use calculated Amperage",
             "nl": "Gebruik gecalculeerde Amperage"
           },
+          "hint": { 
+            "en": "This will calculate the amperage (W/V) as a smart meter will only output whole numbers",
+            "nl": "Dit berekend de amperage (W/V) gezien een slimme meter alleen hele getallen meegeeft"
+          },
+          "value": false
+        },
+        {
+          "id": "phases_all",
+          "type": "checkbox",
+          "label": {
+            "en": "Show all phases",
+            "nl": "Toon alle fases"
+          },
+          "hint": { 
+            "en": "By default all phases that have a voltage of 0 will be hidden within Homey. Enabeling this will show all 3 phases even though they are unused.",
+            "nl": "Standaard zullen alle fases met een voltage van 0 worden verborgen in Homey. Door deze setting aan te zetten worden alle 3 de fases hoe dan ook weergegeven."
+          },
           "value": false
         }
       ]
