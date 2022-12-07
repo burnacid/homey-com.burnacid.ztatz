@@ -1,0 +1,58 @@
+{
+  "triggers": [
+    {
+      "id": "measure_temperature.in.changed",
+      "title": {
+        "nl": "Verwarming temperatuur IN is veranderd",
+        "en": "Heating temperature IN has changed"
+      },
+      "tokens": [
+        {
+          "name": "measure_temperature.in.temperature",
+          "type": "number",
+          "title": {
+            "en": "Temperature",
+            "nl": "Temperatuur"
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "id": "measure_temperature.out.changed",
+      "title": {
+        "nl": "Verwarming temperatuur OUT is veranderd",
+        "en": "Heating temperature OUT has changed"
+      },
+      "tokens": [
+        {
+          "name": "measure_temperature.out.temperature",
+          "type": "number",
+          "title": {
+            "en": "Temperature",
+            "nl": "Temperatuur"
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "id": "measure_temperature.delta.changed",
+      "title": {
+        "nl": "Delta temperatuur is veranderd",
+        "en": "Delta temperature has changed"
+      },
+      "tokens": [
+        {
+          "name": "measure_temperature.delta.temperature",
+          "type": "number",
+          "title": {
+            "en": "Temperature",
+            "nl": "Temperatuur"
+          }
+        }
+      ],
+      "args": []
+    }
+  ]
+}

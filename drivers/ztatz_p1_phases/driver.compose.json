@@ -1,0 +1,106 @@
+{
+  "name": {
+    "en": "P1 Phases",
+    "nl": "P1 Fases"
+  },
+  "class": "other",
+  "capabilities": [
+    "measure_voltage.L1",
+    "measure_current.L1",
+    "measure_power.L1",
+    "measure_voltage.L2",
+    "measure_current.L2",
+    "measure_power.L2",
+    "measure_voltage.L3",
+    "measure_current.L3",
+    "measure_power.L3"
+  ],
+  "capabilitiesOptions": {
+    "measure_voltage.L1": {
+      "title": {
+        "nl": "L1 Voltage",
+        "en": "L1 Voltage"
+      },
+      "decimals": 3
+    },
+    "measure_voltage.L2": {
+      "title": {
+        "nl": "L2 Voltage",
+        "en": "L2 Voltage"
+      },
+      "decimals": 3
+    },
+    "measure_voltage.L3": {
+      "title": {
+        "nl": "L3 Voltage",
+        "en": "L3 Voltage"
+      },
+      "decimals": 3
+    },
+    "measure_current.L1": {
+      "title": {
+        "nl": "L1 Stroom",
+        "en": "L1 Current"
+      },
+      "decimals": 3
+    },
+    "measure_current.L2": {
+      "title": {
+        "nl": "L2 Stroom",
+        "en": "L2 Current"
+      },
+      "decimals": 3
+    },
+    "measure_current.L3": {
+      "title": {
+        "nl": "L3 Stroom",
+        "en": "L3 Current"
+      },
+      "decimals": 3
+    },
+    "measure_power.L1": {
+      "title": {
+        "nl": "L1 Vermogen",
+        "en": "L1 Power"
+      }
+    },
+    "measure_power.L2": {
+      "title": {
+        "nl": "L2 Vermogen",
+        "en": "L2 Power"
+      }
+    },
+    "measure_power.L3": {
+      "title": {
+        "nl": "L3 Vermogen",
+        "en": "L3 Power"
+      }
+    }
+  },
+  "platforms": [
+    "local"
+  ],
+  "connectivity": [
+    "lan"
+  ],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.jpg",
+    "large": "{{driverAssetsPath}}/images/large.jpg"
+  },
+  "pair": [
+    {
+      "id": "start"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}

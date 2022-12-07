@@ -1,0 +1,116 @@
+{
+  "triggers": [
+    {
+      "id": "meter_power.consumedL1.changed",
+      "title": {
+        "nl": "Electriciteitverbruik piekuren is veranderd",
+        "en": "Power used high tarif has changed"
+      },
+      "tokens": [
+        {
+          "name": "meter_power.consumedL1",
+          "type": "number",
+          "title": {
+            "en": "Power used (kWh)",
+            "nl": "Electriciteitverbruik (kWh)"
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "id": "meter_power.consumedL2.changed",
+      "title": {
+        "nl": "Electriciteitverbruik daluren is veranderd",
+        "en": "Power used low tarif has changed"
+      },
+      "tokens": [
+        {
+          "name": "meter_power.consumedL2",
+          "type": "number",
+          "title": {
+            "en": "Power used (kWh)",
+            "nl": "Electriciteitverbruik (kWh)"
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "id": "version_number.changed",
+      "title": {
+        "nl": "Een nieuwe versie van ZTATZ is beschikbaar",
+        "en": "A new version of ZTATZ is available"
+      },
+      "tokens": [
+        {
+          "name": "version",
+          "type": "string",
+          "title": {
+            "en": "Version",
+            "nl": "Versie"
+          }
+        },
+        {
+          "name": "version_number",
+          "type": "number",
+          "title": {
+            "en": "Version Number",
+            "nl": "Versie Nummer"
+          }
+        },
+        {
+          "name": "version_url",
+          "type": "string",
+          "title": {
+            "en": "Version URL",
+            "nl": "Versie URL"
+          }
+        },
+        {
+          "name": "version_date",
+          "type": "string",
+          "title": {
+            "en": "Version Release Date",
+            "nl": "Versie Publicatie Datum"
+          }
+        },
+        {
+          "name": "version_name",
+          "type": "string",
+          "title": {
+            "en": "Version Name",
+            "nl": "Versie Naam"
+          }
+        },
+        {
+          "name": "current_version_number",
+          "type": "number",
+          "title": {
+            "en": "Current Version Number",
+            "nl": "Huidige Versie Nummer"
+          }
+        }
+      ],
+      "args": []
+    },
+    {
+      "id": "meter_gas.current.changed",
+      "title": {
+        "nl": "Gasverbruik is veranderd",
+        "en": "Gas usage has changed"
+      },
+      "tokens": [
+        {
+          "name": "meter_gas.current",
+          "type": "number",
+          "title": {
+            "en": "Gas usage (m³)",
+            "nl": "Gasverbruik (m³)"
+          }
+        }
+      ],
+      "args": []
+    }
+  ]
+}

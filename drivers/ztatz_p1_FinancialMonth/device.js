@@ -19,6 +19,22 @@ module.exports = class ztatzP1FinancialDayDevice extends Device {
 		// Update server data
 		//this._syncDevice();
 
+		if(!this.hasCapability('money.monthused')){
+			this.addCapability('money.monthused');
+		}
+
+		if(!this.hasCapability('money.monthgen')){
+			this.addCapability('money.monthgen');
+		}
+
+		if(!this.hasCapability('money.monthgas')){
+			this.addCapability('money.monthgas');
+		}
+
+		if(!this.hasCapability('money.monthwater')){
+			this.addCapability('money.monthwater');
+		}
+
 		// Set update timer
 		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
 		this.setSettings({

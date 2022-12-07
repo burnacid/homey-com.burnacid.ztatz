@@ -1,4 +1,4 @@
-node_modules
-
 # Added by Homey CLI
 /.homeybuild/
+node_modules/
+.github/

@@ -62,5 +62,11 @@
   },
   "0.6.2": {
     "en": "Added ZTATZ update flow trigger to usage device"
+  },
+  "0.6.3": {
+    "en": "Bug fixes for water and app crashes"
+  },
+  "0.7.0": {
+    "en": "Added device: Phases"
   }
 }

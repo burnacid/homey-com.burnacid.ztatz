@@ -14,19 +14,19 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 		const device = this.getData();
 		this.config = {
 			url: device.url,
-			apiVersion: 1,
-			waterApiVersion: 1
+			apiVersion: "1",
+			waterApiVersion: "1"
 		}
 
 		// Register flowcard triggers
 		//this._registerFlowCardTriggers();
 
-		// Update server data
-		this._syncDevice();
-
 		// Set update timer
 		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
 		this.setSettings(this.config);
+
+		// Update server data
+		this._syncDevice();
 
 		console.log("register flow triggers");
 		this._flowTriggerGasUsageTodayReset = this.homey.flow.getDeviceTriggerCard('meter_gas.consumed_today.reset');
@@ -50,7 +50,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 			if(statusWaterMeter.length != 0){
 				if('title' in statusWaterMeter){
 					if(statusWaterMeter.title == "404 Not Found"){
-						this.config.waterApiVersion = 2;
+						this.config.waterApiVersion = "2";
 						this.setSettings(this.config);
 						this.log("Set WaterAPI to version 2")
 

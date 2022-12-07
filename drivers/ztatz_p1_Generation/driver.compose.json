@@ -1,0 +1,82 @@
+{
+  "name": {
+    "en": "P1 Generation",
+    "nl": "P1 Generatie"
+  },
+  "class": "solarpanel",
+  "capabilities": [
+    "measure_power",
+    "meter_power.generatedL1",
+    "meter_power.generatedL2"
+  ],
+  "capabilitiesOptions": {
+    "measure_power": {
+      "title": {
+        "nl": "Huidig stroomgeneratie",
+        "en": "Current power generation"
+      },
+      "color": "#dde840",
+      "energy": {
+        "cumulative": true
+      }
+    },
+    "meter_power.generatedL1": {
+      "isGenerator": true,
+      "title": {
+        "nl": "Elektriciteit teruglevering piekuren",
+        "en": "Electricity delivery high"
+      },
+      "decimals": 3,
+      "color": "#43e840"
+    },
+    "meter_power.generatedL2": {
+      "isGenerator": true,
+      "title": {
+        "nl": "Elektriciteit teruglevering daluren",
+        "en": "Electricity delivery low"
+      },
+      "decimals": 3,
+      "color": "#3bc439"
+    }
+  },
+  "settings": [
+    {
+      "type": "group",
+      "label": {
+        "en": "General Info",
+        "nl": "Algemene Info"
+      },
+      "children": [
+        {
+          "id": "url",
+          "type": "label",
+          "label": {
+            "en": "URL",
+            "nl": "URL"
+          },
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "pair": [
+    {
+      "id": "start"
+    },
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ],
+  "images": {
+    "large": "/drivers/ztatz_p1_Generation/assets/images/large.jpg",
+    "small": "/drivers/ztatz_p1_Generation/assets/images/small.jpg"
+  }
+}

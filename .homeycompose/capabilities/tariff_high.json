@@ -1,0 +1,51 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "High Tariff",
+    "nl": "Piektarief"
+  },
+  "desc": {
+    "en": "True when in high tariff period. False when in low tariff period",
+    "nl": "Gaat aan wanneer in piektarief en uit wanneer in daltarief"
+  },
+  "insights": true,
+  "insightsTitleTrue": {
+    "en": "In high tariff period",
+    "nl": "In piektarief periode"
+  },
+  "insightsTitleFalse": {
+    "en": "In low tariff period",
+    "nl": "In daltarief periode"
+  },
+  "getable": true,
+  "setable": false,
+  "icon": "/assets/highlow.svg",
+  "uiComponent": "sensor",
+  "$flow": {
+    "triggers": [
+      {
+        "id": "tariff_high_true",
+        "title": {
+          "en": "The high tariff period has started",
+          "nl": "Het piektarief is begonnen"
+        }
+      },
+      {
+        "id": "tariff_high_false",
+        "title": {
+          "en": "The low tariff period has started",
+          "nl": "Het daltarief is begonnen"
+        }
+      }
+    ],
+    "conditions": [
+      {
+        "id": "tariff_high",
+        "title": {
+          "en": "!{{High|Low}} tariff period",
+          "nl": "!{{Piek|Dal}}tarief periode"
+        }
+      }
+    ]
+  }
+}
