@@ -24,6 +24,10 @@ module.exports = class ztatzP1FinancialDayDevice extends Device {
 		this.setSettings({
 			url: device.url,
 		});
+
+		if(!this.hasCapability('money.todaywater')){
+			this.addCapability('money.todaywater');
+		}
 	}
 
 	async _deleteDevice() {
