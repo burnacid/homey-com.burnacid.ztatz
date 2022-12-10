@@ -71,5 +71,8 @@
   },
   "0.7.1": {
     "en": "Fixed naming issues new phases device"
+  },
+  "0.7.2": {
+    "en": "Small bugfix to prevent app crash"
   }
 }
