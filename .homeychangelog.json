@@ -74,5 +74,8 @@
   },
   "0.7.2": {
     "en": "Small bugfix to prevent app crash"
+  },
+  "0.7.3": {
+    "en": "Link correction on Homey App portal"
   }
 }
