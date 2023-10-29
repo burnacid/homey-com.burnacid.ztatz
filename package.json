@@ -1,10 +1,8 @@
 {
   "name": "com.burnacid.ztatz",
   "dependencies": {
-    "boolean": "^3.0.2",
-    "homey": "^2.0.6",
-    "httpreq": "^0.4.24",
-    "qs": "^6.9.6",
-    "request": "^2.88.2"
+    "boolean": "^3.2.0",
+    "httpreq": "^1.1",
+    "qs": "^6.11"
   }
 }
