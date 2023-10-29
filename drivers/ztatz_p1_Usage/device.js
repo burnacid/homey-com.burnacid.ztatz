@@ -68,6 +68,11 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 	async _syncDevice() {
 		try {
 			let status = await this.api.getSmartmeter();
+			if(status == false){
+				this.setUnavailable(this.api.lastError)
+				return
+			} 
+			
 			if (status.length != 0) {
 				this.setAvailable();
 

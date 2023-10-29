@@ -44,6 +44,11 @@ module.exports = class ztatzP1WaterMeterDevice extends Device {
 		try {
 			let status = await this.api.getWatermeter(this.config.waterApiVersion);
 
+			if(status == false){
+				this.setUnavailable(this.api.lastError)
+				return
+			} 
+
 			if (status.length != 0) {
 				if('title' in status){
 					if(status.title == "404 Not Found"){

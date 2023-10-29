@@ -47,17 +47,27 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 			let statusPowerGas = await this.api.getPowerGasDay();
 			let statusWaterMeter = await this.api.getWaterDay(this.config.waterApiVersion);
 
-			if(statusWaterMeter.length != 0){
-				if('title' in statusWaterMeter){
-					if(statusWaterMeter.title == "404 Not Found"){
-						this.config.waterApiVersion = "2";
-						this.setSettings(this.config);
-						this.log("Set WaterAPI to version 2")
+			if(statusPowerGas == false){
+				this.setUnavailable(this.api.lastError)
+				return
+			} 
 
-						statusWaterMeter = await this.api.getWaterDay(this.config.waterApiVersion);
-					}
-				}
-			}
+			if(statusWaterMeter == false){
+				this.setUnavailable(this.api.lastError)
+				return
+			} 
+
+			// if(statusWaterMeter.length != 0){
+			// 	if('title' in statusWaterMeter){
+			// 		if(statusWaterMeter.title == "404 Not Found"){
+			// 			this.config.waterApiVersion = "2";
+			// 			this.setSettings(this.config);
+			// 			this.log("Set WaterAPI to version 2")
+
+			// 			statusWaterMeter = await this.api.getWaterDay(this.config.waterApiVersion);
+			// 		}
+			// 	}
+			// }
 
 			if (statusPowerGas.length != 0) {
 				this.setAvailable();

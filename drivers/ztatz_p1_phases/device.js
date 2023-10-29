@@ -34,6 +34,12 @@ class ztatzP1Phases extends Device {
 	async _syncDevice() {
 		try {
 			let status = await this.api.getStatus();
+
+			if(status == false){
+				this.setUnavailable(this.api.lastError)
+				return
+			} 
+
 			if (status.length != 0) {
 				this.setAvailable();
 				const settings = this.getSettings();
