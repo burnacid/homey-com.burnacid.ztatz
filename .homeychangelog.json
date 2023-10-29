@@ -80,5 +80,8 @@
   },
   "0.7.4": {
     "en": "Added error catching to stop crashes"
+  },
+  "0.7.5": {
+    "en": "Switch water API's to fixed v2"
   }
 }
