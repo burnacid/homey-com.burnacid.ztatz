@@ -12,6 +12,11 @@ module.exports = class ztatzP1FinancialDayDevice extends Device {
 	async _initDevice() {
 		this.log('_initDevice');
 		const device = this.getData();
+		this.config = this.getSettings();
+		this.config.debug = false
+		this.setSettings({
+			debug: false
+		})
 
 		// Register flowcard triggers
 		//this._registerFlowCardTriggers();
@@ -21,9 +26,6 @@ module.exports = class ztatzP1FinancialDayDevice extends Device {
 
 		// Set update timer
 		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
-		this.setSettings({
-			url: device.url,
-		});
 
 		if(!this.hasCapability('money.todaywater')){
 			this.addCapability('money.todaywater');
@@ -36,14 +38,20 @@ module.exports = class ztatzP1FinancialDayDevice extends Device {
 		clearInterval(this.intervalId);
 	}
 
+	async onSettings({ oldSettings, newSettings, changedKeys }) {
+		this.config = newSettings
+	}
+
 	// Update server data
 	async _syncDevice() {
+		this.writeDebug("Refresh from "+ this.config.url)
 		try {
 			let status = await this.api.getFinancialDay();
-			this.log(status)
+			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(status))
 
 			if(status == false){
 				this.setUnavailable(this.api.lastError)
+				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
 				return
 			} 
 

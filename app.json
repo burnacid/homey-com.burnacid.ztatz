@@ -471,22 +471,39 @@
               "value": ""
             },
             {
-              "id": "apiVersion",
-              "type": "label",
+              "id": "waterApiVersion",
+              "type": "dropdown",
+              "value": "v2",
               "label": {
-                "en": "Default API Version",
-                "nl": "Standaard API Versie"
+                "en": "API version for Water information",
+                "nl": "API versie voor water informatie"
               },
-              "value": ""
+              "values": [
+                {
+                  "id": "v1",
+                  "label": {
+                    "en": "v1"
+                  }
+                },
+                {
+                  "id": "v2",
+                  "label": {
+                    "en": "v2"
+                  }
+                }
+              ]
             },
             {
-              "id": "waterApiVersion",
-              "type": "label",
+              "id": "debug",
+              "type": "checkbox",
+              "value": false,
               "label": {
-                "en": "Water API Version",
-                "nl": "Water API Versie"
+                "en": "Debug Mode"
               },
-              "value": ""
+              "hint": {
+                "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+              }
             }
           ]
         }
@@ -567,6 +584,18 @@
                 "nl": "URL"
               },
               "value": ""
+            },
+            {
+              "id": "debug",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Debug Mode"
+              },
+              "hint": {
+                "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+              }
             }
           ]
         }
@@ -647,6 +676,18 @@
                 "nl": "URL"
               },
               "value": ""
+            },
+            {
+              "id": "debug",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Debug Mode"
+              },
+              "hint": {
+                "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+              }
             }
           ]
         }
@@ -730,6 +771,18 @@
                 "nl": "URL"
               },
               "value": ""
+            },
+            {
+              "id": "debug",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Debug Mode"
+              },
+              "hint": {
+                "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+              }
             }
           ]
         }
@@ -809,6 +862,18 @@
                 "nl": "URL"
               },
               "value": ""
+            },
+            {
+              "id": "debug",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Debug Mode"
+              },
+              "hint": {
+                "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+              }
             }
           ]
         }
@@ -901,6 +966,18 @@
                 "nl": "URL"
               },
               "value": ""
+            },
+            {
+              "id": "debug",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Debug Mode"
+              },
+              "hint": {
+                "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+              }
             }
           ]
         }
@@ -1157,6 +1234,18 @@
                 "nl": "Standaard zullen alle fases met een voltage van 0 worden verborgen in Homey. Door deze setting aan te zetten worden alle 3 de fases hoe dan ook weergegeven."
               },
               "value": false
+            },
+            {
+              "id": "debug",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Debug Mode"
+              },
+              "hint": {
+                "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+              }
             }
           ]
         }

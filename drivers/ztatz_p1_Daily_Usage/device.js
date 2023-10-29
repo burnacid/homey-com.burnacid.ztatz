@@ -12,18 +12,18 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 	async _initDevice() {
 		this.log('_initDevice');
 		const device = this.getData();
-		this.config = {
-			url: device.url,
-			apiVersion: "1",
-			waterApiVersion: "1"
-		}
+		this.config = this.getSettings();
+		this.config.debug = false
+		this.setSettings({
+			debug: false
+		})
+
 
 		// Register flowcard triggers
 		//this._registerFlowCardTriggers();
 
 		// Set update timer
 		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
-		this.setSettings(this.config);
 
 		// Update server data
 		this._syncDevice();
@@ -41,14 +41,22 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 		clearInterval(this.intervalId);
 	}
 
+	async onSettings({ oldSettings, newSettings, changedKeys }) {
+		this.config = newSettings
+	}
+
 	// Update server data
 	async _syncDevice() {
+		this.writeDebug("Refresh from "+ this.config.url)
 		try {
 			let statusPowerGas = await this.api.getPowerGasDay();
+			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(statusPowerGas))
 			let statusWaterMeter = await this.api.getWaterDay(this.config.waterApiVersion);
+			this.writeDebug("["+this.config.url+"/"+this.config.waterApiVersion+"] [STATUS] "+ JSON.stringify(statusWaterMeter))
 
 			if(statusPowerGas == false){
 				this.setUnavailable(this.api.lastError)
+				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
 				return
 			} 
 
@@ -56,18 +64,6 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				this.setUnavailable(this.api.lastError)
 				return
 			} 
-
-			// if(statusWaterMeter.length != 0){
-			// 	if('title' in statusWaterMeter){
-			// 		if(statusWaterMeter.title == "404 Not Found"){
-			// 			this.config.waterApiVersion = "2";
-			// 			this.setSettings(this.config);
-			// 			this.log("Set WaterAPI to version 2")
-
-			// 			statusWaterMeter = await this.api.getWaterDay(this.config.waterApiVersion);
-			// 		}
-			// 	}
-			// }
 
 			if (statusPowerGas.length != 0) {
 				this.setAvailable();

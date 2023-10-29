@@ -12,6 +12,11 @@ class ztatzP1Phases extends Device {
 	async _initDevice() {
 		this.log('_initDevice');
 		const device = this.getData();
+		this.config = this.getSettings();
+		this.config.debug = false
+		this.setSettings({
+			debug: false
+		})
 
 		// Set update timer
 		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
@@ -29,14 +34,21 @@ class ztatzP1Phases extends Device {
 
 		clearInterval(this.intervalId);
 	}
+
+	async onSettings({ oldSettings, newSettings, changedKeys }) {
+		this.config = newSettings
+	}
   
 	// Update server data
 	async _syncDevice() {
+		this.writeDebug("Refresh from "+ this.config.url)
 		try {
 			let status = await this.api.getStatus();
+			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(status))
 
 			if(status == false){
 				this.setUnavailable(this.api.lastError)
+				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
 				return
 			} 
 
