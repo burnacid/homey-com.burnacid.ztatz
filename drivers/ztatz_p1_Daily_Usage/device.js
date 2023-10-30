@@ -60,10 +60,10 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				return
 			} 
 
-			if(statusWaterMeter == false){
-				this.setUnavailable(this.api.lastError)
-				return
-			} 
+			// if(statusWaterMeter == false){
+			// 	this.setUnavailable(this.api.lastError)
+			// 	return
+			// } 
 
 			if (statusPowerGas.length != 0) {
 				this.setAvailable();
