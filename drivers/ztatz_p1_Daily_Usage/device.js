@@ -18,6 +18,25 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 			debug: false
 		})
 
+		// Test water API version
+		let status = await this.api.getWaterDay(this.config.apiVersionWater);
+		if(status == false){
+			if(this.config.apiVersionWater == "v2"){
+				this.config.apiVersionWater = "v1"
+			}else{
+				this.config.apiVersionWater = "v2"
+			}
+
+			status = await this.api.getWaterDay(this.config.apiVersionWater);
+
+			if(status != false){
+				this.log("API Version switched to "+ this.config.apiVersionWater)
+				this.setSettings({
+					apiVersionWater: this.config.apiVersionWater
+				})
+			}
+		}
+
 
 		// Register flowcard triggers
 		//this._registerFlowCardTriggers();
@@ -51,8 +70,8 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 		try {
 			let statusPowerGas = await this.api.getPowerGasDay();
 			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(statusPowerGas))
-			let statusWaterMeter = await this.api.getWaterDay(this.config.waterApiVersion);
-			this.writeDebug("["+this.config.url+"/"+this.config.waterApiVersion+"] [STATUS] "+ JSON.stringify(statusWaterMeter))
+			let statusWaterMeter = await this.api.getWaterDay(this.config.apiVersionWater);
+			this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [STATUS] "+ JSON.stringify(statusWaterMeter))
 
 			if(statusPowerGas == false){
 				this.setUnavailable(this.api.lastError)

@@ -16,13 +16,33 @@
         "value": ""
       },
       {
-        "id": "waterApiVersion",
-        "type": "label",
-        "label": {
-          "en": "Water API Version",
-          "nl": "Water API Versie"
+        "id": "apiVersionWater",
+        "type": "dropdown",
+        "value": "v2",
+        "label": { 
+          "en": "API version for Water information",
+          "nl": "API versie voor water informatie"
         },
-        "value": ""
+        "values": [
+          {
+            "id": "v1",
+            "label": { "en": "v1" }
+          },
+          {
+            "id": "v2",
+            "label": { "en": "v2" }
+          }
+        ]
+      },
+      {
+        "id": "debug",
+        "type": "checkbox",
+        "value": false,
+        "label": { "en": "Debug Mode" },
+        "hint": { 
+          "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
+          "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+       }
       }
     ]
   }

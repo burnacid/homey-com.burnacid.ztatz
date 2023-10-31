@@ -471,7 +471,7 @@
               "value": ""
             },
             {
-              "id": "waterApiVersion",
+              "id": "apiVersionWater",
               "type": "dropdown",
               "value": "v2",
               "label": {
@@ -1036,35 +1036,6 @@
           "color": "#e8cf40"
         }
       },
-      "settings": [
-        {
-          "type": "group",
-          "label": {
-            "en": "General Info",
-            "nl": "Algemene Info"
-          },
-          "children": [
-            {
-              "id": "url",
-              "type": "label",
-              "label": {
-                "en": "URL",
-                "nl": "URL"
-              },
-              "value": ""
-            },
-            {
-              "id": "waterApiVersion",
-              "type": "label",
-              "label": {
-                "en": "Water API Version",
-                "nl": "Water API Versie"
-              },
-              "value": ""
-            }
-          ]
-        }
-      ],
       "pair": [
         {
           "id": "start"
@@ -1084,7 +1055,62 @@
       "images": {
         "large": "/drivers/ztatz_p1_Water/assets/images/large.jpg",
         "small": "/drivers/ztatz_p1_Water/assets/images/small.jpg"
-      }
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General Info",
+            "nl": "Algemene Info"
+          },
+          "children": [
+            {
+              "id": "url",
+              "type": "label",
+              "label": {
+                "en": "URL",
+                "nl": "URL"
+              },
+              "value": ""
+            },
+            {
+              "id": "apiVersionWater",
+              "type": "dropdown",
+              "value": "v2",
+              "label": {
+                "en": "API version for Water information",
+                "nl": "API versie voor water informatie"
+              },
+              "values": [
+                {
+                  "id": "v1",
+                  "label": {
+                    "en": "v1"
+                  }
+                },
+                {
+                  "id": "v2",
+                  "label": {
+                    "en": "v2"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "debug",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Debug Mode"
+              },
+              "hint": {
+                "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+              }
+            }
+          ]
+        }
+      ]
     },
     {
       "name": {
