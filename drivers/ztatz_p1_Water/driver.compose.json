@@ -30,35 +30,6 @@
       "color": "#e8cf40"
     }
   },
-  "settings": [
-    {
-      "type": "group",
-      "label": {
-        "en": "General Info",
-        "nl": "Algemene Info"
-      },
-      "children": [
-        {
-          "id": "url",
-          "type": "label",
-          "label": {
-            "en": "URL",
-            "nl": "URL"
-          },
-          "value": ""
-        },
-        {
-          "id": "waterApiVersion",
-          "type": "label",
-          "label": {
-            "en": "Water API Version",
-            "nl": "Water API Versie"
-          },
-          "value": ""
-        }
-      ]
-    }
-  ],
   "pair": [
     {
       "id": "start"

@@ -12,9 +12,29 @@ module.exports = class ztatzP1WaterMeterDevice extends Device {
 	async _initDevice() {
 		this.log('_initDevice');
 		const device = this.getData();
-		this.config = {
-			url: device.url,
-			waterApiVersion: "1"
+		this.config = this.getSettings();
+		this.config.debug = false
+		this.setSettings({
+			debug: false
+		})
+
+		// Test water API version
+		let status = await this.api.getWatermeter(this.config.apiVersionWater);
+		if(status === false || status.title == "404 Not Found"){
+			if(this.config.apiVersionWater == "v2"){
+				this.config.apiVersionWater = "v1"
+			}else{
+				this.config.apiVersionWater = "v2"
+			}
+
+			status = await this.api.getWatermeter(this.config.apiVersionWater);
+
+			if(status !== false){
+				this.log("API Version switched to "+ this.config.apiVersionWater)
+				this.setSettings({
+					apiVersionWater: this.config.apiVersionWater
+				})
+			}
 		}
 
 		// Register flowcard triggers
@@ -22,7 +42,6 @@ module.exports = class ztatzP1WaterMeterDevice extends Device {
 
 		// Set update timer
 		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
-		this.setSettings(this.config);
 
 		// Update server data
 		this._syncDevice();
@@ -39,22 +58,24 @@ module.exports = class ztatzP1WaterMeterDevice extends Device {
 		clearInterval(this.intervalId);
 	}
 
+	async onSettings({ oldSettings, newSettings, changedKeys }) {
+		this.config = newSettings
+	}
+
 	// Update server data
 	async _syncDevice() {
+		this.writeDebug("Refresh from "+ this.config.url)
 		try {
-			let status = await this.api.getWatermeter(this.config.waterApiVersion);
+			let status = await this.api.getWatermeter(this.config.apiVersionWater);
+			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(status))
+
+			if(status == false){
+				this.setUnavailable(this.api.lastError)
+				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
+				return
+			} 
 
 			if (status.length != 0) {
-				if('title' in status){
-					if(status.title == "404 Not Found"){
-						this.config.waterApiVersion = "2";
-						this.setSettings(this.config);
-						this.log("Set WaterAPI to version 2")
-
-						status = await this.api.getWatermeter(this.config.waterApiVersion);
-					}
-				}
-
 				this.setAvailable();
 
 				let TotalUsage = status[0].WATERMETER_CONSUMPTION_TOTAL_M3;

@@ -68,5 +68,29 @@
   },
   "0.7.0": {
     "en": "Added device: Phases"
+  },
+  "0.7.1": {
+    "en": "Fixed naming issues new phases device"
+  },
+  "0.7.2": {
+    "en": "Small bugfix to prevent app crash"
+  },
+  "0.7.3": {
+    "en": "Link correction on Homey App portal"
+  },
+  "0.7.4": {
+    "en": "Added error catching to stop crashes"
+  },
+  "0.7.5": {
+    "en": "Switch water API's to fixed v2"
+  },
+  "0.7.6": {
+    "en": "Add water API version selector"
+  },
+  "0.7.7": {
+    "en": "Fixed issue with water API version selection"
+  },
+  "0.7.8": {
+    "en": "Fixed issue with water API version selection"
   }
 }
