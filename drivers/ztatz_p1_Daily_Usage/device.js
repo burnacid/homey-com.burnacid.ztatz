@@ -77,12 +77,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				this.setUnavailable(this.api.lastError)
 				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
 				return
-			} 
-
-			// if(statusWaterMeter == false){
-			// 	this.setUnavailable(this.api.lastError)
-			// 	return
-			// } 
+			}
 
 			if (statusPowerGas.length != 0) {
 				this.setAvailable();
@@ -90,6 +85,15 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				let consumptionDelta = statusPowerGas[0].CONSUMPTION_DELTA_KWH;
 				let productionDelta = statusPowerGas[0].PRODUCTION_DELTA_KWH;
 				let gasConsumptionDelta = statusPowerGas[0].CONSUMPTION_GAS_DELTA_M3;
+
+				// Check of record is from today
+				let statusPowerGasDate = new Date(Date.parse(statusPowerGas[0].TIMESTAMP_LOCAL)).toDateString()
+				if(!this.api.isToday(statusPowerGasDate)){
+					this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [INFO] Last record not today. Setting values to 0")
+					consumptionDelta = 0;
+					productionDelta = 0;
+					gasConsumptionDelta = 0;
+				}		
 
 				let currentConsumptionDelta = this.getCapabilityValue('meter_power.consumed_today');
 				if((currentConsumptionDelta * 0.2) > Number(consumptionDelta)){
@@ -118,8 +122,15 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 						this.addCapability('meter_water.consumed_today');
 						this._flowTriggerWaterMeterConsumptionReset = this.homey.flow.getDeviceTriggerCard('meter_water.consumed_today.reset');
 					}
-
+					
 					let waterConsumptionDelta = statusWaterMeter[0].WATERMETER_CONSUMPTION_LITER;
+
+					// Check of record is from today
+					let statusWaterMeterDate = new Date(Date.parse(statusWaterMeter[0].TIMESTAMP_LOCAL)).toDateString()
+					if(!this.api.isToday(statusWaterMeterDate)){
+						this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [INFO] Last record not today. Setting values to 0")
+						waterConsumptionDelta = 0;
+					}					
 
 					let currentWaterValue = this.getCapabilityValue('meter_water.consumed_today');
 					if((currentWaterValue * 0.2) > Number(waterConsumptionDelta)){
