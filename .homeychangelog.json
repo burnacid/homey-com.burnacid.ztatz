@@ -95,5 +95,8 @@
   },
   "0.8.0": {
     "en": "Added a hard reset on daily usage if date if last record is not today"
+  },
+  "0.8.1": {
+    "en": "Fix using timezone of homey to catch new day input"
   }
 }
