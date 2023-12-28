@@ -11,6 +11,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 	// this method is called when the Device is inited
 	async _initDevice() {
 		this.log('_initDevice');
+		this.api.tz  = this.homey.clock.getTimezone();
 		const device = this.getData();
 		this.config = this.getSettings();
 		this.config.debug = false
@@ -87,7 +88,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				let gasConsumptionDelta = statusPowerGas[0].CONSUMPTION_GAS_DELTA_M3;
 
 				// Check of record is from today
-				let statusPowerGasDate = new Date(Date.parse(statusPowerGas[0].TIMESTAMP_LOCAL)).toDateString()
+				let statusPowerGasDate = new Date(Date.parse(statusPowerGas[0].TIMESTAMP_LOCAL)).toISOString().split('T')[0]
 				if(!this.api.isToday(statusPowerGasDate)){
 					this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [INFO] Last record not today. Setting values to 0")
 					consumptionDelta = 0;
@@ -126,7 +127,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 					let waterConsumptionDelta = statusWaterMeter[0].WATERMETER_CONSUMPTION_LITER;
 
 					// Check of record is from today
-					let statusWaterMeterDate = new Date(Date.parse(statusWaterMeter[0].TIMESTAMP_LOCAL)).toDateString()
+					let statusWaterMeterDate = new Date(Date.parse(statusWaterMeter[0].TIMESTAMP_LOCAL)).toISOString().split('T')[0]
 					if(!this.api.isToday(statusWaterMeterDate)){
 						this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [INFO] Last record not today. Setting values to 0")
 						waterConsumptionDelta = 0;
