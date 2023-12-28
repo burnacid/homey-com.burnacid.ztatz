@@ -112,22 +112,27 @@ class ztatzP1Phases extends Device {
 					}
 				}
 
-				this.changeCapabilityValue('measure_power.L1', Number(L1Power));
-				this.changeCapabilityValue('measure_voltage.L1', Number(L1Voltage));
-				this.changeCapabilityValue('measure_current.L1', Number(L1Amperage));
-
-				if(L2Voltage != 0 || settings.phases_all == true){
-					this.changeCapabilityValue('measure_power.L2', Number(L2Power));
-					this.changeCapabilityValue('measure_voltage.L2', Number(L2Voltage));
-					this.changeCapabilityValue('measure_current.L2', Number(L2Amperage));
-					
+				try {
+					this.changeCapabilityValue('measure_power.L1', Number(L1Power));
+					this.changeCapabilityValue('measure_voltage.L1', Number(L1Voltage));
+					this.changeCapabilityValue('measure_current.L1', Number(L1Amperage));
+	
+					if(L2Voltage != 0 || settings.phases_all == true){
+						this.changeCapabilityValue('measure_power.L2', Number(L2Power));
+						this.changeCapabilityValue('measure_voltage.L2', Number(L2Voltage));
+						this.changeCapabilityValue('measure_current.L2', Number(L2Amperage));
+						
+					}
+	
+					if(L3Voltage != 0 || settings.phases_all == true){
+						this.changeCapabilityValue('measure_power.L3', Number(L3Power));
+						this.changeCapabilityValue('measure_voltage.L3', Number(L3Voltage));
+						this.changeCapabilityValue('measure_current.L3', Number(L3Amperage));
+					}
+				} catch (error) {
+					this.log(error.message)
 				}
 
-				if(L3Voltage != 0 || settings.phases_all == true){
-					this.changeCapabilityValue('measure_power.L3', Number(L3Power));
-					this.changeCapabilityValue('measure_voltage.L3', Number(L3Voltage));
-					this.changeCapabilityValue('measure_current.L3', Number(L3Amperage));
-				}
 
 			} else {
 				this.setUnavailable('Cannot refresh / Connect');

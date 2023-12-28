@@ -135,7 +135,11 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				let currentVersion = this.api.filterValueByLabel(configuration,"Versie:","PARAMETER")[0]
 				let currentVersionNumber = this.api.filterValueByLabel(configuration,"Versie nummer:")[0]
 
-				this.changeCapabilityValue('version_number', Number(lastVersionNumber['STATUS']), this._flowTriggerVersionChanged, {'version':String(lastVersion['STATUS']),"version_number":Number(lastVersionNumber['STATUS']),"version_url":String(lastVersionUrl['STATUS']),"version_date":String(lastVersionDate['STATUS']),"version_name":String(lastVersionText['STATUS']),"current_version_number":Number(currentVersionNumber['PARAMETER'])});
+				try{
+					this.changeCapabilityValue('version_number', Number(lastVersionNumber['STATUS']), this._flowTriggerVersionChanged, {'version':String(lastVersion['STATUS']),"version_number":Number(lastVersionNumber['STATUS']),"version_url":String(lastVersionUrl['STATUS']),"version_date":String(lastVersionDate['STATUS']),"version_name":String(lastVersionText['STATUS']),"current_version_number":Number(currentVersionNumber['PARAMETER'])});
+				}catch (error){
+					this.log(error)
+				}
 			} else {
 				this.setUnavailable('Cannot refresh / Connect');
 			}
