@@ -14,6 +14,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 		this.api.tz  = this.homey.clock.getTimezone();
 		const device = this.getData();
 		this.config = this.getSettings();
+		this.refreshing = false
 		this.config.debug = false
 		this.setSettings({
 			debug: false
@@ -67,14 +68,31 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 
 	// Update server data
 	async _syncDevice() {
+		if(this.refreshing){
+			this.setWarning("Refresh seems to take long...")
+			this.writeDebug("Already refreshing")
+			return
+		}
+
 		this.writeDebug("Refresh from "+ this.config.url)
 		try {
+			this.refreshing = true
 			let statusPowerGas = await this.api.getPowerGasDay();
 			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(statusPowerGas))
-			let statusWaterMeter = await this.api.getWaterDay(this.config.apiVersionWater);
-			this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [STATUS] "+ JSON.stringify(statusWaterMeter))
+			this.refreshing = false
 
 			if(statusPowerGas == false){
+				this.setUnavailable(this.api.lastError)
+				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
+				return
+			}
+
+			this.refreshing = true
+			let statusWaterMeter = await this.api.getWaterDay(this.config.apiVersionWater);
+			this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [STATUS] "+ JSON.stringify(statusWaterMeter))
+			this.refreshing = false
+
+			if(statusWaterMeter == false){
 				this.setUnavailable(this.api.lastError)
 				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
 				return
@@ -88,13 +106,13 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				let gasConsumptionDelta = statusPowerGas[0].CONSUMPTION_GAS_DELTA_M3;
 
 				// Check of record is from today
-				let statusPowerGasDate = new Date(Date.parse(statusPowerGas[0].TIMESTAMP_LOCAL)).toISOString().split('T')[0]
-				if(!this.api.isToday(statusPowerGasDate)){
-					this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [INFO] Last record not today. Setting values to 0")
-					consumptionDelta = 0;
-					productionDelta = 0;
-					gasConsumptionDelta = 0;
-				}		
+				// let statusPowerGasDate = new Date(Date.parse(statusPowerGas[0].TIMESTAMP_LOCAL)).toISOString().split('T')[0]
+				// if(!this.api.isToday(statusPowerGasDate)){
+				// 	this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [INFO] Last record not today. Setting values to 0")
+				// 	consumptionDelta = 0;
+				// 	productionDelta = 0;
+				// 	gasConsumptionDelta = 0;
+				// }		
 
 				let currentConsumptionDelta = this.getCapabilityValue('meter_power.consumed_today');
 				if((currentConsumptionDelta * 0.2) > Number(consumptionDelta)){
@@ -127,11 +145,11 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 					let waterConsumptionDelta = statusWaterMeter[0].WATERMETER_CONSUMPTION_LITER;
 
 					// Check of record is from today
-					let statusWaterMeterDate = new Date(Date.parse(statusWaterMeter[0].TIMESTAMP_LOCAL)).toISOString().split('T')[0]
-					if(!this.api.isToday(statusWaterMeterDate)){
-						this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [INFO] Last record not today. Setting values to 0")
-						waterConsumptionDelta = 0;
-					}					
+					// let statusWaterMeterDate = new Date(Date.parse(statusWaterMeter[0].TIMESTAMP_LOCAL)).toISOString().split('T')[0]
+					// if(!this.api.isToday(statusWaterMeterDate)){
+					// 	this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [INFO] Last record not today. Setting values to 0")
+					// 	waterConsumptionDelta = 0;
+					// }					
 
 					let currentWaterValue = this.getCapabilityValue('meter_water.consumed_today');
 					if((currentWaterValue * 0.2) > Number(waterConsumptionDelta)){
