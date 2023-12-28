@@ -92,5 +92,8 @@
   },
   "0.7.8": {
     "en": "Fixed issue with water API version selection"
+  },
+  "0.8.2": {
+    "en": "Error fetching and catch timeout spawning multiple requests"
   }
 }
