@@ -95,5 +95,8 @@
   },
   "0.8.2": {
     "en": "Error fetching and catch timeout spawning multiple requests"
+  },
+  "0.8.3": {
+    "en": "Reset daily usage if record is older than 24 hours"
   }
 }
