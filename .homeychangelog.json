@@ -98,5 +98,8 @@
   },
   "0.8.3": {
     "en": "Reset daily usage if record is older than 24 hours"
+  },
+  "0.8.4": {
+    "en": "Remove timeout parameter that breaks API requests"
   }
 }
