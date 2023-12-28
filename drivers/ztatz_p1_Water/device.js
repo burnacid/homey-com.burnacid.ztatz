@@ -14,6 +14,7 @@ module.exports = class ztatzP1WaterMeterDevice extends Device {
 		const device = this.getData();
 		this.config = this.getSettings();
 		this.config.debug = false
+		this.refreshing = false
 		this.setSettings({
 			debug: false
 		})
@@ -64,10 +65,18 @@ module.exports = class ztatzP1WaterMeterDevice extends Device {
 
 	// Update server data
 	async _syncDevice() {
+		if(this.refreshing){
+			this.setWarning("Refresh seems to take long...")
+			this.writeDebug("Already refreshing")
+			return
+		}
+
 		this.writeDebug("Refresh from "+ this.config.url)
 		try {
+			this.refreshing = true
 			let status = await this.api.getWatermeter(this.config.apiVersionWater);
 			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(status))
+			this.refreshing = false
 
 			if(status == false){
 				this.setUnavailable(this.api.lastError)

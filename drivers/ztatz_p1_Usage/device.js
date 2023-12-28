@@ -15,6 +15,8 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 		const device = this.getData();
 		this.config = this.getSettings();
 		this.config.debug = false
+		this.refreshing = false
+		this.refreshingStats = false
 		this.setSettings({
 			debug: false
 		})
@@ -74,10 +76,19 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 
 	// Update server data
 	async _syncDevice() {
+		if(this.refreshing){
+			this.setWarning("Refresh seems to take long...")
+			this.writeDebug("Already refreshing")
+			return
+		}
+
 		this.writeDebug("Refresh from "+ this.config.url)
 		try {
+			this.refreshing = true
 			let status = await this.api.getSmartmeter();
 			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(status))
+			this.refreshing = false
+
 			if(status == false){
 				this.setUnavailable(this.api.lastError)
 				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
@@ -119,9 +130,31 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 
 	// Update stats
 	async _syncStats() {
+		if(this.refreshingStats){
+			this.setWarning("Refresh seems to take long...")
+			this.writeDebug("Already refreshing")
+			return
+		}
+
+		this.writeDebug("Refresh from "+ this.config.url)
 		try {
+			this.refreshingStats = true
 			let status = await this.api.getStatus();
+			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(status))
+			this.refreshingStats = false
+			if(status == false){
+				this.setUnavailable(this.api.lastError)
+				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
+				return
+			} 
+
 			let configuration = await this.api.getConfiguration();
+			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(configuration))
+			if(status == false){
+				this.setUnavailable(this.api.lastError)
+				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
+				return
+			} 
 
 			if (status.length != 0 && configuration != 0) {
 				this.setAvailable();
