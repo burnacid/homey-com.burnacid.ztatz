@@ -92,7 +92,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 			this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [STATUS] "+ JSON.stringify(statusWaterMeter))
 			this.refreshing = false
 
-			if(statusWaterMeter == false){
+			if(statusWaterMeter === false){
 				this.setUnavailable(this.api.lastError)
 				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
 				return
