@@ -101,5 +101,8 @@
   },
   "0.8.4": {
     "en": "Remove timeout parameter that breaks API requests"
+  },
+  "0.8.5": {
+    "en": "Fix daily usage if water information is empty"
   }
 }
