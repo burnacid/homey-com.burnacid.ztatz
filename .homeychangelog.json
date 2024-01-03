@@ -104,5 +104,8 @@
   },
   "0.8.5": {
     "en": "Fix daily usage if water information is empty"
+  },
+  "0.8.6": {
+    "en": "Fix app crashes with phases device"
   }
 }
