@@ -107,5 +107,8 @@
   },
   "0.8.6": {
     "en": "Fix app crashes with phases device"
+  },
+  "0.8.7": {
+    "en": "Fix Phases support for ZTATZ v2.4.1"
   }
 }
