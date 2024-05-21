@@ -67,7 +67,15 @@ class ztatzP1Phases extends Device {
 
 				let L1Voltage = this.api.filterValueByLabel(status,"Huidige Voltage L1 (32.7.0)")[0]['STATUS']
 				let L2Voltage = this.api.filterValueByLabel(status,"Huidige Voltage L2 (52.7.0)")[0]['STATUS']
-				let L3Voltage = this.api.filterValueByLabel(status,"Huidige Voltage L2 (72.7.0)")[0]['STATUS']
+
+				// Fix object label for v2.4.1
+				let L3Voltage
+				if(this.api.filterValueByLabel(status,"Huidige Voltage L3 (72.7.0)")[0]){
+					L3Voltage = this.api.filterValueByLabel(status,"Huidige Voltage L3 (72.7.0)")[0]['STATUS']
+				}else{
+					this.writeDebug("["+this.config.url+"] [INFO] Using old Voltage L2 label for L3")
+					L3Voltage = this.api.filterValueByLabel(status,"Huidige Voltage L2 (72.7.0)")[0]['STATUS']
+				}
 
 				let L1Power = this.api.filterValueByLabel(status,"Huidige KW verbruik L1 (21.7.0)")[0]['STATUS']*1000
 				let L2Power = this.api.filterValueByLabel(status,"Huidige KW verbruik L2 (41.7.0)")[0]['STATUS']*1000
@@ -117,7 +125,14 @@ class ztatzP1Phases extends Device {
 						L2Amperage = this.api.filterValueByLabel(status,"Huidige Amperage L2 (51.7.0)")[0]['STATUS']
 					}
 					if(L3Voltage != 0){
-						L3Amperage = this.api.filterValueByLabel(status,"Huidige Amperage L2 (71.7.0)")[0]['STATUS']
+						// Fix object label for v2.4.1
+						let L3Amperage
+						if(this.api.filterValueByLabel(status,"Huidige Amperage L3 (71.7.0)")[0]){
+							L3Amperage = this.api.filterValueByLabel(status,"Huidige Amperage L3 (71.7.0)")[0]['STATUS']
+						}else{
+							this.writeDebug("["+this.config.url+"] [INFO] Using old Amperage L2 label for L3")
+							L3Amperage = this.api.filterValueByLabel(status,"Huidige Amperage L2 (71.7.0)")[0]['STATUS']
+						}
 					}
 				}
 
