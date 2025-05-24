@@ -95,14 +95,14 @@
       "args": []
     },
     {
-      "id": "meter_gas.current.changed",
+      "id": "meter_gas.changed",
       "title": {
         "nl": "Gasverbruik is veranderd",
         "en": "Gas usage has changed"
       },
       "tokens": [
         {
-          "name": "meter_gas.current",
+          "name": "meter_gas",
           "type": "number",
           "title": {
             "en": "Gas usage (m³)",

@@ -8,7 +8,7 @@
     "measure_power",
     "meter_power.consumedL1",
     "meter_power.consumedL2",
-    "meter_gas.current",
+    "meter_gas",
     "tariff_high",
     "version_number"
   ],
@@ -39,7 +39,7 @@
       "decimals": 3,
       "color": "#c2ad38"
     },
-    "meter_gas.current": {
+    "meter_gas": {
       "title": {
         "nl": "Gasverbruik",
         "en": "Gas usage"
