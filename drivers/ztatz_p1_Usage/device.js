@@ -49,6 +49,10 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 			this.addCapability('meter_power.consumedL1');
 		}
 
+		if(!this.hasCapability('meter_power.total')){
+			this.addCapability('meter_power.total');
+		}
+
 		if(!this.hasCapability('meter_gas')){
 			this.addCapability('meter_gas');
 		}
@@ -57,6 +61,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 		// register Flow triggers
 		this._flowTriggerPowerMeterL1Changed = this.homey.flow.getDeviceTriggerCard('meter_power.consumedL1.changed');
 		this._flowTriggerPowerMeterL2Changed = this.homey.flow.getDeviceTriggerCard('meter_power.consumedL2.changed');
+		this._flowTriggerPowerMeterTotalChanged = this.homey.flow.getDeviceTriggerCard('meter_power.consumedTotal.changed');
 		this._flowTriggerGasMeterChanged = this.homey.flow.getDeviceTriggerCard('meter_gas.changed');
 		this._flowTriggerVersionChanged = this.homey.flow.getDeviceTriggerCard('version_number.changed');
 
@@ -100,6 +105,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 
 				let usageLow = status[0][3]
 				let usageHigh = status[0][4]
+				let usageTotal = usageLow + usageHigh
 				let currentUsage = status[0][8]
 				let currentGas = status[0][10]
 				let tariff = status[0][7]
@@ -107,6 +113,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 				this.changeCapabilityValue('measure_power', Number(currentUsage));
 				this.changeCapabilityValue('meter_power.consumedL2', Number(usageLow), this._flowTriggerPowerMeterL2Changed, {'meter_power.consumedL2':Number(usageLow)});
 				this.changeCapabilityValue('meter_power.consumedL1', Number(usageHigh), this._flowTriggerPowerMeterL1Changed, {'meter_power.consumedL1':Number(usageHigh)});
+				this.changeCapabilityValue('meter_power.total', Number(usageTotal), this._flowTriggerPowerMeterTotalChanged, {'meter_power.consumedTotal':Number(usageTotal)});
 				this.changeCapabilityValue('meter_gas', Number(currentGas), this._flowTriggerGasMeterChanged, {'meter_gas':Number(currentGas)});
 
 				let tariff_high = false;

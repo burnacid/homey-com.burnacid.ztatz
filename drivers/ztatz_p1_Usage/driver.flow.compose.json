@@ -37,6 +37,24 @@
       "args": []
     },
     {
+      "id": "meter_power.consumedTotal.changed",
+      "title": {
+        "nl": "Electriciteitverbruik totaal is veranderd",
+        "en": "Power used totaal has changed"
+      },
+      "tokens": [
+        {
+          "name": "meter_power.consumedTotal",
+          "type": "number",
+          "title": {
+            "en": "Power used (kWh)",
+            "nl": "Electriciteitverbruik (kWh)"
+          }
+        }
+      ],
+      "args": []
+    },
+    {
       "id": "version_number.changed",
       "title": {
         "nl": "Een nieuwe versie van ZTATZ is beschikbaar",
