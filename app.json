@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.burnacid.ztatz",
-  "version": "0.8.8",
+  "version": "0.10.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#384042",
@@ -43,9 +43,6 @@
     "developers": [
       {
         "name": "FalkeMichel"
-      },
-            {
-        "name": "hfaas"
       }
     ]
   },
@@ -196,6 +193,30 @@
         ]
       },
       {
+        "id": "meter_power.generatedTotal.changed",
+        "title": {
+          "nl": "Electriciteitgeneratie totaal is veranderd",
+          "en": "Power generation totaal has changed"
+        },
+        "tokens": [
+          {
+            "name": "meter_power.generatedTotal",
+            "type": "number",
+            "title": {
+              "en": "Power generated (kWh)",
+              "nl": "Electriciteitgeneratie (kWh)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Generation"
+          }
+        ]
+      },
+      {
         "id": "measure_temperature.in.changed",
         "title": {
           "nl": "Verwarming temperatuur IN is veranderd",
@@ -300,6 +321,30 @@
         "tokens": [
           {
             "name": "meter_power.consumedL2",
+            "type": "number",
+            "title": {
+              "en": "Power used (kWh)",
+              "nl": "Electriciteitverbruik (kWh)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Usage"
+          }
+        ]
+      },
+      {
+        "id": "meter_power.consumedTotal.changed",
+        "title": {
+          "nl": "Electriciteitverbruik totaal is veranderd",
+          "en": "Power used totaal has changed"
+        },
+        "tokens": [
+          {
+            "name": "meter_power.consumedTotal",
             "type": "number",
             "title": {
               "en": "Power used (kWh)",
@@ -736,6 +781,7 @@
           },
           "color": "#dde840",
           "energy": {
+            "meterPowerExportedCapability": "meter_power.generatedTotal",
             "cumulative": true
           }
         },
@@ -753,6 +799,15 @@
           "title": {
             "nl": "Elektriciteit teruglevering daluren",
             "en": "Electricity delivery low"
+          },
+          "decimals": 3,
+          "color": "#3bc439"
+        },
+        "meter_power.generatedTotal": {
+          "isGenerator": true,
+          "title": {
+            "nl": "Elektriciteit teruglevering totaal",
+            "en": "Electricity delivery total"
           },
           "decimals": 3,
           "color": "#3bc439"
@@ -913,12 +968,14 @@
         "measure_power",
         "meter_power.consumedL1",
         "meter_power.consumedL2",
+        "meter_power.total",
         "meter_gas",
         "tariff_high",
         "version_number"
       ],
       "energy": {
-        "cumulative": true
+        "cumulative": true,
+        "cumulativeImportedCapability": "meter_power.total"
       },
       "capabilitiesOptions": {
         "measure_power": {
@@ -940,6 +997,14 @@
           "title": {
             "nl": "Elektriciteitverbruik daluren",
             "en": "Electricity usage low"
+          },
+          "decimals": 3,
+          "color": "#c2ad38"
+        },
+        "meter_power.total": {
+          "title": {
+            "nl": "Elektriciteitverbruik totaal",
+            "en": "Electricity usage totaal"
           },
           "decimals": 3,
           "color": "#c2ad38"
@@ -1018,6 +1083,9 @@
         "measure_water",
         "meter_water"
       ],
+      "energy": {
+        "cumulative": true
+      },
       "capabilitiesOptions": {
         "measure_water": {
           "title": {
