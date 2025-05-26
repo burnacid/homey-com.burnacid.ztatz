@@ -8,12 +8,14 @@
     "measure_power",
     "meter_power.consumedL1",
     "meter_power.consumedL2",
-    "meter_gas.current",
+    "meter_power.total",
+    "meter_gas",
     "tariff_high",
     "version_number"
   ],
   "energy": {
-    "cumulative": true
+    "cumulative": true,
+    "cumulativeImportedCapability": "meter_power.total"
   },
   "capabilitiesOptions": {
     "measure_power": {
@@ -39,7 +41,15 @@
       "decimals": 3,
       "color": "#c2ad38"
     },
-    "meter_gas.current": {
+    "meter_power.total": {
+      "title": {
+        "nl": "Elektriciteitverbruik totaal",
+        "en": "Electricity usage totaal"
+      },
+      "decimals": 3,
+      "color": "#c2ad38"
+    },
+    "meter_gas": {
       "title": {
         "nl": "Gasverbruik",
         "en": "Gas usage"

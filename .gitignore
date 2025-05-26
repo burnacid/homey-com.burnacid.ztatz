@@ -2,3 +2,4 @@
 /.homeybuild/
 node_modules/
 .github/
+/tests/

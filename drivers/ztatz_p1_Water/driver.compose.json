@@ -9,6 +9,9 @@
     "measure_water",
     "meter_water"
   ],
+  "energy": {
+    "cumulative": true
+  },
   "capabilitiesOptions": {
     "measure_water": {
       "title": {

@@ -17,6 +17,7 @@
       },
       "color": "#dde840",
       "energy": {
+        "meterPowerExportedCapability": "meter_power.generatedTotal",
         "cumulative": true
       }
     },
@@ -34,6 +35,15 @@
       "title": {
         "nl": "Elektriciteit teruglevering daluren",
         "en": "Electricity delivery low"
+      },
+      "decimals": 3,
+      "color": "#3bc439"
+    },
+    "meter_power.generatedTotal": {
+      "isGenerator": true,
+      "title": {
+        "nl": "Elektriciteit teruglevering totaal",
+        "en": "Electricity delivery total"
       },
       "decimals": 3,
       "color": "#3bc439"
