@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.burnacid.ztatz",
-  "version": "0.8.8",
+  "version": "0.10.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#384042",
@@ -193,6 +193,30 @@
         ]
       },
       {
+        "id": "meter_power.generatedTotal.changed",
+        "title": {
+          "nl": "Electriciteitgeneratie totaal is veranderd",
+          "en": "Power generation totaal has changed"
+        },
+        "tokens": [
+          {
+            "name": "meter_power.generatedTotal",
+            "type": "number",
+            "title": {
+              "en": "Power generated (kWh)",
+              "nl": "Electriciteitgeneratie (kWh)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Generation"
+          }
+        ]
+      },
+      {
         "id": "measure_temperature.in.changed",
         "title": {
           "nl": "Verwarming temperatuur IN is veranderd",
@@ -313,6 +337,30 @@
         ]
       },
       {
+        "id": "meter_power.consumedTotal.changed",
+        "title": {
+          "nl": "Electriciteitverbruik totaal is veranderd",
+          "en": "Power used totaal has changed"
+        },
+        "tokens": [
+          {
+            "name": "meter_power.consumedTotal",
+            "type": "number",
+            "title": {
+              "en": "Power used (kWh)",
+              "nl": "Electriciteitverbruik (kWh)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=ztatz_p1_Usage"
+          }
+        ]
+      },
+      {
         "id": "version_number.changed",
         "title": {
           "nl": "Een nieuwe versie van ZTATZ is beschikbaar",
@@ -377,14 +425,14 @@
         ]
       },
       {
-        "id": "meter_gas.current.changed",
+        "id": "meter_gas.changed",
         "title": {
           "nl": "Gasverbruik is veranderd",
           "en": "Gas usage has changed"
         },
         "tokens": [
           {
-            "name": "meter_gas.current",
+            "name": "meter_gas",
             "type": "number",
             "title": {
               "en": "Gas usage (m³)",
@@ -733,6 +781,7 @@
           },
           "color": "#dde840",
           "energy": {
+            "meterPowerExportedCapability": "meter_power.generatedTotal",
             "cumulative": true
           }
         },
@@ -750,6 +799,15 @@
           "title": {
             "nl": "Elektriciteit teruglevering daluren",
             "en": "Electricity delivery low"
+          },
+          "decimals": 3,
+          "color": "#3bc439"
+        },
+        "meter_power.generatedTotal": {
+          "isGenerator": true,
+          "title": {
+            "nl": "Elektriciteit teruglevering totaal",
+            "en": "Electricity delivery total"
           },
           "decimals": 3,
           "color": "#3bc439"
@@ -910,12 +968,14 @@
         "measure_power",
         "meter_power.consumedL1",
         "meter_power.consumedL2",
-        "meter_gas.current",
+        "meter_power.total",
+        "meter_gas",
         "tariff_high",
         "version_number"
       ],
       "energy": {
-        "cumulative": true
+        "cumulative": true,
+        "cumulativeImportedCapability": "meter_power.total"
       },
       "capabilitiesOptions": {
         "measure_power": {
@@ -941,7 +1001,15 @@
           "decimals": 3,
           "color": "#c2ad38"
         },
-        "meter_gas.current": {
+        "meter_power.total": {
+          "title": {
+            "nl": "Elektriciteitverbruik totaal",
+            "en": "Electricity usage totaal"
+          },
+          "decimals": 3,
+          "color": "#c2ad38"
+        },
+        "meter_gas": {
           "title": {
             "nl": "Gasverbruik",
             "en": "Gas usage"
@@ -1015,6 +1083,9 @@
         "measure_water",
         "meter_water"
       ],
+      "energy": {
+        "cumulative": true
+      },
       "capabilitiesOptions": {
         "measure_water": {
           "title": {

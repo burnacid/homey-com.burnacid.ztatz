@@ -25,6 +25,10 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 		// Update server data
 		//this._syncDevice();
 
+		if(!this.hasCapability('meter_power.generatedTotal')){
+			this.addCapability('meter_power.generatedTotal');
+		}
+
 		// Set update timer
 		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
 
@@ -32,6 +36,7 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 		// register Flow triggers
 		this._flowTriggerPowerMeterL1Changed = this.homey.flow.getDeviceTriggerCard('meter_power.generatedL1.changed');
 		this._flowTriggerPowerMeterL2Changed = this.homey.flow.getDeviceTriggerCard('meter_power.generatedL2.changed');
+		this._flowTriggerPowerMeterTotalChanged = this.homey.flow.getDeviceTriggerCard('meter_power.generatedTotal.changed');
 	}
 
 	async _deleteDevice() {
@@ -70,11 +75,13 @@ module.exports = class ztatzP1SmartMeterDevice extends Device {
 
 				let generationLow = status[0][5]
 				let generationHigh = status[0][6]
+				let generationTotal = generationLow + generationHigh
 				let currentGeneration = status[0][9]
 
 				this.changeCapabilityValue('measure_power', Number(currentGeneration));
 				this.changeCapabilityValue('meter_power.generatedL2', Number(generationLow), this._flowTriggerPowerMeterL2Changed, {'meter_power.generatedL2': Number(generationLow)});
 				this.changeCapabilityValue('meter_power.generatedL1', Number(generationHigh), this._flowTriggerPowerMeterL1Changed, {'meter_power.generatedL1': Number(generationHigh)});
+				this.changeCapabilityValue('meter_power.generatedTotal', Number(generationTotal), this._flowTriggerPowerMeterTotalChanged, {'meter_power.generatedTotal': Number(generationTotal)});
 
 			} else {
 				this.setUnavailable('Cannot refresh / Connect');

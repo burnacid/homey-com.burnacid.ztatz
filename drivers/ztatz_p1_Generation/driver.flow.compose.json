@@ -35,6 +35,24 @@
         }
       ],
       "args": []
+    },
+    {
+      "id": "meter_power.generatedTotal.changed",
+      "title": {
+        "nl": "Electriciteitgeneratie totaal is veranderd",
+        "en": "Power generation totaal has changed"
+      },
+      "tokens": [
+        {
+          "name": "meter_power.generatedTotal",
+          "type": "number",
+          "title": {
+            "en": "Power generated (kWh)",
+            "nl": "Electriciteitgeneratie (kWh)"
+          }
+        }
+      ],
+      "args": []
     }
   ]
 }
