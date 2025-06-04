@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.burnacid.ztatz",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#384042",
@@ -957,6 +957,109 @@
         "small": "/drivers/ztatz_p1_Heating/assets/images/small.jpg"
       },
       "id": "ztatz_p1_Heating"
+    },
+    {
+      "name": {
+        "en": "P1 Solarpanels",
+        "nl": "P1 Zonnepanelen"
+      },
+      "class": "solarpanel",
+      "capabilities": [
+        "measure_power",
+        "meter_power.high",
+        "meter_power.low",
+        "meter_power",
+        "version_number"
+      ],
+      "energy": {
+        "meterPowerExportedCapability": "meter_power"
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": {
+            "nl": "Huidig Opwekking",
+            "en": "Current Generation"
+          },
+          "color": "#dde840"
+        },
+        "meter_power.high": {
+          "title": {
+            "nl": "Opwekking piekuren",
+            "en": "Generation high tarif"
+          },
+          "decimals": 3,
+          "color": "#e8cf40"
+        },
+        "meter_power.low": {
+          "title": {
+            "nl": "Opwekking daluren",
+            "en": "Generation low tarif"
+          },
+          "decimals": 3,
+          "color": "#c2ad38"
+        },
+        "meter_power": {
+          "title": {
+            "nl": "Opwekking totaal",
+            "en": "Generation totaal"
+          },
+          "decimals": 3,
+          "color": "#c2ad38"
+        }
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "General Info",
+            "nl": "Algemene Info"
+          },
+          "children": [
+            {
+              "id": "url",
+              "type": "label",
+              "label": {
+                "en": "URL",
+                "nl": "URL"
+              },
+              "value": ""
+            },
+            {
+              "id": "debug",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Debug Mode"
+              },
+              "hint": {
+                "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+              }
+            }
+          ]
+        }
+      ],
+      "pair": [
+        {
+          "id": "start"
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "images": {
+        "large": "/drivers/ztatz_p1_Solarpanel/assets/images/large.jpg",
+        "small": "/drivers/ztatz_p1_Solarpanel/assets/images/small.jpg"
+      },
+      "id": "ztatz_p1_Solarpanel"
     },
     {
       "name": {
