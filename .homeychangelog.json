@@ -122,5 +122,8 @@
   },
   "0.11.0": {
     "en": "Added support for solarpanel read out from ZTATZ"
+  },
+  "0.11.1": {
+    "en": "Small correction in wattage calculation for solarpanel extention"
   }
 }
