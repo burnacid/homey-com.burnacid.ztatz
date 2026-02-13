@@ -3,6 +3,6 @@
   "dependencies": {
     "boolean": "^3.2.0",
     "httpreq": "^1.1",
-    "qs": "^6.11"
+    "qs": "^6.14"
   }
 }
