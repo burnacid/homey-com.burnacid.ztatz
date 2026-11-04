@@ -16,33 +16,58 @@
         "value": ""
       },
       {
-        "id": "apiVersionWater",
+        "id": "waterMeterId",
         "type": "dropdown",
-        "value": "v2",
-        "label": { 
-          "en": "API version for Water information",
-          "nl": "API versie voor water informatie"
+        "value": "1",
+        "label": {
+          "en": "Water meter",
+          "nl": "Watermeter"
+        },
+        "hint": {
+          "en": "Which ZTATZ water meter to use. It is detected automatically when the device is added.",
+          "nl": "Welke ZTATZ watermeter gebruikt wordt. Dit wordt automatisch bepaald bij het toevoegen."
         },
         "values": [
           {
-            "id": "v1",
-            "label": { "en": "v1" }
+            "id": "1",
+            "label": {
+              "en": "1 - pulse meter (GPIO)",
+              "nl": "1 - pulsmeter (GPIO)"
+            }
           },
           {
-            "id": "v2",
-            "label": { "en": "v2" }
+            "id": "2",
+            "label": {
+              "en": "2 - digital meter (P1 telegram)",
+              "nl": "2 - digitale meter (P1 telegram)"
+            }
           }
         ]
+      },
+      {
+        "id": "apiKey",
+        "type": "password",
+        "value": "",
+        "label": {
+          "en": "API key",
+          "nl": "API sleutel"
+        },
+        "hint": {
+          "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+          "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+        }
       },
       {
         "id": "debug",
         "type": "checkbox",
         "value": false,
-        "label": { "en": "Debug Mode" },
-        "hint": { 
+        "label": {
+          "en": "Debug Mode"
+        },
+        "hint": {
           "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
           "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
-       }
+        }
       }
     ]
   }

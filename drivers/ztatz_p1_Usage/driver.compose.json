@@ -3,25 +3,27 @@
     "en": "P1 Usage",
     "nl": "P1 Verbruik"
   },
-  "class": "other",
+  "class": "sensor",
   "capabilities": [
     "measure_power",
     "meter_power.consumedL1",
     "meter_power.consumedL2",
     "meter_power.total",
+    "meter_power.exported",
     "meter_gas",
     "tariff_high",
     "version_number"
   ],
   "energy": {
     "cumulative": true,
-    "cumulativeImportedCapability": "meter_power.total"
+    "cumulativeImportedCapability": "meter_power.total",
+    "cumulativeExportedCapability": "meter_power.exported"
   },
   "capabilitiesOptions": {
     "measure_power": {
       "title": {
-        "nl": "Huidig stroomverbruik",
-        "en": "Current power usage"
+        "nl": "Huidig stroomverbruik (netto)",
+        "en": "Current power usage (net)"
       },
       "color": "#dde840"
     },
@@ -44,10 +46,18 @@
     "meter_power.total": {
       "title": {
         "nl": "Elektriciteitverbruik totaal",
-        "en": "Electricity usage totaal"
+        "en": "Electricity usage total"
       },
       "decimals": 3,
       "color": "#c2ad38"
+    },
+    "meter_power.exported": {
+      "title": {
+        "nl": "Elektriciteit teruglevering totaal",
+        "en": "Electricity delivery total"
+      },
+      "decimals": 3,
+      "color": "#43e840"
     },
     "meter_gas": {
       "title": {
@@ -76,14 +86,29 @@
           "value": ""
         },
         {
+          "id": "apiKey",
+          "type": "password",
+          "value": "",
+          "label": {
+            "en": "API key",
+            "nl": "API sleutel"
+          },
+          "hint": {
+            "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+            "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+          }
+        },
+        {
           "id": "debug",
           "type": "checkbox",
           "value": false,
-          "label": { "en": "Debug Mode" },
-          "hint": { 
+          "label": {
+            "en": "Debug Mode"
+          },
+          "hint": {
             "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
             "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
-         }
+          }
         }
       ]
     }

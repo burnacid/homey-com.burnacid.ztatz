@@ -40,7 +40,7 @@
       "id": "meter_power.consumedTotal.changed",
       "title": {
         "nl": "Electriciteitverbruik totaal is veranderd",
-        "en": "Power used totaal has changed"
+        "en": "Power used total has changed"
       },
       "tokens": [
         {

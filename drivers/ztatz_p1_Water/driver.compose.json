@@ -4,7 +4,7 @@
     "en": "P1 Water",
     "nl": "P1 Water"
   },
-  "class": "other",
+  "class": "sensor",
   "capabilities": [
     "measure_water",
     "meter_water"
@@ -15,18 +15,14 @@
   "capabilitiesOptions": {
     "measure_water": {
       "title": {
-        "nl": "Recent water verbruik",
-        "en": "Recent water usage"
+        "nl": "Water verbruik (laatste minuut)",
+        "en": "Water usage (last minute)"
       },
-      "color": "#dde840",
-      "units": {
-        "en": "L/hour",
-        "nl": "L/uur"
-      }
+      "color": "#dde840"
     },
     "meter_water": {
       "title": {
-        "nl": "Water verbruk",
+        "nl": "Water verbruik",
         "en": "Water usage"
       },
       "decimals": 3,

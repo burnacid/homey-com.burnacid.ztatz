@@ -1,0 +1,14 @@
+{
+  "pair": {
+    "title": "Verbind met je P1 Monitor",
+    "subtitle": "Vul het adres van je ZTATZ P1 Monitor in. Homey controleert de verbinding voordat het apparaat wordt toegevoegd.",
+    "url": "Adres van de P1 Monitor",
+    "url_hint": "Het IP-adres of de hostnaam waarmee je de P1 Monitor in je browser opent, bijvoorbeeld 192.168.1.50.",
+    "url_prefilled": "Overgenomen van je andere ZTATZ apparaten. Pas het aan als je een andere P1 Monitor wilt toevoegen.",
+    "advanced": "Geavanceerd",
+    "apikey": "API sleutel",
+    "apikey_hint": "Alleen nodig als je via HTTPS verbindt met een API token dat in de P1 Monitor is ingesteld. Laat leeg op je lokale netwerk.",
+    "connect": "Verbinden",
+    "error_empty": "Vul het adres van je P1 Monitor in."
+  }
+}

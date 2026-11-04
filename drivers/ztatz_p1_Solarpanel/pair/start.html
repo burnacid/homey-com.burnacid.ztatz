@@ -1,0 +1,165 @@
+<style>
+  .ztatz-logo {
+    width: 72px;
+    height: 72px;
+    margin: 8px auto 20px;
+    background-color: currentColor;
+    -webkit-mask: url(../assets/icon.svg) center / contain no-repeat;
+    mask: url(../assets/icon.svg) center / contain no-repeat;
+    opacity: 0.85;
+  }
+
+  .ztatz-hint {
+    margin: 6px 0 0;
+    font-size: 13px;
+    line-height: 1.4;
+    opacity: 0.65;
+    text-align: start;
+  }
+
+  .ztatz-advanced {
+    margin-block: 4px 16px;
+  }
+
+  .ztatz-advanced summary {
+    cursor: pointer;
+    font-weight: 500;
+    padding-block: 8px;
+    opacity: 0.8;
+  }
+
+  .ztatz-advanced[open] summary {
+    margin-block-end: 8px;
+  }
+
+  .ztatz-error {
+    margin: 0 0 16px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: start;
+    color: #c8372d;
+    background: rgba(200, 55, 45, 0.1);
+  }
+
+  .ztatz-error[hidden] {
+    display: none;
+  }
+
+  .homey-form-input.is-invalid {
+    border-color: #c8372d;
+  }
+</style>
+
+<header class="homey-header">
+  <h1 class="homey-title" data-i18n="pair.title">Connect to your P1 Monitor</h1>
+  <p class="homey-subtitle" data-i18n="pair.subtitle">Enter the address of your ZTATZ P1 Monitor. Homey checks the connection before adding the device.</p>
+</header>
+
+<div class="ztatz-logo" aria-hidden="true"></div>
+
+<form class="homey-form" id="pair-form" novalidate>
+  <div class="homey-form-group">
+    <label class="homey-form-label" for="pair-url" data-i18n="pair.url">P1 Monitor address</label>
+    <input class="homey-form-input" id="pair-url" type="text" placeholder="https://p1mon.url"
+      inputmode="url" autocomplete="off" autocapitalize="off" spellcheck="false" />
+    <p class="ztatz-hint" id="pair-url-hint" data-i18n="pair.url_hint">The IP address or host name you use to open the P1 Monitor in your browser, for example 192.168.1.50.</p>
+  </div>
+
+  <details class="ztatz-advanced" id="pair-advanced">
+    <summary data-i18n="pair.advanced">Advanced</summary>
+    <div class="homey-form-group">
+      <label class="homey-form-label" for="pair-apikey" data-i18n="pair.apikey">API key</label>
+      <input class="homey-form-input" id="pair-apikey" type="password" autocomplete="off" />
+      <p class="ztatz-hint" data-i18n="pair.apikey_hint">Only needed when you connect over HTTPS with an API token configured in the P1 Monitor. Leave empty on your local network.</p>
+    </div>
+  </details>
+
+  <p class="ztatz-error" id="pair-error" role="alert" hidden></p>
+
+  <button class="homey-button-primary-full" id="pair-button" type="submit" data-i18n="pair.connect">Connect</button>
+</form>
+
+<script type="application/javascript">
+  (function () {
+    var form = document.getElementById('pair-form');
+    var urlInput = document.getElementById('pair-url');
+    var keyInput = document.getElementById('pair-apikey');
+    var button = document.getElementById('pair-button');
+    var errorBox = document.getElementById('pair-error');
+    var busy = false;
+
+    function t(key, fallback) {
+      var text = Homey.__(key);
+      return text && text !== key ? text : fallback;
+    }
+
+    // Works with both the promise and the callback style of Homey.emit.
+    function emit(event, data) {
+      return new Promise(function (resolve, reject) {
+        var result = Homey.emit(event, data, function (err, res) {
+          if (err) reject(err); else resolve(res);
+        });
+        if (result && typeof result.then === 'function') result.then(resolve, reject);
+      });
+    }
+
+    function showError(message) {
+      errorBox.textContent = message;
+      errorBox.hidden = !message;
+    }
+
+    function setBusy(state) {
+      busy = state;
+      button.disabled = state;
+      button.classList.toggle('is-loading', state);
+    }
+
+    urlInput.addEventListener('input', function () {
+      urlInput.classList.remove('is-invalid');
+      showError('');
+    });
+
+    // Pre-fill the address of a P1 Monitor that is already connected.
+    emit('get_defaults').then(function (defaults) {
+      if (!defaults || !defaults.url || urlInput.value) return;
+      urlInput.value = defaults.url;
+      document.getElementById('pair-url-hint').textContent =
+        t('pair.url_prefilled', 'Filled in from your other ZTATZ devices. Change it if you want to add another P1 Monitor.');
+      if (defaults.apiKey) {
+        keyInput.value = defaults.apiKey;
+        document.getElementById('pair-advanced').open = true;
+      }
+    }).catch(function () { /* nothing to pre-fill */ });
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      if (busy) return;
+
+      var url = urlInput.value.trim();
+      if (!url) {
+        urlInput.classList.add('is-invalid');
+        showError(t('pair.error_empty', 'Enter the address of your P1 Monitor.'));
+        urlInput.focus();
+        return;
+      }
+
+      showError('');
+      setBusy(true);
+      emit('search_devices', { url: url, apiKey: keyInput.value.trim() })
+        .then(function () {
+          Homey.showView('list_devices');
+        })
+        .catch(function (err) {
+          urlInput.classList.add('is-invalid');
+          showError((err && err.message) || String(err));
+        })
+        .then(function () {
+          setBusy(false);
+        });
+    });
+
+    urlInput.focus();
+  })();
+</script>

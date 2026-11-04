@@ -1,3 +1,5 @@
 .github/*
 README.md
 /tests/
+/ztatz/
+/emulator/

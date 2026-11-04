@@ -3,11 +3,12 @@
     "en": "P1 Generation",
     "nl": "P1 Generatie"
   },
-  "class": "solarpanel",
+  "class": "sensor",
   "capabilities": [
     "measure_power",
     "meter_power.generatedL1",
-    "meter_power.generatedL2"
+    "meter_power.generatedL2",
+    "meter_power.generatedTotal"
   ],
   "capabilitiesOptions": {
     "measure_power": {
@@ -15,11 +16,7 @@
         "nl": "Huidig stroomgeneratie",
         "en": "Current power generation"
       },
-      "color": "#dde840",
-      "energy": {
-        "meterPowerExportedCapability": "meter_power.generatedTotal",
-        "cumulative": true
-      }
+      "color": "#dde840"
     },
     "meter_power.generatedL1": {
       "isGenerator": true,
@@ -67,14 +64,29 @@
           "value": ""
         },
         {
+          "id": "apiKey",
+          "type": "password",
+          "value": "",
+          "label": {
+            "en": "API key",
+            "nl": "API sleutel"
+          },
+          "hint": {
+            "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+            "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+          }
+        },
+        {
           "id": "debug",
           "type": "checkbox",
           "value": false,
-          "label": { "en": "Debug Mode" },
-          "hint": { 
+          "label": {
+            "en": "Debug Mode"
+          },
+          "hint": {
             "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
             "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
-         }
+          }
         }
       ]
     }

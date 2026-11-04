@@ -1,180 +1,66 @@
 'use strict';
 
-const Homey = require('homey');
-const Device = require('../../lib/Device.js');
-const boolean = require('boolean');
+const Device = require('../../lib/Device');
 
-const refreshTimeout = 1000 * 10; // 10 sec
+const REFRESH_MS = 60 * 1000; // ZTATZ updates the day records once per minute
 
-module.exports = class ztatzP1SmartMeterDevice extends Device {
+module.exports = class ztatzP1DailyUsageDevice extends Device {
 
-	// this method is called when the Device is inited
 	async _initDevice() {
 		this.log('_initDevice');
-		this.api.tz  = this.homey.clock.getTimezone();
-		const device = this.getData();
-		this.config = this.getSettings();
-		this.refreshing = false
-		this.config.debug = false
-		this.setSettings({
-			debug: false
-		})
-
-		// Test water API version
-		let status = await this.api.getWaterDay(this.config.apiVersionWater);
-		if(status === false || status.title == "404 Not Found"){
-			if(this.config.apiVersionWater == "v2"){
-				this.config.apiVersionWater = "v1"
-			}else{
-				this.config.apiVersionWater = "v2"
-			}
-
-			status = await this.api.getWaterDay(this.config.apiVersionWater);
-
-			if(status !== false){
-				this.log("API Version switched to "+ this.config.apiVersionWater)
-				this.setSettings({
-					apiVersionWater: this.config.apiVersionWater
-				})
-			}
-		}
-
-
-		// Register flowcard triggers
-		//this._registerFlowCardTriggers();
-
-		// Set update timer
-		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
-
-		// Update server data
-		this._syncDevice();
-
-		console.log("register flow triggers");
 		this._flowTriggerGasUsageTodayReset = this.homey.flow.getDeviceTriggerCard('meter_gas.consumed_today.reset');
 		this._flowTriggerPowerMeterProductionReset = this.homey.flow.getDeviceTriggerCard('meter_power.production_today.reset');
 		this._flowTriggerPowerMeterConsumptionReset = this.homey.flow.getDeviceTriggerCard('meter_power.consumed_today.reset');
 		this._flowTriggerWaterMeterConsumptionReset = this.homey.flow.getDeviceTriggerCard('meter_water.consumed_today.reset');
+
+		this.poll('day', () => this._syncDevice(), REFRESH_MS);
 	}
 
-	async _deleteDevice() {
-		this.log('_deleteDevice');
-
-		clearInterval(this.intervalId);
+	/**
+	 * Set a "today" counter. A large drop means a new day started: fire the
+	 * reset trigger with yesterday's total.
+	 */
+	async _setDaily(capability, value, trigger, tokenName) {
+		const current = this.getCapabilityValue(capability);
+		if (current !== null && current * 0.2 > value) {
+			return this.changeCapabilityValue(capability, value, trigger, { [tokenName]: current });
+		}
+		return this.changeCapabilityValue(capability, value);
 	}
 
-	async onSettings({ oldSettings, newSettings, changedKeys }) {
-		this.config = newSettings
-	}
-
-	// Update server data
 	async _syncDevice() {
-		if(this.refreshing){
-			this.setWarning("Refresh seems to take long...")
-			this.writeDebug("Already refreshing")
-			return
+		const days = await this.api.getPowerGasDay();
+		this.writeDebug('[powergas/day] ' + JSON.stringify(days));
+		if (days === false) return this.fail(this.api.lastError);
+		if (days.length === 0) return this.fail('ZTATZ has no day data yet');
+
+		const meterId = await this.waterMeterId();
+		const water = await this.api.getWater('day', meterId, 1);
+		this.writeDebug('[water/day ' + meterId + '] ' + JSON.stringify(water));
+		if (water === false) return this.fail(this.api.lastError);
+		await this.ok();
+
+		// Right after midnight the newest day record is still yesterday's.
+		const day = days[0];
+		const today = this.isCurrentPeriod(day.TIMESTAMP_lOCAL);
+		if (!today) this.writeDebug('[INFO] last day record is not from today, using 0');
+
+		await this._setDaily('meter_power.consumed_today', today ? Number(day.CONSUMPTION_DELTA_KWH) : 0,
+			this._flowTriggerPowerMeterConsumptionReset, 'meter_power.todaystotalconsumed');
+		await this._setDaily('meter_power.production_today', today ? Number(day.PRODUCTION_DELTA_KWH) : 0,
+			this._flowTriggerPowerMeterProductionReset, 'meter_power.todaystotalproduced');
+		await this._setDaily('meter_gas.consumed_today', today ? Number(day.CONSUMPTION_GAS_DELTA_M3) : 0,
+			this._flowTriggerGasUsageTodayReset, 'meter_gas.todaystotal');
+
+		if (water.length > 0) {
+			await this.ensureCapabilities(['meter_water.consumed_today']);
+			const litres = this.isCurrentPeriod(water[0].TIMESTAMP_lOCAL) ? Number(water[0].WATERMETER_CONSUMPTION_LITER) : 0;
+			await this._setDaily('meter_water.consumed_today', litres,
+				this._flowTriggerWaterMeterConsumptionReset, 'meter_water.resetconsumed_today');
+		} else if (this.hasCapability('meter_water.consumed_today')) {
+			await this.removeCapability('meter_water.consumed_today').catch(this.error);
 		}
-
-		this.writeDebug("Refresh from "+ this.config.url)
-		try {
-			this.refreshing = true
-			let statusPowerGas = await this.api.getPowerGasDay();
-			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(statusPowerGas))
-			this.refreshing = false
-
-			if(statusPowerGas == false){
-				this.setUnavailable(this.api.lastError)
-				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
-				return
-			}
-
-			this.refreshing = true
-			let statusWaterMeter = await this.api.getWaterDay(this.config.apiVersionWater);
-			this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [STATUS] "+ JSON.stringify(statusWaterMeter))
-			this.refreshing = false
-
-			if(statusWaterMeter === false){
-				this.setUnavailable(this.api.lastError)
-				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
-				return
-			}
-
-			if (statusPowerGas.length != 0) {
-				this.setAvailable();
-
-				let consumptionDelta = statusPowerGas[0].CONSUMPTION_DELTA_KWH;
-				let productionDelta = statusPowerGas[0].PRODUCTION_DELTA_KWH;
-				let gasConsumptionDelta = statusPowerGas[0].CONSUMPTION_GAS_DELTA_M3;
-
-				// Check of record is from today
-				if(!this.timestampWithinToday(statusPowerGas[0].TIMESTAMP_UTC)){
-					this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [INFO] Last record not today. Setting values to 0")
-					consumptionDelta = 0;
-					productionDelta = 0;
-					gasConsumptionDelta = 0;
-				}		
-
-				let currentConsumptionDelta = this.getCapabilityValue('meter_power.consumed_today');
-				if((currentConsumptionDelta * 0.2) > Number(consumptionDelta)){
-					this.changeCapabilityValue('meter_power.consumed_today', Number(consumptionDelta), this._flowTriggerPowerMeterConsumptionReset, {'meter_power.todaystotalconsumed': currentConsumptionDelta});
-				}else{
-					this.changeCapabilityValue('meter_power.consumed_today', Number(consumptionDelta));
-				}
-
-				let currentProductionDelta = this.getCapabilityValue('meter_power.production_today');
-				if((currentProductionDelta * 0.2) > Number(productionDelta)){
-					this.changeCapabilityValue('meter_power.production_today', Number(productionDelta), this._flowTriggerPowerMeterProductionReset, {'meter_power.todaystotalproduced': currentProductionDelta});
-				}else{
-					this.changeCapabilityValue('meter_power.production_today', Number(productionDelta));
-				}
-
-				let currentGasValue = this.getCapabilityValue('meter_gas.consumed_today');
-				if((currentGasValue * 0.2) > Number(gasConsumptionDelta)){
-					this.changeCapabilityValue('meter_gas.consumed_today', Number(gasConsumptionDelta), this._flowTriggerGasUsageTodayReset, {'meter_gas.todaystotal': currentGasValue});
-				}else{
-					this.changeCapabilityValue('meter_gas.consumed_today', Number(gasConsumptionDelta));
-				}
-
-				if(statusWaterMeter.length != 0){
-					// If water is not present add it
-					if(!this.hasCapability('meter_water.consumed_today')){
-						this.addCapability('meter_water.consumed_today');
-						this._flowTriggerWaterMeterConsumptionReset = this.homey.flow.getDeviceTriggerCard('meter_water.consumed_today.reset');
-					}
-					
-					let waterConsumptionDelta = statusWaterMeter[0].WATERMETER_CONSUMPTION_LITER;
-
-					// Check of record is from today
-					if(!this.timestampWithinToday(statusWaterMeter[0].TIMESTAMP_UTC)){
-						this.writeDebug("["+this.config.url+"/"+this.config.apiVersionWater+"] [INFO] Last record not today. Setting values to 0")
-						waterConsumptionDelta = 0;
-					}					
-
-					let currentWaterValue = this.getCapabilityValue('meter_water.consumed_today');
-					if((currentWaterValue * 0.2) > Number(waterConsumptionDelta)){
-						this.changeCapabilityValue('meter_water.consumed_today', Number(waterConsumptionDelta), this._flowTriggerWaterMeterConsumptionReset, {'meter_water.resetconsumed_today': currentWaterValue});
-					}else{
-						this.changeCapabilityValue('meter_water.consumed_today', Number(waterConsumptionDelta));
-					}
-				}else{
-					// If water is present remove it
-					if(this.hasCapability('meter_water.consumed_today')){
-						this.removeCapability('meter_water.consumed_today');
-					}
-
-					// No longer needed SDKv3
-					//if(this._flowTriggerWaterMeterConsumptionReset){
-					//	   this._flowTriggerWaterMeterConsumptionReset.unregister();
-					//}
-				}
-
-			} else {
-				this.setUnavailable('Cannot refresh / Connect');
-			}
-
-
-		} catch (error) {
-			this.error(error);
-			this.setUnavailable(error.message);
-		}
+		return true;
 	}
+
 };

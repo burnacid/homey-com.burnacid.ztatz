@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ZTATZ emulator</title>
+<style>
+  :root {
+    --bg: #f5f6f7; --card: #ffffff; --text: #1d2124; --muted: #6b7280; --line: #e3e6e8;
+    --accent: #2f6fde; --ok: #1f9d55; --warn: #c27c0e; --bad: #c8372d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #15181b; --card: #1e2226; --text: #e7eaec; --muted: #9aa3ab; --line: #2d3338; --accent: #6d9eff; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.45 system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); }
+  header { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: baseline; }
+  header h1 { font-size: 18px; margin: 0; }
+  header .sub { color: var(--muted); }
+  main { padding: 16px 20px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); max-width: 1300px; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 0 0 10px; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .stat b { display: block; font-size: 20px; font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--muted); font-size: 12px; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid var(--line); }
+  .row:first-of-type { border-top: 0; }
+  .row label { flex: 1; }
+  .row small { display: block; color: var(--muted); }
+  select, input[type=number], input[type=text] { font: inherit; padding: 4px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--text); max-width: 150px; }
+  input[type=number] { width: 90px; }
+  button { font: inherit; padding: 6px 12px; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--text); cursor: pointer; }
+  button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+  button:disabled { opacity: .5; cursor: wait; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill { display: inline-block; padding: 1px 8px; border-radius: 99px; font-size: 12px; font-weight: 600; }
+  .pill.ok { background: color-mix(in srgb, var(--ok) 18%, transparent); color: var(--ok); }
+  .pill.warn { background: color-mix(in srgb, var(--warn) 18%, transparent); color: var(--warn); }
+  .pill.bad { background: color-mix(in srgb, var(--bad) 18%, transparent); color: var(--bad); }
+  .wide { grid-column: 1 / -1; }
+  .links { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .links button { font-size: 12px; padding: 3px 8px; }
+  pre { margin: 0; padding: 10px; background: var(--bg); border-radius: 6px; overflow: auto; max-height: 340px; font-size: 12px; white-space: pre-wrap; word-break: break-all; }
+  #msg { min-height: 1.4em; color: var(--muted); }
+  #msg.err { color: var(--bad); }
+</style>
+</head>
+<body>
+<header>
+  <h1>ZTATZ emulator</h1>
+  <span class="sub" id="addr"></span>
+  <span class="sub">Simulated time <b id="now">–</b> · speed ×<span id="speed">1</span> · <span id="avail" class="pill ok">ok</span></span>
+</header>
+<main>
+  <section>
+    <h2>Live</h2>
+    <div class="stats">
+      <div class="stat"><b id="cons">–</b><span>consumption W</span></div>
+      <div class="stat"><b id="prod">–</b><span>production W</span></div>
+      <div class="stat"><b id="tariff">–</b><span>tariff</span></div>
+      <div class="stat"><b id="t1">–</b><span>1.8.1 kWh (low)</span></div>
+      <div class="stat"><b id="t2">–</b><span>1.8.2 kWh (high)</span></div>
+      <div class="stat"><b id="gas">–</b><span>gas m³</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Availability</h2>
+    <div class="row"><label>API mode<small>offline drops the connection; html returns an nginx 502 page</small></label>
+      <select data-key="availability"></select></div>
+    <div class="row"><label>Delay in slow mode<small>seconds before each API response</small></label>
+      <input type="number" min="0" max="300" data-key="slowSeconds"></div>
+    <div class="row"><label>Empty data<small>every data route returns []</small></label>
+      <input type="checkbox" data-key="emptyData"></div>
+    <div class="row"><label>New ZTATZ version available<small>fills the "Laatste P1 monitor versie" status rows</small></label>
+      <input type="checkbox" data-key="newVersion"></div>
+  </section>
+
+  <section>
+    <h2>Meter</h2>
+    <div class="row"><label>Phases</label><select data-key="phases"><option value="3">3 phases</option><option value="1">1 phase</option></select></div>
+    <div class="row"><label>Phase labels<small>legacy_v241 = ZTATZ 2.4.1 "L2" labels for L3</small></label><select data-key="phaseLabels"></select></div>
+    <div class="row"><label>Tariff</label><select data-key="tariff"></select></div>
+    <div class="row"><label>Gas meter</label><input type="checkbox" data-key="gas"></div>
+    <div class="row"><label>Water meter<small>pulse = /api/v2/watermeter, digital = watermeterdigital/…/2</small></label><select data-key="water"></select></div>
+    <div class="row"><label>Heating sensor<small>/api/v1/indoor/temperature</small></label><input type="checkbox" data-key="heating"></div>
+    <div class="row"><label>S0 production meter<small>/api/v1/powerproduction</small></label><input type="checkbox" data-key="s0Production"></div>
+    <div class="row"><label>SolarEdge<small>/api/v1/powerproductionsolar/…/1/20</small></label><input type="checkbox" data-key="solarEdge"></div>
+  </section>
+
+  <section>
+    <h2>Power</h2>
+    <div class="row"><label>Mode<small>auto follows the house model</small></label>
+      <select data-key="power.mode"><option>auto</option><option>manual</option></select></div>
+    <div class="row"><label>Consumption W (manual)</label><input type="number" min="0" step="50" data-key="power.consumptionW"></div>
+    <div class="row"><label>Production W (manual)<small>more than consumption = exporting</small></label><input type="number" min="0" step="50" data-key="power.productionW"></div>
+  </section>
+
+  <section>
+    <h2>Time</h2>
+    <div class="row"><label>Speed<small>simulated seconds per real second</small></label>
+      <select data-key="speed"><option>1</option><option>10</option><option>60</option><option>300</option><option>900</option></select></div>
+    <div class="actions">
+      <button data-action="jump" data-time="23:59:30">Jump to 23:59:30</button>
+      <button data-action="advance" data-minutes="60">+1 hour</button>
+      <button data-action="advance" data-minutes="1440">+1 day</button>
+      <button data-action="reset">Reset all data</button>
+    </div>
+    <p id="msg"></p>
+  </section>
+
+  <section class="wide">
+    <h2>Try the API</h2>
+    <div class="links" id="links"></div>
+    <pre id="out">Pick an endpoint.</pre>
+  </section>
+</main>
+<script>
+const ENDPOINTS = [
+  '/api/v1/smartmeter?limit=1&json=object',
+  '/api/v1/status?json=object',
+  '/api/v1/configuration?json=object',
+  '/api/v1/phase?limit=1&json=object',
+  '/api/v1/powergas/day?json=object&limit=1',
+  '/api/v1/powergas/minute?limit=5',
+  '/api/v1/financial/day?limit=1',
+  '/api/v1/financial/month?limit=1',
+  '/api/v1/powerproduction/minute?json=object&limit=1',
+  '/api/v1/powerproductionsolar/hour/1/20?limit=3',
+  '/api/v2/watermeter/hour?limit=1&json=object',
+  '/api/v2/watermeterdigital/day/2?limit=1&json=object',
+  '/api/v1/indoor/temperature?json=object&limit=1',
+  '/api/v1/weather?limit=1&json=object',
+  '/api/v1/p1port/telegram?json=object',
+  '/api/v1/catalog',
+];
+let state = null;
+let editing = false;
+
+const $ = (s) => document.querySelector(s);
+const get = (obj, key) => key.split('.').reduce((o, k) => (o ? o[k] : undefined), obj);
+
+async function api(path, body) {
+  const r = await fetch(path, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) } : {});
+  const data = await r.json();
+  if (!r.ok) throw new Error(data.error || r.statusText);
+  return data;
+}
+
+function msg(text, err) {
+  const m = $('#msg');
+  m.textContent = text;
+  m.className = err ? 'err' : '';
+}
+
+function render(s) {
+  state = s;
+  const sim = s.sim;
+  $('#addr').textContent = 'http://' + s.lanIp + ':' + s.port;
+  $('#now').textContent = sim.now;
+  $('#speed').textContent = sim.speed;
+  $('#cons').textContent = sim.consumptionW;
+  $('#prod').textContent = sim.productionW;
+  $('#tariff').textContent = sim.tariff === 'P' ? 'P (high)' : 'D (low)';
+  $('#t1').textContent = sim.meter.t1.toFixed(3);
+  $('#t2').textContent = sim.meter.t2.toFixed(3);
+  $('#gas').textContent = sim.gasM3.toFixed(3);
+  const av = s.scenario.availability;
+  const pill = $('#avail');
+  pill.textContent = av;
+  pill.className = 'pill ' + (av === 'ok' ? 'ok' : av === 'slow' ? 'warn' : 'bad');
+  if (editing) return;
+  document.querySelectorAll('[data-key]').forEach((el) => {
+    const v = get(s.scenario, el.dataset.key);
+    if (el.type === 'checkbox') el.checked = Boolean(v);
+    else if (document.activeElement !== el) el.value = String(v);
+  });
+}
+
+function fillEnums(enums) {
+  for (const [key, values] of Object.entries(enums)) {
+    const sel = document.querySelector('select[data-key="' + key + '"]');
+    if (sel && !sel.options.length) sel.innerHTML = values.map((v) => '<option>' + v + '</option>').join('');
+  }
+}
+
+async function refresh() {
+  try {
+    const s = await api('/emulator/api/state');
+    fillEnums(s.enums);
+    render(s);
+  } catch (e) {
+    msg('emulator not reachable: ' + e.message, true);
+  }
+}
+
+document.querySelectorAll('[data-key]').forEach((el) => {
+  el.addEventListener('focus', () => { editing = true; });
+  el.addEventListener('blur', () => { editing = false; });
+  el.addEventListener('change', async () => {
+    const key = el.dataset.key;
+    let value = el.type === 'checkbox' ? el.checked : el.value;
+    if (el.type === 'number' || key === 'phases' || key === 'speed') value = Number(value);
+    const update = {};
+    if (key.startsWith('power.')) update.power = { [key.slice(6)]: value };
+    else update[key] = value;
+    try {
+      render(await api('/emulator/api/scenario', update));
+      msg('updated ' + key);
+    } catch (e) {
+      msg(e.message, true);
+    }
+  });
+});
+
+document.querySelectorAll('[data-action]').forEach((btn) => {
+  btn.addEventListener('click', async () => {
+    const body = { action: btn.dataset.action };
+    if (btn.dataset.time) body.time = btn.dataset.time;
+    if (btn.dataset.minutes) body.minutes = Number(btn.dataset.minutes);
+    if (body.action === 'reset' && !confirm('Rebuild all history from scratch?')) return;
+    document.querySelectorAll('[data-action]').forEach((b) => { b.disabled = true; });
+    msg('working …');
+    try {
+      render(await api('/emulator/api/action', body));
+      msg('done');
+    } catch (e) {
+      msg(e.message, true);
+    } finally {
+      document.querySelectorAll('[data-action]').forEach((b) => { b.disabled = false; });
+    }
+  });
+});
+
+const links = $('#links');
+for (const ep of ENDPOINTS) {
+  const b = document.createElement('button');
+  b.textContent = ep;
+  b.addEventListener('click', async () => {
+    const out = $('#out');
+    out.textContent = 'GET ' + ep + ' …';
+    try {
+      const r = await fetch(ep, { headers: { Accept: 'application/json' } });
+      const text = await r.text();
+      let pretty = text;
+      try { pretty = JSON.stringify(JSON.parse(text), null, 2); } catch { /* not json */ }
+      out.textContent = 'HTTP ' + r.status + '  ' + ep + '\n\n' + pretty;
+    } catch (e) {
+      out.textContent = 'GET ' + ep + ' failed: ' + e.message;
+    }
+  });
+  links.appendChild(b);
+}
+
+refresh();
+setInterval(refresh, 2000);
+</script>
+</body>
+</html>
