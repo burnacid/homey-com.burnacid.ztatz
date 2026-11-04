@@ -125,5 +125,9 @@
   },
   "0.11.1": {
     "en": "Small correction in wattage calculation for solarpanel extention"
+  },
+  "0.12.0": {
+    "en": "Water now uses the new ZTATZ watermeterdigital API (the old one is deprecated) and supports digital (P1) water meters. Usage device reports net power and the export meter to Homey Energy. Fixed L3 current, false 'new version' triggers, daily values on the 25-hour DST day, clearer error messages, optional API key for HTTPS access.",
+    "nl": "Water gebruikt nu de nieuwe ZTATZ watermeterdigital API (de oude is verouderd) en ondersteunt digitale (P1) watermeters. Verbruik apparaat geeft netto vermogen en de terugleverteller door aan Homey Energie. L3 stroom, onterechte 'nieuwe versie' triggers en dagwaarden op de 25-uurs zomertijddag hersteld, duidelijkere foutmeldingen, optionele API sleutel voor HTTPS toegang."
   }
 }

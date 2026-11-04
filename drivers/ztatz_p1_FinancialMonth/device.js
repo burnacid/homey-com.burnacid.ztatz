@@ -1,118 +1,32 @@
 'use strict';
 
-const Homey = require('homey');
-const Device = require('../../lib/Device.js');
-const boolean = require('boolean');
+const Device = require('../../lib/Device');
 
-const refreshTimeout = 1000 * 60; // 60 sec
+const REFRESH_MS = 60 * 1000;
+const money = (x) => Math.round(Number(x) * 100) / 100;
 
-module.exports = class ztatzP1FinancialDayDevice extends Device {
+module.exports = class ztatzP1FinancialMonthDevice extends Device {
 
-	// this method is called when the Device is inited
 	async _initDevice() {
 		this.log('_initDevice');
-		const device = this.getData();
-		this.config = this.getSettings();
-		this.config.debug = false
-		this.refreshing = false
-		this.setSettings({
-			debug: false
-		})
-
-		// Register flowcard triggers
-		//this._registerFlowCardTriggers();
-
-		// Update server data
-		//this._syncDevice();
-
-		if(!this.hasCapability('money.monthused')){
-			this.addCapability('money.monthused');
-		}
-
-		if(!this.hasCapability('money.monthgen')){
-			this.addCapability('money.monthgen');
-		}
-
-		if(!this.hasCapability('money.monthgas')){
-			this.addCapability('money.monthgas');
-		}
-
-		if(!this.hasCapability('money.monthwater')){
-			this.addCapability('money.monthwater');
-		}
-
-		// Set update timer
-		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
-		this.setSettings({
-			url: device.url,
-		});
+		await this.ensureCapabilities(['money.monthused', 'money.monthgen', 'money.monthgas', 'money.monthwater']);
+		this.poll('financial', () => this._syncDevice(), REFRESH_MS);
 	}
 
-	async _deleteDevice() {
-		this.log('_deleteDevice');
-
-		clearInterval(this.intervalId);
-	}
-
-	async onSettings({ oldSettings, newSettings, changedKeys }) {
-		this.config = newSettings
-	}
-
-	// Update server data
 	async _syncDevice() {
-		if(this.refreshing){
-			this.setWarning("Refresh seems to take long...")
-			this.writeDebug("Already refreshing")
-			return
-		}
+		const rows = await this.api.getFinancialMonth();
+		this.writeDebug('[financial/month] ' + JSON.stringify(rows));
+		if (rows === false) return this.fail(this.api.lastError);
+		if (rows.length === 0) return this.fail('ZTATZ has no financial data yet');
+		await this.ok();
 
-		this.writeDebug("Refresh from "+ this.config.url)
-		try {
-			this.refreshing = true
-			let status = await this.api.getFinancialMonth();
-			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(status))
-			this.refreshing = false
-
-			if(status == false){
-				this.setUnavailable(this.api.lastError)
-				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
-				return
-			} 
-
-			if (status.length != 0) {
-				this.setAvailable();
-
-				let usageLow = status[0][2]
-				let usageHigh = status[0][3]
-				let generationLow = status[0][4]
-				let generationHigh = status[0][5]
-				let usageGas = status[0][6]
-				let usageWater = status[0][7]
-
-				this.setCapabilityValue('money.monthused', Number(usageLow) + Number(usageHigh));
-				this.setCapabilityValue('money.monthgen', Number(generationLow) + Number(generationHigh));
-				this.setCapabilityValue('money.monthgas', Number(usageGas));
-				this.setCapabilityValue('money.monthwater', Number(usageWater));
-
-			} else {
-				this.setUnavailable('Cannot refresh / Connect');
-			}
-
-
-		} catch (error) {
-			this.error(error);
-			this.setUnavailable(error.message);
-		}
+		// on the first of the month the newest record can still be last month's
+		const r = this.isCurrentPeriod(rows[0].TIMESTAMP_lOCAL, 7) ? rows[0] : {};
+		await this.changeCapabilityValue('money.monthused', money((r.CONSUMPTION_COST_ELECTRICITY_HIGH || 0) + (r.CONSUMPTION_COST_ELECTRICITY_LOW || 0)));
+		await this.changeCapabilityValue('money.monthgen', money((r.PRODUCTION_REVENUES_ELECTRICITY_HIGH || 0) + (r.PRODUCTION_REVENUES_ELECTRICITY_LOW || 0)));
+		await this.changeCapabilityValue('money.monthgas', money(r.CONSUMPTION_COST_GAS || 0));
+		await this.changeCapabilityValue('money.monthwater', money(r.CONSUMPTION_COST_WATER || 0));
+		return true;
 	}
 
-	// this method is called when the Device has requested a state change (turned on or off)
-	//async p1_kwh_used( value, opts ) {
-
-	// ... set value to real device, e.g.
-	// await setMyDeviceState({ on: value });
-
-	// or, throw an error
-	// throw new Error('Switching the device failed!');
-	//}
-
-}
+};

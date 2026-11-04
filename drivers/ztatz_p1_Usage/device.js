@@ -1,203 +1,97 @@
 'use strict';
 
-const Homey = require('homey');
-const Device = require('../../lib/Device.js');
-const boolean = require('boolean');
+const Device = require('../../lib/Device');
 
-const refreshTimeout = 1000 * 10; // 10 sec
-const refreshTimeoutStats = 1000 * 300; // 5 min
+const REFRESH_MS = 10 * 1000; // ZTATZ stores a smart meter record every ~10 s
+const VERSION_REFRESH_MS = 5 * 60 * 1000;
+const round3 = (x) => Math.round(x * 1000) / 1000;
 
-module.exports = class ztatzP1SmartMeterDevice extends Device {
+const ENERGY = {
+	cumulative: true,
+	cumulativeImportedCapability: 'meter_power.total',
+	cumulativeExportedCapability: 'meter_power.exported',
+};
 
-	// this method is called when the Device is inited
+module.exports = class ztatzP1UsageDevice extends Device {
+
 	async _initDevice() {
 		this.log('_initDevice');
-		const device = this.getData();
-		this.config = this.getSettings();
-		this.config.debug = false
-		this.refreshing = false
-		this.refreshingStats = false
-		this.setSettings({
-			debug: false
-		})
-		// Register flowcard triggers
-		//this._registerFlowCardTriggers();
 
-		// Update server data
-		this.intervalStatsId = setInterval(this._syncStats.bind(this), refreshTimeoutStats);
+		// devices paired with older versions miss capabilities / energy settings
+		await this.ensureCapabilities([
+			'measure_power', 'meter_power.consumedL1', 'meter_power.consumedL2', 'meter_power.total',
+			'meter_power.exported', 'meter_gas', 'tariff_high', 'version_number',
+		]);
+		await this.migrateDevice('sensor', ENERGY);
 
-		// Set update timer
-		this.intervalId = setInterval(this._syncDevice.bind(this), refreshTimeout);
-		this.setSettings({
-			url: device.url,
-		});
-
-		// Add version Capablity
-		if(!this.hasCapability('version_number')){
-			this.addCapability('version_number');
-		}
-
-		if(!this.hasCapability('measure_power')){
-			this.addCapability('measure_power');
-		}
-
-		if(!this.hasCapability('meter_power.consumedL2')){
-			this.addCapability('meter_power.consumedL2');
-		}
-
-		if(!this.hasCapability('meter_power.consumedL1')){
-			this.addCapability('meter_power.consumedL1');
-		}
-
-		if(!this.hasCapability('meter_power.total')){
-			this.addCapability('meter_power.total');
-		}
-
-		if(!this.hasCapability('meter_gas')){
-			this.addCapability('meter_gas');
-		}
-
-		console.log("register flow triggers");
-		// register Flow triggers
 		this._flowTriggerPowerMeterL1Changed = this.homey.flow.getDeviceTriggerCard('meter_power.consumedL1.changed');
 		this._flowTriggerPowerMeterL2Changed = this.homey.flow.getDeviceTriggerCard('meter_power.consumedL2.changed');
 		this._flowTriggerPowerMeterTotalChanged = this.homey.flow.getDeviceTriggerCard('meter_power.consumedTotal.changed');
 		this._flowTriggerGasMeterChanged = this.homey.flow.getDeviceTriggerCard('meter_gas.changed');
 		this._flowTriggerVersionChanged = this.homey.flow.getDeviceTriggerCard('version_number.changed');
 
-		this._syncStats();
+		this.poll('meter', () => this._syncMeter(), REFRESH_MS);
+		this.poll('version', () => this._syncVersion(), VERSION_REFRESH_MS);
 	}
 
-	async _deleteDevice() {
-		this.log('_deleteDevice');
+	async _syncMeter() {
+		const rows = await this.api.getSmartmeter();
+		this.writeDebug('[smartmeter] ' + JSON.stringify(rows));
+		if (rows === false) return this.fail(this.api.lastError);
+		if (rows.length === 0) return this.fail('ZTATZ has no smart meter data yet');
+		await this.ok();
 
-		clearInterval(this.intervalStatsId);
-		clearInterval(this.intervalId);
+		const r = rows[0];
+		const usageLow = Number(r.CONSUMPTION_KWH_LOW);
+		const usageHigh = Number(r.CONSUMPTION_KWH_HIGH);
+		const usageTotal = round3(usageLow + usageHigh);
+		const exportTotal = round3(Number(r.PRODUCTION_KWH_LOW) + Number(r.PRODUCTION_KWH_HIGH));
+		const gas = Number(r.CONSUMPTION_GAS_M3);
+
+		// net power: negative while delivering to the grid
+		await this.changeCapabilityValue('measure_power', Number(r.CONSUMPTION_W) - Number(r.PRODUCTION_W));
+		await this.changeCapabilityValue('meter_power.consumedL2', usageLow, this._flowTriggerPowerMeterL2Changed, { 'meter_power.consumedL2': usageLow });
+		await this.changeCapabilityValue('meter_power.consumedL1', usageHigh, this._flowTriggerPowerMeterL1Changed, { 'meter_power.consumedL1': usageHigh });
+		await this.changeCapabilityValue('meter_power.total', usageTotal, this._flowTriggerPowerMeterTotalChanged, { 'meter_power.consumedTotal': usageTotal });
+		await this.changeCapabilityValue('meter_power.exported', exportTotal);
+		await this.changeCapabilityValue('meter_gas', gas, this._flowTriggerGasMeterChanged, { meter_gas: gas });
+		await this.changeCapabilityValue('tariff_high', r.TARIFCODE === 'P');
+		return true;
 	}
 
-	async onSettings({ oldSettings, newSettings, changedKeys }) {
-		this.config = newSettings
-	}
-
-	// Update server data
-	async _syncDevice() {
-		if(this.refreshing){
-			this.setWarning("Refresh seems to take long...")
-			this.writeDebug("Already refreshing")
-			return
+	/**
+	 * ZTATZ only fills the "Laatste P1 monitor versie ..." rows when a newer
+	 * version exists (and the version check is enabled), and clears them again
+	 * after updating. Only a real new version may fire the flow trigger.
+	 */
+	async _syncVersion() {
+		const status = await this.api.getStatus();
+		const configuration = await this.api.getConfiguration();
+		if (status === false || configuration === false) {
+			this.writeDebug('[version] ' + this.api.lastError);
+			return true; // the meter poll decides availability
 		}
 
-		this.writeDebug("Refresh from "+ this.config.url)
-		try {
-			this.refreshing = true
-			let status = await this.api.getSmartmeter();
-			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(status))
-			this.refreshing = false
+		const statusValue = (label) => (this.api.filterValueByLabel(status, label)[0] || {}).STATUS;
+		const latestNumber = Number(statusValue('Laatste P1 monitor versie nummer:')) || 0;
+		const currentNumber = Number((this.api.filterValueByLabel(configuration, 'Versie nummer:')[0] || {}).PARAMETER) || 0;
+		const flag = statusValue('Nieuwe versie van P1 monitor software beschikbaar:');
+		const newAvailable = flag === undefined ? latestNumber > currentNumber : flag === '1';
 
-			if(status == false){
-				this.setUnavailable(this.api.lastError)
-				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
-				return
-			} 
-			
-			if (status.length != 0) {
-				this.setAvailable();
-
-				let usageLow = status[0][3]
-				let usageHigh = status[0][4]
-				let usageTotal = usageLow + usageHigh
-				let currentUsage = status[0][8]
-				let currentGas = status[0][10]
-				let tariff = status[0][7]
-
-				this.changeCapabilityValue('measure_power', Number(currentUsage));
-				this.changeCapabilityValue('meter_power.consumedL2', Number(usageLow), this._flowTriggerPowerMeterL2Changed, {'meter_power.consumedL2':Number(usageLow)});
-				this.changeCapabilityValue('meter_power.consumedL1', Number(usageHigh), this._flowTriggerPowerMeterL1Changed, {'meter_power.consumedL1':Number(usageHigh)});
-				this.changeCapabilityValue('meter_power.total', Number(usageTotal), this._flowTriggerPowerMeterTotalChanged, {'meter_power.consumedTotal':Number(usageTotal)});
-				this.changeCapabilityValue('meter_gas', Number(currentGas), this._flowTriggerGasMeterChanged, {'meter_gas':Number(currentGas)});
-
-				let tariff_high = false;
-
-				if(tariff == "P"){
-					tariff_high = true;
-				}
-
-				this.changeCapabilityValue('tariff_high', tariff_high);
-
-			} else {
-				this.setUnavailable('Cannot refresh / Connect');
-			}
-
-
-		} catch (error) {
-			this.error(error);
-			this.setUnavailable(error.message);
+		if (!newAvailable || latestNumber <= 0) {
+			await this.changeCapabilityValue('version_number', 0);
+			return true;
 		}
+
+		await this.changeCapabilityValue('version_number', latestNumber, this._flowTriggerVersionChanged, {
+			version: String(statusValue('Laatste P1 monitor versie:') || ''),
+			version_number: latestNumber,
+			version_url: String(statusValue('Laatste P1 monitor versie URL:') || ''),
+			version_date: String(statusValue('Laatste P1 monitor versie datum:') || ''),
+			version_name: String(statusValue('Laatste P1 monitor versie tekst:') || ''),
+			current_version_number: currentNumber,
+		});
+		return true;
 	}
 
-	// Update stats
-	async _syncStats() {
-		if(this.refreshingStats){
-			this.setWarning("Refresh seems to take long...")
-			this.writeDebug("Already refreshing")
-			return
-		}
-
-		this.writeDebug("Refresh from "+ this.config.url)
-		try {
-			this.refreshingStats = true
-			let status = await this.api.getStatus();
-			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(status))
-			this.refreshingStats = false
-			if(status == false){
-				this.setUnavailable(this.api.lastError)
-				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
-				return
-			} 
-
-			let configuration = await this.api.getConfiguration();
-			this.writeDebug("["+this.config.url+"] [STATUS] "+ JSON.stringify(configuration))
-			if(status == false){
-				this.setUnavailable(this.api.lastError)
-				this.writeDebug("["+this.config.url+"] [ERROR] "+ this.api.lastError)
-				return
-			} 
-
-			if (status.length != 0 && configuration != 0) {
-				this.setAvailable();
-
-				let lastVersion = this.api.filterValueByLabel(status,"Laatste P1 monitor versie:")[0]
-				let lastVersionText = this.api.filterValueByLabel(status,"Laatste P1 monitor versie tekst:")[0]
-				let lastVersionDate = this.api.filterValueByLabel(status,"Laatste P1 monitor versie datum:")[0]
-				let lastVersionUrl = this.api.filterValueByLabel(status,"Laatste P1 monitor versie URL:")[0]
-				let lastVersionNumber = this.api.filterValueByLabel(status,"Laatste P1 monitor versie nummer:")[0]
-
-				let currentVersion = this.api.filterValueByLabel(configuration,"Versie:","PARAMETER")[0]
-				let currentVersionNumber = this.api.filterValueByLabel(configuration,"Versie nummer:")[0]
-
-				try{
-					this.changeCapabilityValue('version_number', Number(lastVersionNumber['STATUS']), this._flowTriggerVersionChanged, {'version':String(lastVersion['STATUS']),"version_number":Number(lastVersionNumber['STATUS']),"version_url":String(lastVersionUrl['STATUS']),"version_date":String(lastVersionDate['STATUS']),"version_name":String(lastVersionText['STATUS']),"current_version_number":Number(currentVersionNumber['PARAMETER'])});
-				}catch (error){
-					this.log(error)
-				}
-			} else {
-				this.setUnavailable('Cannot refresh / Connect');
-			}
-			
-		} catch (error) {
-			this.error(error);
-			this.setUnavailable(error.message);
-		}
-	}
-
-	// this method is called when the Device has requested a state change (turned on or off)
-	//async p1_kwh_used( value, opts ) {
-
-	// ... set value to real device, e.g.
-	// await setMyDeviceState({ on: value });
-
-	// or, throw an error
-	// throw new Error('Switching the device failed!');
-	//}
-
-}
+};

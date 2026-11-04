@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.burnacid.ztatz",
-  "version": "0.11.1",
+  "version": "0.12.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "brandColor": "#384042",
@@ -340,7 +340,7 @@
         "id": "meter_power.consumedTotal.changed",
         "title": {
           "nl": "Electriciteitverbruik totaal is veranderd",
-          "en": "Power used totaal has changed"
+          "en": "Power used total has changed"
         },
         "tokens": [
           {
@@ -519,27 +519,46 @@
               "value": ""
             },
             {
-              "id": "apiVersionWater",
+              "id": "waterMeterId",
               "type": "dropdown",
-              "value": "v2",
+              "value": "1",
               "label": {
-                "en": "API version for Water information",
-                "nl": "API versie voor water informatie"
+                "en": "Water meter",
+                "nl": "Watermeter"
+              },
+              "hint": {
+                "en": "Which ZTATZ water meter to use. It is detected automatically when the device is added.",
+                "nl": "Welke ZTATZ watermeter gebruikt wordt. Dit wordt automatisch bepaald bij het toevoegen."
               },
               "values": [
                 {
-                  "id": "v1",
+                  "id": "1",
                   "label": {
-                    "en": "v1"
+                    "en": "1 - pulse meter (GPIO)",
+                    "nl": "1 - pulsmeter (GPIO)"
                   }
                 },
                 {
-                  "id": "v2",
+                  "id": "2",
                   "label": {
-                    "en": "v2"
+                    "en": "2 - digital meter (P1 telegram)",
+                    "nl": "2 - digitale meter (P1 telegram)"
                   }
                 }
               ]
+            },
+            {
+              "id": "apiKey",
+              "type": "password",
+              "value": "",
+              "label": {
+                "en": "API key",
+                "nl": "API sleutel"
+              },
+              "hint": {
+                "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+                "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+              }
             },
             {
               "id": "debug",
@@ -634,6 +653,19 @@
               "value": ""
             },
             {
+              "id": "apiKey",
+              "type": "password",
+              "value": "",
+              "label": {
+                "en": "API key",
+                "nl": "API sleutel"
+              },
+              "hint": {
+                "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+                "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+              }
+            },
+            {
               "id": "debug",
               "type": "checkbox",
               "value": false,
@@ -726,6 +758,19 @@
               "value": ""
             },
             {
+              "id": "apiKey",
+              "type": "password",
+              "value": "",
+              "label": {
+                "en": "API key",
+                "nl": "API sleutel"
+              },
+              "hint": {
+                "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+                "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+              }
+            },
+            {
               "id": "debug",
               "type": "checkbox",
               "value": false,
@@ -767,11 +812,12 @@
         "en": "P1 Generation",
         "nl": "P1 Generatie"
       },
-      "class": "solarpanel",
+      "class": "sensor",
       "capabilities": [
         "measure_power",
         "meter_power.generatedL1",
-        "meter_power.generatedL2"
+        "meter_power.generatedL2",
+        "meter_power.generatedTotal"
       ],
       "capabilitiesOptions": {
         "measure_power": {
@@ -779,11 +825,7 @@
             "nl": "Huidig stroomgeneratie",
             "en": "Current power generation"
           },
-          "color": "#dde840",
-          "energy": {
-            "meterPowerExportedCapability": "meter_power.generatedTotal",
-            "cumulative": true
-          }
+          "color": "#dde840"
         },
         "meter_power.generatedL1": {
           "isGenerator": true,
@@ -829,6 +871,19 @@
                 "nl": "URL"
               },
               "value": ""
+            },
+            {
+              "id": "apiKey",
+              "type": "password",
+              "value": "",
+              "label": {
+                "en": "API key",
+                "nl": "API sleutel"
+              },
+              "hint": {
+                "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+                "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+              }
             },
             {
               "id": "debug",
@@ -922,6 +977,19 @@
               "value": ""
             },
             {
+              "id": "apiKey",
+              "type": "password",
+              "value": "",
+              "label": {
+                "en": "API key",
+                "nl": "API sleutel"
+              },
+              "hint": {
+                "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+                "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+              }
+            },
+            {
               "id": "debug",
               "type": "checkbox",
               "value": false,
@@ -968,8 +1036,7 @@
         "measure_power",
         "meter_power.high",
         "meter_power.low",
-        "meter_power",
-        "version_number"
+        "meter_power"
       ],
       "energy": {
         "meterPowerExportedCapability": "meter_power"
@@ -1001,7 +1068,7 @@
         "meter_power": {
           "title": {
             "nl": "Opwekking totaal",
-            "en": "Generation totaal"
+            "en": "Generation total"
           },
           "decimals": 3,
           "color": "#c2ad38"
@@ -1023,6 +1090,19 @@
                 "nl": "URL"
               },
               "value": ""
+            },
+            {
+              "id": "apiKey",
+              "type": "password",
+              "value": "",
+              "label": {
+                "en": "API key",
+                "nl": "API sleutel"
+              },
+              "hint": {
+                "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+                "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+              }
             },
             {
               "id": "debug",
@@ -1066,25 +1146,27 @@
         "en": "P1 Usage",
         "nl": "P1 Verbruik"
       },
-      "class": "other",
+      "class": "sensor",
       "capabilities": [
         "measure_power",
         "meter_power.consumedL1",
         "meter_power.consumedL2",
         "meter_power.total",
+        "meter_power.exported",
         "meter_gas",
         "tariff_high",
         "version_number"
       ],
       "energy": {
         "cumulative": true,
-        "cumulativeImportedCapability": "meter_power.total"
+        "cumulativeImportedCapability": "meter_power.total",
+        "cumulativeExportedCapability": "meter_power.exported"
       },
       "capabilitiesOptions": {
         "measure_power": {
           "title": {
-            "nl": "Huidig stroomverbruik",
-            "en": "Current power usage"
+            "nl": "Huidig stroomverbruik (netto)",
+            "en": "Current power usage (net)"
           },
           "color": "#dde840"
         },
@@ -1107,10 +1189,18 @@
         "meter_power.total": {
           "title": {
             "nl": "Elektriciteitverbruik totaal",
-            "en": "Electricity usage totaal"
+            "en": "Electricity usage total"
           },
           "decimals": 3,
           "color": "#c2ad38"
+        },
+        "meter_power.exported": {
+          "title": {
+            "nl": "Elektriciteit teruglevering totaal",
+            "en": "Electricity delivery total"
+          },
+          "decimals": 3,
+          "color": "#43e840"
         },
         "meter_gas": {
           "title": {
@@ -1137,6 +1227,19 @@
                 "nl": "URL"
               },
               "value": ""
+            },
+            {
+              "id": "apiKey",
+              "type": "password",
+              "value": "",
+              "label": {
+                "en": "API key",
+                "nl": "API sleutel"
+              },
+              "hint": {
+                "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+                "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+              }
             },
             {
               "id": "debug",
@@ -1181,7 +1284,7 @@
         "en": "P1 Water",
         "nl": "P1 Water"
       },
-      "class": "other",
+      "class": "sensor",
       "capabilities": [
         "measure_water",
         "meter_water"
@@ -1192,18 +1295,14 @@
       "capabilitiesOptions": {
         "measure_water": {
           "title": {
-            "nl": "Recent water verbruik",
-            "en": "Recent water usage"
+            "nl": "Water verbruik (laatste minuut)",
+            "en": "Water usage (last minute)"
           },
-          "color": "#dde840",
-          "units": {
-            "en": "L/hour",
-            "nl": "L/uur"
-          }
+          "color": "#dde840"
         },
         "meter_water": {
           "title": {
-            "nl": "Water verbruk",
+            "nl": "Water verbruik",
             "en": "Water usage"
           },
           "decimals": 3,
@@ -1248,27 +1347,46 @@
               "value": ""
             },
             {
-              "id": "apiVersionWater",
+              "id": "waterMeterId",
               "type": "dropdown",
-              "value": "v2",
+              "value": "1",
               "label": {
-                "en": "API version for Water information",
-                "nl": "API versie voor water informatie"
+                "en": "Water meter",
+                "nl": "Watermeter"
+              },
+              "hint": {
+                "en": "Which ZTATZ water meter to use. It is detected automatically when the device is added.",
+                "nl": "Welke ZTATZ watermeter gebruikt wordt. Dit wordt automatisch bepaald bij het toevoegen."
               },
               "values": [
                 {
-                  "id": "v1",
+                  "id": "1",
                   "label": {
-                    "en": "v1"
+                    "en": "1 - pulse meter (GPIO)",
+                    "nl": "1 - pulsmeter (GPIO)"
                   }
                 },
                 {
-                  "id": "v2",
+                  "id": "2",
                   "label": {
-                    "en": "v2"
+                    "en": "2 - digital meter (P1 telegram)",
+                    "nl": "2 - digitale meter (P1 telegram)"
                   }
                 }
               ]
+            },
+            {
+              "id": "apiKey",
+              "type": "password",
+              "value": "",
+              "label": {
+                "en": "API key",
+                "nl": "API sleutel"
+              },
+              "hint": {
+                "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+                "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+              }
             },
             {
               "id": "debug",
@@ -1408,6 +1526,19 @@
                 "nl": "URL"
               },
               "value": ""
+            },
+            {
+              "id": "apiKey",
+              "type": "password",
+              "value": "",
+              "label": {
+                "en": "API key",
+                "nl": "API sleutel"
+              },
+              "hint": {
+                "en": "Only needed when ZTATZ is reached over HTTPS (internet access with API tokens). Leave empty on your local network.",
+                "nl": "Alleen nodig wanneer ZTATZ via HTTPS benaderd wordt (internet toegang met API tokens). Laat leeg op je lokale netwerk."
+              }
             },
             {
               "id": "calculated_amperage",
