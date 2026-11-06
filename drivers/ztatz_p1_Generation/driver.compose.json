@@ -85,7 +85,7 @@
           },
           "hint": {
             "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
-            "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+            "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereert extra logs voor diagnostische rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
           }
         }
       ]

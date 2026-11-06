@@ -4,7 +4,7 @@
       "id": "meter_power.consumedL1.changed",
       "title": {
         "nl": "Electriciteitverbruik piekuren is veranderd",
-        "en": "Power used high tarif has changed"
+        "en": "Power used high tariff has changed"
       },
       "tokens": [
         {
@@ -22,7 +22,7 @@
       "id": "meter_power.consumedL2.changed",
       "title": {
         "nl": "Electriciteitverbruik daluren is veranderd",
-        "en": "Power used low tarif has changed"
+        "en": "Power used low tariff has changed"
       },
       "tokens": [
         {

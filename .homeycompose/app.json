@@ -9,8 +9,8 @@
     "en": "ZTATZ"
   },
   "description": {
-    "nl": "Voor het toevoegen van ondersteuning voor P1 Monitor ZTATZ",
-    "en": "Adds support for P1 Monitor ZTATZ"
+    "nl": "Je slimme meter live in Homey: stroom, gas, water en kosten",
+    "en": "Your smart meter, live in Homey: power, gas, water and costs"
   },
   "category": [
     "energy",

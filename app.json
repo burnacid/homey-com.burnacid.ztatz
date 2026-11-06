@@ -10,8 +10,8 @@
     "en": "ZTATZ"
   },
   "description": {
-    "nl": "Voor het toevoegen van ondersteuning voor P1 Monitor ZTATZ",
-    "en": "Adds support for P1 Monitor ZTATZ"
+    "nl": "Je slimme meter live in Homey: stroom, gas, water en kosten",
+    "en": "Your smart meter, live in Homey: power, gas, water and costs"
   },
   "category": [
     "energy",
@@ -148,7 +148,7 @@
         "id": "meter_power.generatedL1.changed",
         "title": {
           "nl": "Electriciteitgeneratie piekuren is veranderd",
-          "en": "Power generation high tarif has changed"
+          "en": "Power generation high tariff has changed"
         },
         "tokens": [
           {
@@ -172,7 +172,7 @@
         "id": "meter_power.generatedL2.changed",
         "title": {
           "nl": "Electriciteitgeneratie daluren is veranderd",
-          "en": "Power generation low tarif has changed"
+          "en": "Power generation low tariff has changed"
         },
         "tokens": [
           {
@@ -292,7 +292,7 @@
         "id": "meter_power.consumedL1.changed",
         "title": {
           "nl": "Electriciteitverbruik piekuren is veranderd",
-          "en": "Power used high tarif has changed"
+          "en": "Power used high tariff has changed"
         },
         "tokens": [
           {
@@ -316,7 +316,7 @@
         "id": "meter_power.consumedL2.changed",
         "title": {
           "nl": "Electriciteitverbruik daluren is veranderd",
-          "en": "Power used low tarif has changed"
+          "en": "Power used low tariff has changed"
         },
         "tokens": [
           {
@@ -569,7 +569,7 @@
               },
               "hint": {
                 "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
-                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereert extra logs voor diagnostische rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
               }
             }
           ]
@@ -674,7 +674,7 @@
               },
               "hint": {
                 "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
-                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereert extra logs voor diagnostische rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
               }
             }
           ]
@@ -779,7 +779,7 @@
               },
               "hint": {
                 "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
-                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereert extra logs voor diagnostische rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
               }
             }
           ]
@@ -894,7 +894,7 @@
               },
               "hint": {
                 "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
-                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereert extra logs voor diagnostische rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
               }
             }
           ]
@@ -998,7 +998,7 @@
               },
               "hint": {
                 "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
-                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereert extra logs voor diagnostische rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
               }
             }
           ]
@@ -1052,7 +1052,7 @@
         "meter_power.high": {
           "title": {
             "nl": "Opwekking piekuren",
-            "en": "Generation high tarif"
+            "en": "Generation high tariff"
           },
           "decimals": 3,
           "color": "#e8cf40"
@@ -1060,7 +1060,7 @@
         "meter_power.low": {
           "title": {
             "nl": "Opwekking daluren",
-            "en": "Generation low tarif"
+            "en": "Generation low tariff"
           },
           "decimals": 3,
           "color": "#c2ad38"
@@ -1113,7 +1113,7 @@
               },
               "hint": {
                 "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
-                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereert extra logs voor diagnostische rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
               }
             }
           ]
@@ -1250,7 +1250,7 @@
               },
               "hint": {
                 "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
-                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereert extra logs voor diagnostische rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
               }
             }
           ]
@@ -1397,7 +1397,7 @@
               },
               "hint": {
                 "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
-                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereert extra logs voor diagnostische rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
               }
             }
           ]
@@ -1575,7 +1575,7 @@
               },
               "hint": {
                 "en": "Only enable this when troubleshooting issues, this generates extra logs for diagnostic reports. This will be disabled when the app is restarted!",
-                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereerd extra logs voor diagnostic rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
+                "nl": "Zet deze setting alleen aan wanneer je problemen probeert op te lossen, dit genereert extra logs voor diagnostische rapportages. Dit wordt uitgeschakeld wanneer de app wordt herstart!"
               }
             }
           ]

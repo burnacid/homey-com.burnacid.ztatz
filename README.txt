@@ -1,2 +1,2 @@
-ZTATZ P1 monitor is software to read a P1 smart meter. The software is ment to run on a Raspberry Rpi3 en Rpi4.
-This app add integration with the ZTATZ API to configure flows based on values from P1.
+ZTATZ P1 Monitor is software that reads your P1 smart meter. It is designed to run on a Raspberry Pi 3 or Raspberry Pi 4.
+This app connects Homey to the P1 Monitor API, so you can see your power, gas and water usage, solar generation and energy costs in Homey and use these values to build flows.

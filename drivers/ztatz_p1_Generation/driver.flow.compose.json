@@ -4,7 +4,7 @@
       "id": "meter_power.generatedL1.changed",
       "title": {
         "nl": "Electriciteitgeneratie piekuren is veranderd",
-        "en": "Power generation high tarif has changed"
+        "en": "Power generation high tariff has changed"
       },
       "tokens": [
         {
@@ -22,7 +22,7 @@
       "id": "meter_power.generatedL2.changed",
       "title": {
         "nl": "Electriciteitgeneratie daluren is veranderd",
-        "en": "Power generation low tarif has changed"
+        "en": "Power generation low tariff has changed"
       },
       "tokens": [
         {
